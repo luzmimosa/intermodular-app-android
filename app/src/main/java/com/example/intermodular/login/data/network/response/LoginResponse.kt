@@ -1,4 +1,8 @@
 package com.example.intermodular.login.data.network.response
 
-class LoginResponse {
-}
+import com.google.gson.annotations.SerializedName
+
+data class LoginResponse(
+    @SerializedName("ok")
+    val loginOk: Boolean
+)
