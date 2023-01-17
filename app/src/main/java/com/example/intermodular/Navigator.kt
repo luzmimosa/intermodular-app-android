@@ -1,11 +1,11 @@
 package com.example.intermodular
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.input.key.Key.Companion.Home
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.intermodular.home.ui.HomeViewModel
+import com.example.intermodular.login.ui.Login
 import com.example.intermodular.login.ui.LoginViewModel
 import com.example.intermodular.model.Routes
 
@@ -22,7 +22,7 @@ fun CustomNavigator(){
         }
 
         composable(route= Routes.HomeScreen.route){
-            Home(homeviewmodel)
+            //Home(homeviewmodel)
         }
     }
 
