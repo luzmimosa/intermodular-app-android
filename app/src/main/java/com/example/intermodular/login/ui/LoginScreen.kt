@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
-import com.example.intermodular.R
 
 
 @Composable
@@ -32,12 +31,13 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
 
 
     Column(
-        modifier= Modifier.background(color= Color(R.color.verde2))
+        modifier= Modifier.background(color= MaterialTheme.colors.primaryVariant)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Row(){
-
             Box(
-                modifier= Modifier.background(color= Color(R.color.verde1))
+                modifier= Modifier.background(color= MaterialTheme.colors.primary)
             ){
                 Column(){
                     Row(){
@@ -79,7 +79,7 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
                 }
             }
         }
-    }
+
 }
 
 @Composable
@@ -92,8 +92,8 @@ fun Email(email: String, onTextChanged: (String) -> Unit){
         label= { Text("Email")},
         keyboardOptions= KeyboardOptions(keyboardType= KeyboardType.Email),
         colors= TextFieldDefaults.textFieldColors(
-            textColor= Color(R.color.black),
-            backgroundColor = Color(R.color.white),
+            textColor= Color.Black,
+            backgroundColor = Color.White,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor= Color.Transparent
 
@@ -111,8 +111,8 @@ fun Contrasena(password: String, onTextChanged: (String) -> Unit){
         singleLine= true,
         keyboardOptions = KeyboardOptions(keyboardType= KeyboardType.Password),
         colors= TextFieldDefaults.textFieldColors(
-            textColor= Color(R.color.black),
-            backgroundColor = Color(R.color.white),
+            textColor= Color.Black,
+            backgroundColor = Color.White,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor= Color.Transparent
 
@@ -127,7 +127,7 @@ fun RecuperarContra(modifier: Modifier){
         text= "¿Olvidaste la contraseña? Recuperala",
         fontSize = 12.sp,
         fontWeight= FontWeight.Bold,
-        color= Color(0xFFFFFFFFF),
+        color= Color.White,
         modifier= Modifier.clickable(
             onClick= {
                 dialogState= !dialogState
@@ -173,7 +173,7 @@ fun dialogContra(dialogState: Boolean, onDismiss:() -> Unit){
                         val context = LocalContext.current
                         Button(
                             onClick = {onDismiss()},
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Color(R.color.verde4)),
+                            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.background),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(60.dp),
@@ -196,10 +196,10 @@ fun BotonLogin(loginEnable:Boolean, loginViewModel: LoginViewModel, navControlle
     Button(
         onClick= { loginViewModel.onButtonLoginPress(navController) },
         colors= ButtonDefaults.buttonColors(
-            backgroundColor= Color(R.color.verde1),
-            disabledBackgroundColor = Color(R.color.verde4),
-            contentColor = Color(R.color.white),
-            disabledContentColor = Color(R.color.white)
+            backgroundColor= MaterialTheme.colors.primary,
+            disabledBackgroundColor = MaterialTheme.colors.background,
+            contentColor = Color.White,
+            disabledContentColor = Color.White
         )
     ){
         Text(text= "Entrar")

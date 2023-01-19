@@ -8,7 +8,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.intermodular.R
 
 @Composable
 fun Home(homeviewmodel : HomeViewModel){
@@ -39,9 +38,13 @@ fun Home(homeviewmodel : HomeViewModel){
     ){
         if (home){
             ShowHome(homeviewmodel)
-        } else if(fav){
+        }
+
+        if(fav){
             ShowFav()
-        } else if(mapa){
+        }
+
+        if(mapa){
             ShowMapa()
         }
     }
@@ -65,7 +68,7 @@ fun TopBar(){
                 color= Color.White
             )
         },
-        backgroundColor = Color(R.color.verde1),
+        backgroundColor = MaterialTheme.colors.primary,
         actions= {
             IconButton(onClick= {/**/}){
                 Icon(
@@ -85,7 +88,7 @@ fun BottomBar(
     showMapa: () -> Unit
 ){
     BottomNavigation(
-        backgroundColor = Color(R.color.verde1)
+        backgroundColor = MaterialTheme.colors.primary
     ) {
         IconButton(onClick= { showMapa()}){
             Icon(
