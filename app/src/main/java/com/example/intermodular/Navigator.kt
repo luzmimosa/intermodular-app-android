@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.intermodular.home.ui.Home
 import com.example.intermodular.home.ui.HomeViewModel
 import com.example.intermodular.login.ui.Login
 import com.example.intermodular.login.ui.LoginViewModel
@@ -22,7 +23,7 @@ fun CustomNavigator(){
         }
 
         composable(route= Routes.HomeScreen.route){
-            //Home(homeviewmodel)
+            Home(homeviewmodel)
         }
     }
 

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Intermodular</string>
+    <string name="show_password">Mostrar la contraseña</string>
 </resources>
