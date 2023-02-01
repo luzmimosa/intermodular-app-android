@@ -43,7 +43,7 @@ class LoginViewModel : ViewModel(){
 
             if(result) {
                 navigationController.navigate(Routes.HomeScreen.route)
-                Log.i("MonkeyFilm", "Login OK")
+                Log.i("WikiHonk", "Login OK")
             }
             _isLoading.value = false
         }

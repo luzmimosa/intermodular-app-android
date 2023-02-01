@@ -9,11 +9,14 @@ import com.example.intermodular.home.ui.HomeViewModel
 import com.example.intermodular.login.ui.Login
 import com.example.intermodular.login.ui.LoginViewModel
 import com.example.intermodular.model.Routes
+import com.example.intermodular.register.ui.RegisterViewModel
+import com.example.intermodular.register.ui.Registro
 
 @Composable
 fun CustomNavigator(){
     val loginviewmodel= LoginViewModel()
     val homeviewmodel= HomeViewModel()
+    val registerviewmodel= RegisterViewModel()
 
     val navigationController = rememberNavController()
 
@@ -24,6 +27,10 @@ fun CustomNavigator(){
 
         composable(route= Routes.HomeScreen.route){
             Home(homeviewmodel)
+        }
+
+        composable(route= Routes.RegisterScreen.route){
+            Registro(registerviewmodel, navigationController)
         }
     }
 

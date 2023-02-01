@@ -28,6 +28,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
 import com.example.intermodular.R
+import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.theme.verde1
 import com.example.intermodular.ui.theme.verde2
 import com.example.intermodular.ui.theme.verde3
@@ -106,7 +107,7 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
                     }
 
                     Row(modifier= Modifier.align(Alignment.CenterHorizontally)){
-                        Registrate(Modifier.align(Alignment.Bottom))
+                        Registrate(navController)
                     }
 
                     Row(){
@@ -156,7 +157,7 @@ fun Contrasena(password: String, onTextChanged: (String) -> Unit){
 }
 
 @Composable
-fun Registrate(modifier: Modifier){
+fun Registrate(navigationController: NavHostController){
 
     Text(
         text= "¿No tienes una cuenta? Registrate",
@@ -165,7 +166,7 @@ fun Registrate(modifier: Modifier){
         color= Color.White,
         modifier= Modifier.clickable(
             onClick= {
-
+                navigationController.navigate(Routes.RegisterScreen.route)
             }),
         style= TextStyle(textDecoration= TextDecoration.Underline)
     )
