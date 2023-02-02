@@ -36,10 +36,15 @@ fun Registro(registerViewModel: RegisterViewModel, navController: NavHostControl
 
     val email: String by registerViewModel.email.observeAsState(initial = "")
     val password: String by registerViewModel.password.observeAsState(initial = "")
-    val isRegisterEnabled: Boolean by registerViewModel.isButtonRegisterEnable.observeAsState(initial = false)
     val nombre: String by registerViewModel.nombre.observeAsState(initial= "")
     val user: String by registerViewModel.user.observeAsState(initial= "")
 
+    val isRegisterEnabled: Boolean by registerViewModel.isButtonRegisterEnable.observeAsState(initial = false)
+
+    val emailAlertVisible: Boolean by registerViewModel.emailAlertVisible.observeAsState(initial = false)
+    val passwordAlertVisible: Boolean by registerViewModel.passwordAlertVisible.observeAsState(initial = false)
+    val userAlertVisible: Boolean by registerViewModel.userAlertVisible.observeAsState(initial = false)
+    val nombreAlertVisible: Boolean by registerViewModel.nombreAlertVisible.observeAsState(initial = false)
 
     Column(
         modifier= Modifier
@@ -84,7 +89,7 @@ fun Registro(registerViewModel: RegisterViewModel, navController: NavHostControl
 
                 Row(){
                     Nombre(nombre){
-
+                        registerViewModel.onRegisterChanged(email, password, user, it)
                     }
                 }
 
@@ -93,8 +98,8 @@ fun Registro(registerViewModel: RegisterViewModel, navController: NavHostControl
                 }
 
                 Row(){
-                    User(user){
-
+                    User(){
+                        registerViewModel.onRegisterChanged(email, password, it, nombre)
                     }
                 }
 
@@ -104,7 +109,7 @@ fun Registro(registerViewModel: RegisterViewModel, navController: NavHostControl
 
                 Row(){
                     Email(email){
-
+                        registerViewModel.onRegisterChanged(it, password, user, nombre)
                     }
                 }
 
@@ -114,7 +119,7 @@ fun Registro(registerViewModel: RegisterViewModel, navController: NavHostControl
 
                 Row(){
                     Contrasena(password){
-
+                        registerViewModel.onRegisterChanged(email, it, user, nombre)
                     }
                 }
 
@@ -160,7 +165,7 @@ fun Nombre(nombre: String, onTextChanged: (String) -> Unit) {
         onValueChange= { onTextChanged(it)},
         value= nombre,
         singleLine= true,
-        label= { Text("Email")},
+        label= { Text("Nombre")},
         keyboardOptions= KeyboardOptions(keyboardType= KeyboardType.Email),
         colors= TextFieldDefaults.textFieldColors(
             textColor= Color.Black,
@@ -171,12 +176,12 @@ fun Nombre(nombre: String, onTextChanged: (String) -> Unit) {
 }
 
 @Composable
-fun User(user: String, onTextChanged: (String) -> Unit) {
+fun User(onTextChanged: (String) -> Unit) {
     TextField(
         onValueChange= { onTextChanged(it)},
-        value= user,
+        value = "",
         singleLine= true,
-        label= { Text("Email")},
+        label= { Text("Usuario")},
         keyboardOptions= KeyboardOptions(keyboardType= KeyboardType.Email),
         colors= TextFieldDefaults.textFieldColors(
             textColor= Color.Black,

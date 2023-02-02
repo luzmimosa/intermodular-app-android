@@ -2,15 +2,17 @@ package com.example.intermodular.register.ui
 
 import android.util.Log
 import android.util.Patterns
+import androidx.compose.runtime.MutableState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.intermodular.model.Routes
 import com.example.intermodular.register.domain.usecase.RegisterUseCase
 import kotlinx.coroutines.launch
 
-class RegisterViewModel {
+class RegisterViewModel: ViewModel() {
     private val registerUseCase= RegisterUseCase()
 
     private val _isLoading = MutableLiveData<Boolean>()
@@ -31,7 +33,19 @@ class RegisterViewModel {
     private val _isButtonRegisterEnable = MutableLiveData<Boolean>()
     val isButtonRegisterEnable: LiveData<Boolean> = _isButtonRegisterEnable
 
-    fun onRegisterChanged(email: String, password: String) {
+    private val _emailAlertVisible = MutableLiveData<Boolean>()
+    val emailAlertVisible: LiveData<Boolean> = _emailAlertVisible
+
+    private val _passwordAlertVisible = MutableLiveData<Boolean>()
+    val passwordAlertVisible: LiveData<Boolean> = _passwordAlertVisible
+
+    private val _userAlertVisible = MutableLiveData<Boolean>()
+    val userAlertVisible: LiveData<Boolean> = _userAlertVisible
+
+    private val _nombreAlertVisible = MutableLiveData<Boolean>()
+    val nombreAlertVisible: LiveData<Boolean> = _nombreAlertVisible
+
+    fun onRegisterChanged(email: String, password: String, user: String, nombre: String) {
         _email.value = email
         _password.value = password
         _user.value = user
@@ -44,6 +58,7 @@ class RegisterViewModel {
                 && password.length > 5
 
     fun onButtonRegisterPress(navigationController: NavHostController) {
+
         viewModelScope.launch {
             _isLoading.value = true
             val result = registerUseCase(email.value!!, password.value!!, user.value!!, nombre.value!!)
