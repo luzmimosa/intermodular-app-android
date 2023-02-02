@@ -1,6 +1,6 @@
 package com.example.intermodular.register.domain.usecase
 
-import com.example.intermodular.login.data.LoginRepository
+import com.example.intermodular.register.data.RegisterRepository
 
 class RegisterUseCase {
     private val repository= RegisterRepository()
