@@ -9,10 +9,10 @@
 
     <string name="register_button_submit">Registrarse</string>
 
-    <string name="register_error_name">El nombre es obligatorio</string>
-    <string name="register_error_username">El usuario es obligatorio</string>
-    <string name="register_error_email">El email es obligatorio</string>
-    <string name="register_error_password">La contraseña es obligatoria</string>
+    <string name="register_error_name">Introduce un nombre válido</string>
+    <string name="register_error_username">El usuario es inválido</string>
+    <string name="register_error_email">El email es inválido</string>
+    <string name="register_error_password">La contraseña no es válida</string>
     <string name="register_error_password_match">Las contraseñas no coinciden</string>
 
     <string name="register_label_already_registered">¿Ya tienes una cuenta? Inicia sesión</string>
