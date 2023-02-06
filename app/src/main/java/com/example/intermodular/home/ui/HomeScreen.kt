@@ -4,54 +4,29 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.intermodular.model.Routes
 
 @Composable
-fun Home(homeviewmodel : HomeViewModel){
-    var home by remember { mutableStateOf(true) }
-    var fav by remember { mutableStateOf(false) }
-    var mapa by remember { mutableStateOf(false) }
+fun Home(homeviewmodel : HomeViewModel, navigationController: NavHostController){
 
     Scaffold(
         topBar= {
-            TopBar()
+            TopBar(navigationController)
         },
 
         bottomBar= {
-            BottomBar(showHome= {
-                home= true
-                fav= false
-                mapa= false
-            }, showFav= {
-                home= false
-                fav= true
-                mapa= false
-            }, showMapa= {
-                home= false
-                fav= false
-                mapa= true
-            })
+            BottomBar(navigationController)
         }
-    ){
-        if (home){
-            ShowHome(homeviewmodel)
-        }
-
-        if(fav){
-            ShowFav()
-        }
-
-        if(mapa){
-            ShowMapa()
-        }
-    }
+    ){ }
 }
 
 @Composable
-fun TopBar(){
+fun TopBar(navigationController : NavHostController){
     TopAppBar(
         navigationIcon= {
             IconButton(onClick= {/* */}){
@@ -64,13 +39,13 @@ fun TopBar(){
         },
         title= {
             Text(
-                text= "WIKILOC",
+                text= "WIKIHONK",
                 color= Color.White
             )
         },
         backgroundColor = MaterialTheme.colors.primary,
         actions= {
-            IconButton(onClick= {/**/}){
+            IconButton(onClick= { navigationController.navigate(Routes.UserInfoScreen.route)}){
                 Icon(
                     imageVector = Icons.Filled.Person,
                     contentDescription= "...",
@@ -82,15 +57,11 @@ fun TopBar(){
 }
 
 @Composable
-fun BottomBar(
-    showHome: () -> Unit,
-    showFav: () -> Unit,
-    showMapa: () -> Unit
-){
+fun BottomBar(navigationController : NavHostController){
     BottomNavigation(
         backgroundColor = MaterialTheme.colors.primary
     ) {
-        IconButton(onClick= { showMapa()}){
+        IconButton(onClick= { navigationController.navigate(Routes.MapScreen.route)}){
             Icon(
                 imageVector = Icons.Default.MyLocation,
                 contentDescription= "...",
@@ -99,7 +70,7 @@ fun BottomBar(
             )
         }
 
-        IconButton(onClick= { showHome()}){
+        IconButton(onClick= { navigationController.navigate(Routes.HomeScreen.route)}){
             Icon(
                 imageVector = Icons.Default.Home,
                 contentDescription= "...",
@@ -108,7 +79,7 @@ fun BottomBar(
             )
         }
 
-        IconButton(onClick= {showFav()}){
+        IconButton(onClick= { navigationController.navigate(Routes.FavScreen.route)}){
             Icon(
                 imageVector= Icons.Default.Favorite,
                 contentDescription= "...",
@@ -119,17 +90,5 @@ fun BottomBar(
     }
 }
 
-@Composable
-fun ShowHome(homeviewmodel: HomeViewModel){
 
-}
 
-@Composable
-fun ShowFav(){
-
-}
-
-@Composable
-fun ShowMapa(){
-
-}
