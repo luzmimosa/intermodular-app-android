@@ -6,6 +6,6 @@ class RegisterUseCase {
     private val repository= RegisterRepository()
 
     suspend operator fun invoke(email: String, password: String, nombre: String, user: String): Boolean{
-        return repository.doRegister(nombre, user, password, email)
+        return repository.doRegister(user, nombre, email, password)
     }
 }
