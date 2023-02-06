@@ -12,7 +12,7 @@ class RegisterService {
         return withContext(Dispatchers.IO){
             val response = retrofit.create(RegisterClient::class.java).doRegister(UserDTO(name, user, email, password))
 
-            return@withContext response.body()?.success == true
+            return@withContext response.code() == 200
         }
     }
 }
