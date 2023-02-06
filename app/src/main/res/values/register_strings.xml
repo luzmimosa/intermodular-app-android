@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="register_form_title">Registro</string>
+    <string name="register_field_name">Nombre</string>
+    <string name="register_field_username">Usuario</string>
+    <string name="register_field_email">Email</string>
+    <string name="register_field_password">Contraseña</string>
+    <string name="register_field_confirm_password">Confirmar contraseña</string>
+
+    <string name="register_button_submit">Registrarse</string>
+
+    <string name="register_error_name">Introduce un nombre válido</string>
+    <string name="register_error_username">El usuario es inválido</string>
+    <string name="register_error_email">El email es inválido</string>
+    <string name="register_error_password">La contraseña no es válida</string>
+    <string name="register_error_password_match">Las contraseñas no coinciden</string>
+
+    <string name="register_label_already_registered">¿Ya tienes una cuenta? Inicia sesión</string>
+
+</resources>
