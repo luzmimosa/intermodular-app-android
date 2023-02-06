@@ -110,14 +110,25 @@ class RegisterViewModel: ViewModel() {
 
         viewModelScope.launch {
             _isLoading.value = true
-            val result = registerUseCase(email.value!!, password.value!!, user.value!!, nombre.value!!)
+            val result = registerUseCase(email.value!!, password.value!!, nombre.value!!, user.value!!)
 
             if(result) {
-                navigationController.navigate(Routes.HomeScreen.route)
-                Log.i("WikiHonk", "Login OK")
+                onRegisterOk(navigationController)
+            } else {
+                onRegisterError()
             }
             _isLoading.value = false
         }
+    }
+
+    fun onRegisterOk(navigationController: NavHostController) {
+        Log.i("WikiHonk", "Register OK")
+
+        navigationController.navigate(Routes.HomeScreen.route)
+    }
+
+    fun onRegisterError() {
+        Log.i("WikiHonk", "Register failed")
     }
 
 }
