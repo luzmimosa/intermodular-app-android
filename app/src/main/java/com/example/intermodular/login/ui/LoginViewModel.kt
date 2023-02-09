@@ -44,6 +44,8 @@ class LoginViewModel : ViewModel(){
             if(result) {
                 navigationController.navigate(Routes.HomeScreen.route)
                 Log.i("WikiHonk", "Login OK")
+            } else {
+                Log.i("WikiHonk", "Login failed")
             }
             _isLoading.value = false
         }
