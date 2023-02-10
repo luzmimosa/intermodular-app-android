@@ -42,8 +42,8 @@ enum class RouteDifficulty {
 }
 
 data class GpsMeasure(
-    val latitude: Float,
-    val longitude: Float,
+    val latitude: Double,
+    val longitude: Double,
     val waypoints: Waypoint?
 )
 
