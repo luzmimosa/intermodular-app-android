@@ -17,8 +17,8 @@ data class RouteResponse (
 )
 
 data class Location (
-    @SerializedName("latitude")         val latitude: Float,
-    @SerializedName("longitude")        val longitude: Float,
+    @SerializedName("latitude")         val latitude: Double,
+    @SerializedName("longitude")        val longitude: Double,
     @SerializedName("waypoint")         val waypoint: Waypoint?
 )
 
