@@ -14,15 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.intermodular.R
 import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.theme.verde1
 
-
 @Composable
-fun Home( homeviewmodel : HomeViewModel, navigationController: NavHostController ){
+fun Home( homeviewmodel : HomeViewModel, navigationController: NavHostController){
 
     Scaffold(
         topBar= {
@@ -45,7 +46,7 @@ fun Home( homeviewmodel : HomeViewModel, navigationController: NavHostController
                         Row(){
                             Image(
                                 painter= painterResource(id= R.drawable.black),
-                                contentDescription = "imagen",
+                                contentDescription = "imagen ruta",
                                 modifier= Modifier.size(120.dp)
                             )
                         }
@@ -53,7 +54,7 @@ fun Home( homeviewmodel : HomeViewModel, navigationController: NavHostController
                         Row(modifier= Modifier.padding(5.dp)){
                             Image(
                                 painter= painterResource(id= R.drawable.black),
-                                contentDescription = "imagen",
+                                contentDescription = "imagen usuario",
                                 modifier= Modifier
                                     .clip(CircleShape)
                                     .border(0.dp, Color.Transparent, CircleShape)
@@ -116,8 +117,11 @@ fun TopBar(navigationController : NavHostController){
         },
         title= {
             Text(
+                modifier = Modifier.fillMaxSize().padding(0.dp,5.dp,0.dp,0.dp),
                 text= "WIKIHONK",
-                color= Color.White
+                color= Color.White,
+                fontSize = 30.sp,
+                textAlign = TextAlign.Center
             )
         },
         backgroundColor = verde1,

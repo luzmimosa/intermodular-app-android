@@ -1,9 +1,100 @@
 package com.example.intermodular.rutanueva.ui
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.intermodular.model.Routes
+import com.example.intermodular.ui.theme.verde1
 
 @Composable
-fun RutaNueva(rutanuevaviewmodel: RutaNuevaViewModel, navigationController: NavController){
+fun RutaNueva(rutanuevaviewmodel: RutaNuevaViewModel, navigationController: NavHostController){
+    Scaffold(
+        topBar= {
+            com.example.intermodular.home.ui.TopBar(navigationController)
+        },
 
+        bottomBar= {
+            com.example.intermodular.home.ui.BottomBar(navigationController)
+        }
+    ) {
+
+    }
+}
+
+@Composable
+fun TopBar(navigationController : NavHostController){
+    TopAppBar(
+        navigationIcon= {
+            IconButton(onClick= { navigationController.navigate(Routes.RutaNuevaScreen.route)}){
+                Icon(
+                    imageVector= Icons.Filled.Add,
+                    contentDescription= "...",
+                    tint= Color.White
+                )
+            }
+        },
+        title= {
+            Text(
+                modifier = Modifier.fillMaxSize().padding(0.dp,5.dp,0.dp,0.dp),
+                text= "WIKIHONK",
+                color= Color.White,
+                fontSize = 30.sp,
+                textAlign = TextAlign.Center
+            )
+        },
+        backgroundColor = verde1,
+        actions= {
+            IconButton(onClick= { navigationController.navigate(Routes.UserInfoScreen.route)}){
+                Icon(
+                    imageVector = Icons.Filled.Person,
+                    contentDescription= "...",
+                    tint= Color.White
+                )
+            }
+        }
+    )
+}
+
+@Composable
+fun BottomBar(navigationController : NavHostController){
+    BottomNavigation(
+        backgroundColor = verde1
+    ) {
+        IconButton(onClick= { navigationController.navigate(Routes.MapScreen.route)}){
+            Icon(
+                imageVector = Icons.Default.MyLocation,
+                contentDescription= "...",
+                tint= Color.White,
+                modifier= Modifier.size(40.dp)
+            )
+        }
+
+        IconButton(onClick= { navigationController.navigate(Routes.HomeScreen.route)}){
+            Icon(
+                imageVector = Icons.Default.Home,
+                contentDescription= "...",
+                tint= Color.White,
+                modifier= Modifier.size(40.dp)
+            )
+        }
+
+        IconButton(onClick= { navigationController.navigate(Routes.FavScreen.route)}){
+            Icon(
+                imageVector= Icons.Default.Favorite,
+                contentDescription= "...",
+                tint= Color.White,
+                modifier= Modifier.size(40.dp)
+            )
+        }
+    }
 }
