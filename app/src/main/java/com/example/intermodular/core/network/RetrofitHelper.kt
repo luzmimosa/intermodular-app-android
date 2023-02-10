@@ -1,5 +1,6 @@
 package com.example.intermodular.core.network
 
+import com.example.intermodular.core.authentication.AuthenticationTokenManager
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,8 +13,15 @@ import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.X509TrustManager
 
 object RetrofitHelper {
-    fun getRetrofit(): Retrofit{
+    fun getRetrofit(): Retrofit {
+
         val client = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer " + (AuthenticationTokenManager.token ?: ""))
+                    .build()
+                chain.proceed(request)
+            }
             .sslSocketFactory(
                 NoopSSLSocketFactory.INSTANCE,
                 NoopTrustManager()
