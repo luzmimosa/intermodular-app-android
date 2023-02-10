@@ -28,7 +28,6 @@ fun CustomNavigator(){
     val homeviewmodel= HomeViewModel()
     val registerviewmodel= RegisterViewModel()
     val userinfoviewmodel= UserInfoViewModel()
-    val mapviewmodel= MapViewModel()
     val favviewmodel= FavViewModel()
     val rutanuevaviewmodel= RutaNuevaViewModel()
     val inforutaviewmodel= InfoRutaViewModel()
@@ -53,7 +52,7 @@ fun CustomNavigator(){
         }
 
         composable(route= Routes.MapScreen.route){
-            MapScreen(mapviewmodel, navigationController)
+            MapScreen(MapViewModel(), navigationController)
         }
 
         composable(route= Routes.FavScreen.route){
