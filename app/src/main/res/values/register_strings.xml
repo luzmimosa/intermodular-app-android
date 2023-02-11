@@ -17,4 +17,6 @@
 
     <string name="register_label_already_registered">¿Ya tienes una cuenta? Inicia sesión</string>
 
+    <string name="register_popup_loading_message">Enviando datos…</string>
+
 </resources>

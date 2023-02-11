@@ -11,4 +11,6 @@
     <string name="login_popup_changepassword_field_email">Email</string>
     <string name="login_popup_changepassword_button_send">Recuperar contraseña</string>
 
+    <string name="login_popup_loading_message">Iniciando sesión…</string>
+
 </resources>
