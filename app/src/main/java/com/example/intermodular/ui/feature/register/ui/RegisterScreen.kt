@@ -1,10 +1,7 @@
 package com.example.intermodular.ui.feature.register.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -12,9 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,6 +22,7 @@ import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.component.ClickableText
 import com.example.intermodular.ui.component.ErrorSupporterTextField
 import com.example.intermodular.ui.component.PredefinedSpacer
+import com.example.intermodular.ui.component.ProfilePicture
 
 
 @Composable
@@ -68,14 +64,7 @@ fun Registro(
             ) {
                 Column {
                     Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                        Image(
-                            painter = painterResource(id = R.drawable.black),
-                            contentDescription = "imagen 1",
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .border(0.dp, Color.Transparent, CircleShape)
-                                .size(100.dp)
-                        )
+                        ProfilePicture(username = null)
                     }
 
                     PredefinedSpacer()
