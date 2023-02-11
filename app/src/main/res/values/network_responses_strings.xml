@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="network_error_message">Error de red, inténtalo de nuevo</string>
+    <string name="unknown_error_message">Error desconocido</string>
+
+    <string name="network_loginresult_success">Inicio de sesión exitoso</string>
+    <string name="network_loginresult_wrong_credentials">Datos incorrectos</string>
+</resources>
