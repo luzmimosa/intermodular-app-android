@@ -149,3 +149,52 @@ fun LoadingPopup(
         }
     }
 }
+
+@Composable
+fun ErrorPopup(
+    message: String,
+    buttonLabel: String,
+    onDismiss: () -> Unit = {}
+) {
+    Dialog(
+        onDismissRequest = { onDismiss() },
+        properties = DialogProperties(
+            dismissOnBackPress = true,
+            dismissOnClickOutside = true
+        )
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .background(MaterialTheme.colors.surface)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                Row(
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    Text(
+                        text = message,
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Row {
+                    Button(
+                        onClick = { onDismiss() },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(60.dp)
+                    ) {
+
+                        Text(
+                            text = buttonLabel
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
