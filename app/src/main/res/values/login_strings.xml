@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_input_description_username">Usuario</string>
+    <string name="login_input_description_password">Contraseña</string>
+
+    <string name="login_button_submit">Iniciar sesión</string>
+    <string name="login_button_noaccount">¿No tienes una cuenta? Regístrate</string>ç
+    <string name="login_button_forgotpassword">¿Olvidaste tu contraseña? Recupérala</string>
+
+    <string name="login_popup_changepassword_title">Introduce tu email para cambiar la contraseña</string>
+    <string name="login_popup_changepassword_field_email">Email</string>
+    <string name="login_popup_changepassword_button_send">Recuperar contraseña</string>
+
+
+</resources>

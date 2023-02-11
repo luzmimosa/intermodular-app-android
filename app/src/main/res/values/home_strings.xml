@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_alt_route_image">Imagen de la ruta</string>
+    <string name="home_alt_user_image">Foto de perfil de %user%</string>
+    <string name="home_alt_like_count">Likes</string>
+</resources>
