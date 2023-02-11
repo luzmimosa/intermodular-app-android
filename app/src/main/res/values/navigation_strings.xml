@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_topbar_newroute">Crear nueva ruta</string>
+    <string name="navigation_topbar_profile">Mi perfil</string>
+
+    <string name="navigation_bottombar_map">Mapa</string>
+    <string name="navigation_bottombar_home">Inicio</string>
+    <string name="navigation_bottombar_favourites">Rutas favoritas</string>
+</resources>
