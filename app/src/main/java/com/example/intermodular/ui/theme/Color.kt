@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 // Light palette colors
 val lightPrimary = Color(0xFFE0E0E0)
-val lightPrimaryVariant = Color(0xFFFFFFFF)
+val lightPrimaryVariant = Color(0x5BFFFFFF)
 
 val lightSecondary = Color(0xFF00B0FF)
 val lightSecondaryVariant = Color(0xFF0091EA)
