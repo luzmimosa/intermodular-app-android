@@ -3,4 +3,5 @@
     <string name="app_name">WikiHonk</string>
 
     <string name="global_no_profile_picture">Sin foto de perfil</string>
+    <string name="global_popup_accept">Aceptar</string>
 </resources>
