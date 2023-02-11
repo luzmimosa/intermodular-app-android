@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -71,7 +72,7 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
                     }
 
                     Row(){
-                        Email(email){
+                        Username(email){
                             loginViewModel.onLoginChanged(email= it, password= password)
                         }
                     }
@@ -120,13 +121,13 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
 }
 
 @Composable
-fun Email(email: String, onTextChanged: (String) -> Unit){
+fun Username(email: String, onTextChanged: (String) -> Unit){
 
     TextField(
         onValueChange= { onTextChanged(it)},
         value= email,
         singleLine= true,
-        label= { Text("Email")},
+        label= { Text(stringResource(id = R.string.login_input_description_username))},
         keyboardOptions= KeyboardOptions(keyboardType= KeyboardType.Email),
         colors= TextFieldDefaults.textFieldColors(
             textColor= Color.Black,
@@ -143,7 +144,7 @@ fun Contrasena(password: String, onTextChanged: (String) -> Unit){
         onValueChange = { onTextChanged(it)},
 
         value= password,
-        label= {Text("Contraseña")},
+        label= {Text(stringResource(id = R.string.login_input_description_password))},
         singleLine= true,
         visualTransformation = PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(keyboardType= KeyboardType.Password),
@@ -160,7 +161,7 @@ fun Contrasena(password: String, onTextChanged: (String) -> Unit){
 fun Registrate(navigationController: NavHostController){
 
     Text(
-        text= "¿No tienes una cuenta? Registrate",
+        text= stringResource(id = R.string.login_button_noaccount),
         fontSize = 12.sp,
         fontWeight= FontWeight.Bold,
         color= Color.White,
@@ -177,7 +178,7 @@ fun Registrate(navigationController: NavHostController){
 fun RecuperarContra(modifier: Modifier){
     var dialogState by remember{ mutableStateOf(false) }
     Text(
-        text= "¿Olvidaste la contraseña? Recuperala",
+        text= stringResource(id = R.string.login_button_forgotpassword),
         fontSize = 12.sp,
         fontWeight= FontWeight.Bold,
         color= Color.White,
@@ -209,7 +210,7 @@ fun dialogContra(dialogState: Boolean, onDismiss:() -> Unit){
                     horizontalAlignment = Alignment.CenterHorizontally
                 ){
                     Row(modifier = Modifier.padding(8.dp)) {
-                        Text(text = "Introduce tu correo para cambiar la contraseña", textAlign = TextAlign.Center)
+                        Text(text = stringResource(id = R.string.login_popup_changepassword_title), textAlign = TextAlign.Center)
                     }
 
                     Row(modifier = Modifier.padding(8.dp)) {
@@ -217,7 +218,7 @@ fun dialogContra(dialogState: Boolean, onDismiss:() -> Unit){
                         TextField(
                             value = text,
                             onValueChange = { text = it },
-                            label = { Text(text = "Email") },
+                            label = { Text(text = stringResource(id = R.string.login_popup_changepassword_field_email)) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                         )
                     }
@@ -233,7 +234,7 @@ fun dialogContra(dialogState: Boolean, onDismiss:() -> Unit){
                         ) {
 
                             Text(
-                                text = "Entrar",
+                                text = stringResource(id = R.string.login_popup_changepassword_button_send),
                                 color = Color.White
                             )
                         }
@@ -253,7 +254,7 @@ fun BotonLogin(loginEnable:Boolean, loginViewModel: LoginViewModel, navControlle
             disabledBackgroundColor = verde1,
         )
     ){
-        Text(text= "Entrar", color= Color.White)
+        Text(text= stringResource(id = R.string.login_button_submit), color= Color.White)
 
     }
 }
