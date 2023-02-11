@@ -9,10 +9,12 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.intermodular.R
 import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.theme.verde1
 
@@ -46,7 +48,7 @@ fun TopBar(navigationController : NavHostController){
         title= {
             Text(
                 modifier = Modifier.fillMaxSize().padding(0.dp,5.dp,0.dp,0.dp),
-                text= "WIKIHONK",
+                text= stringResource(id = R.string.global_app_name),
                 color= Color.White,
                 fontSize = 30.sp,
                 textAlign = TextAlign.Center

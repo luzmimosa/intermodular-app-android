@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,7 +47,7 @@ fun Home( homeviewmodel : HomeViewModel, navigationController: NavHostController
                         Row(){
                             Image(
                                 painter= painterResource(id= R.drawable.black),
-                                contentDescription = "imagen ruta",
+                                contentDescription = stringResource(id = R.string.home_alt_route_image),
                                 modifier= Modifier.size(120.dp)
                             )
                         }
@@ -54,7 +55,7 @@ fun Home( homeviewmodel : HomeViewModel, navigationController: NavHostController
                         Row(modifier= Modifier.padding(5.dp)){
                             Image(
                                 painter= painterResource(id= R.drawable.black),
-                                contentDescription = "imagen usuario",
+                                contentDescription = stringResource(id = R.string.home_alt_user_image),
                                 modifier= Modifier
                                     .clip(CircleShape)
                                     .border(0.dp, Color.Transparent, CircleShape)
@@ -82,7 +83,7 @@ fun Home( homeviewmodel : HomeViewModel, navigationController: NavHostController
                             Box(modifier = Modifier.border(100.dp, Color.Transparent)){
                                 Icon(
                                     imageVector = Icons.Default.Favorite,
-                                    contentDescription = "cantidad de likes",
+                                    contentDescription = stringResource(id = R.string.home_alt_like_count),
                                     modifier= Modifier
                                         .size(35.dp)
                                         .padding(5.dp),
@@ -117,8 +118,10 @@ fun TopBar(navigationController : NavHostController){
         },
         title= {
             Text(
-                modifier = Modifier.fillMaxSize().padding(0.dp,5.dp,0.dp,0.dp),
-                text= "WIKIHONK",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(0.dp, 5.dp, 0.dp, 0.dp),
+                text= stringResource(id = R.string.global_app_name),
                 color= Color.White,
                 fontSize = 30.sp,
                 textAlign = TextAlign.Center

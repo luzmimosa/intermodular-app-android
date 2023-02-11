@@ -183,7 +183,7 @@ fun Nombre(value: String, errorVisible: Boolean, onTextChanged: (String) -> Unit
                 modifier = Modifier.padding(0.dp)
                     ) {
                 Text(
-                    text = stringResource(id = R.string.register_error_name) + "uwu",
+                    text = stringResource(id = R.string.register_error_name),
                     color = Color.Red,
                     fontSize = 12.sp,
                     modifier = Modifier.padding(0.dp)
