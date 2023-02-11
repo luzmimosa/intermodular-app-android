@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">WikiHonk</string>
+
+    <string name="global_no_profile_picture">Sin foto de perfil</string>
 </resources>
