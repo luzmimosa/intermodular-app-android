@@ -54,14 +54,19 @@ fun UserInfo(/*userInfoViewModel: UserInfoViewModel= UserInfoViewModel()*/ navig
 
                         Row(modifier= Modifier.padding(5.dp).fillMaxWidth(), horizontalArrangement = Arrangement.Center){
                             Box(){
-                                Text(text = "Nombre de usuario")
+                                Text(text = "Nombre de usuario", fontSize = 20.sp)
                             }
                         }
 
                         Row(modifier= Modifier.padding(5.dp).fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                            Box(){
-                                Text(text = "0")
-                                Text(text= "0")
+                            Box(modifier= Modifier.padding(10.dp, 0.dp, 40.dp, 10.dp)){
+                                Text(text = "0", fontSize = 15.sp , modifier= Modifier.padding(30.dp, 0.dp))
+                                Text(text= "Siguiendo", fontSize = 15.sp , modifier= Modifier.padding(0.dp, 15.dp))
+                            }
+
+                            Box(modifier= Modifier.padding(0.dp, 0.dp, 10.dp, 10.dp)){
+                                Text(text= "0", fontSize = 15.sp , modifier= Modifier.padding(30.dp, 0.dp))
+                                Text(text= "Seguidores", fontSize = 15.sp , modifier= Modifier.padding(0.dp, 15.dp))
                             }
                         }
                     }
