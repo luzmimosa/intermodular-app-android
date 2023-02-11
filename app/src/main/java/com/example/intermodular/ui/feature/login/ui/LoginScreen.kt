@@ -35,6 +35,9 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
 
     val isLoading: Boolean by loginViewModel.isLoading.observeAsState(initial = false)
 
+    val errorPopupVisible: Boolean by loginViewModel.errorPopupVisible.observeAsState(initial = false)
+    val errorPopupMessageResourceID: Int by loginViewModel.errorPopupMessageResourceID.observeAsState(initial = R.string.unknown_error_message)
+
     Column(
         modifier= Modifier
             .fillMaxSize()
@@ -134,6 +137,15 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
 
     if (isLoading){
         LoadingPopup(stringResource(id = R.string.login_popup_loading_message))
+    }
+
+    if (errorPopupVisible) {
+        ErrorPopup(
+            message = stringResource(id = errorPopupMessageResourceID),
+            buttonLabel = stringResource(id = R.string.global_popup_accept)
+        ) {
+            loginViewModel.closeErrorPopup()
+        }
     }
 }
 
