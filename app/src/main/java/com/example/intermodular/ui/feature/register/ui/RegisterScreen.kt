@@ -19,10 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.intermodular.R
 import com.example.intermodular.model.Routes
-import com.example.intermodular.ui.component.ClickableText
-import com.example.intermodular.ui.component.ErrorSupporterTextField
-import com.example.intermodular.ui.component.PredefinedSpacer
-import com.example.intermodular.ui.component.ProfilePicture
+import com.example.intermodular.ui.component.*
 
 
 @Composable
@@ -43,6 +40,8 @@ fun Registro(
     val passwordAlertVisible: Boolean by registerViewModel.passwordAlertVisible.observeAsState(initial = false)
     val confirmedPasswordAlertVisible: Boolean by registerViewModel.passwordConfirmAlertVisible.observeAsState(initial = false)
 
+    val isLoading: Boolean by registerViewModel.isLoading.observeAsState(initial = false)
+
     Column(
         modifier= Modifier
             .fillMaxSize()
@@ -52,7 +51,7 @@ fun Registro(
             ),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Box(
             modifier = Modifier
                 .background(MaterialTheme.colors.background.copy(alpha = 0.8f))
@@ -209,5 +208,9 @@ fun Registro(
                 }
             }
         }
+    }
+
+    if (isLoading){
+        LoadingPopup(stringResource(id = R.string.register_popup_loading_message))
     }
 }

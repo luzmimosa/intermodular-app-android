@@ -44,7 +44,7 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
             ),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Box(
             modifier = Modifier
                 .background(MaterialTheme.colors.background.copy(alpha = 0.8f))
@@ -130,6 +130,10 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
                 }
             }
         }
+    }
+
+    if (isLoading){
+        LoadingPopup(stringResource(id = R.string.login_popup_loading_message))
     }
 }
 
