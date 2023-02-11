@@ -37,7 +37,7 @@ fun WikihonkTopBar(navigationController : NavHostController){
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(0.dp, 5.dp, 0.dp, 0.dp),
-                text= stringResource(id = R.string.global_app_name),
+                text= stringResource(id = R.string.app_name),
                 color= Color.White,
                 fontSize = 30.sp,
                 textAlign = TextAlign.Center
