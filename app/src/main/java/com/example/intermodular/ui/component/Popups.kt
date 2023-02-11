@@ -3,10 +3,7 @@ package com.example.intermodular.ui.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -111,6 +108,92 @@ fun SimplePopup(
                     text = message,
                     textAlign = TextAlign.Center
                 )
+            }
+        }
+    }
+}
+
+@Composable
+fun LoadingPopup(
+    message: String
+) {
+    Dialog(
+        onDismissRequest = {  },
+        properties = DialogProperties(
+            dismissOnBackPress = false,
+            dismissOnClickOutside = false
+        )
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .background(MaterialTheme.colors.surface)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                Row(
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    Text(
+                        text = message,
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Row {
+                    CircularProgressIndicator()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ErrorPopup(
+    message: String,
+    buttonLabel: String,
+    onDismiss: () -> Unit = {}
+) {
+    Dialog(
+        onDismissRequest = { onDismiss() },
+        properties = DialogProperties(
+            dismissOnBackPress = true,
+            dismissOnClickOutside = true
+        )
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .background(MaterialTheme.colors.surface)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                Row(
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    Text(
+                        text = message,
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Row {
+                    Button(
+                        onClick = { onDismiss() },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(60.dp)
+                    ) {
+
+                        Text(
+                            text = buttonLabel
+                        )
+                    }
+                }
             }
         }
     }

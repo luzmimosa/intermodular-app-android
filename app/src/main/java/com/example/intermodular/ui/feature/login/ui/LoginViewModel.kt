@@ -1,6 +1,5 @@
 package com.example.intermodular.ui.feature.login.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.intermodular.ui.feature.login.domain.LoginUseCase
 import com.example.intermodular.model.Routes
+import com.example.intermodular.ui.feature.login.data.network.LoginResult
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel(){
@@ -25,6 +25,12 @@ class LoginViewModel : ViewModel(){
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _errorPopupMessageResourceID = MutableLiveData<Int>()
+    val errorPopupMessageResourceID: LiveData<Int> = _errorPopupMessageResourceID
+
+    private val _errorPopupVisible = MutableLiveData<Boolean>()
+    val errorPopupVisible: LiveData<Boolean> = _errorPopupVisible
+
     fun onLoginChanged(username: String, password: String) {
         _username.value = username
         _password.value = password
@@ -38,14 +44,18 @@ class LoginViewModel : ViewModel(){
             _isLoading.value = true
             val result = loginUseCase(username.value!!, password.value!!)
 
-            if(result) {
+            if(result == LoginResult.SUCCESS) {
                 navigationController.navigate(Routes.HomeScreen.route)
-                Log.i("WikiHonk", "Login OK")
             } else {
-                Log.i("WikiHonk", "Login failed")
+                _errorPopupMessageResourceID.value = result.messageResourceID
+                _errorPopupVisible.value = true
             }
             _isLoading.value = false
         }
+    }
+
+    fun closeErrorPopup() {
+        _errorPopupVisible.value = false
     }
 
 }
