@@ -21,17 +21,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.intermodular.R
 import com.example.intermodular.model.Routes
+import com.example.intermodular.ui.component.WikihonkBottomBar
+import com.example.intermodular.ui.component.WikihonkTopBar
 
 @Composable
 fun Home(homeviewmodel : HomeViewModel, navigationController: NavHostController){
 
     Scaffold(
         topBar= {
-            TopBar(navigationController)
+            WikihonkTopBar(navigationController)
         },
 
         bottomBar= {
-            BottomBar(navigationController)
+            WikihonkBottomBar(navigationController)
         }
     ){
 
@@ -102,73 +104,5 @@ fun Home(homeviewmodel : HomeViewModel, navigationController: NavHostController)
         }
     }
 }
-
-@Composable
-fun TopBar(navigationController : NavHostController){
-    TopAppBar(
-        navigationIcon= {
-            IconButton(onClick= { navigationController.navigate(Routes.RutaNuevaScreen.route)}){
-                Icon(
-                    imageVector= Icons.Filled.Add,
-                    contentDescription= "...",
-                    tint= Color.White
-                )
-            }
-        },
-        title= {
-            Text(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(0.dp, 5.dp, 0.dp, 0.dp),
-                text= stringResource(id = R.string.global_app_name),
-                color= Color.White,
-                fontSize = 30.sp,
-                textAlign = TextAlign.Center
-            )
-        },
-        actions= {
-            IconButton(onClick= { navigationController.navigate(Routes.UserInfoScreen.route)}){
-                Icon(
-                    imageVector = Icons.Filled.Person,
-                    contentDescription= "...",
-                    tint= Color.White
-                )
-            }
-        }
-    )
-}
-
-@Composable
-fun BottomBar(navigationController : NavHostController){
-    BottomNavigation() {
-        IconButton(onClick= { navigationController.navigate(Routes.MapScreen.route)}){
-            Icon(
-                imageVector = Icons.Default.MyLocation,
-                contentDescription= "...",
-                tint= Color.White,
-                modifier= Modifier.size(40.dp)
-            )
-        }
-
-        IconButton(onClick= { navigationController.navigate(Routes.HomeScreen.route)}){
-            Icon(
-                imageVector = Icons.Default.Home,
-                contentDescription= "...",
-                tint= Color.White,
-                modifier= Modifier.size(40.dp)
-            )
-        }
-
-        IconButton(onClick= { navigationController.navigate(Routes.FavScreen.route)}){
-            Icon(
-                imageVector= Icons.Default.Favorite,
-                contentDescription= "...",
-                tint= Color.White,
-                modifier= Modifier.size(40.dp)
-            )
-        }
-    }
-}
-
 
 

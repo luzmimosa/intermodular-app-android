@@ -1,9 +1,7 @@
 package com.example.intermodular.ui.feature.register.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -17,16 +15,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.intermodular.R
 import com.example.intermodular.model.Routes
+import com.example.intermodular.ui.component.ClickableText
+import com.example.intermodular.ui.component.ErrorSupporterTextField
+import com.example.intermodular.ui.component.PredefinedSpacer
 
 
 @Composable
@@ -35,17 +32,17 @@ fun Registro(
     navController: NavHostController
 ){
 
-    val nombre: String by registerViewModel.nombre.observeAsState(initial= "")
-    val user: String by registerViewModel.user.observeAsState(initial= "")
+    val displayName: String by registerViewModel.nombre.observeAsState(initial= "")
+    val username: String by registerViewModel.user.observeAsState(initial= "")
     val email: String by registerViewModel.email.observeAsState(initial = "")
     val password: String by registerViewModel.password.observeAsState(initial = "")
-    val repeatedPassword: String by registerViewModel.repeatedPassword.observeAsState(initial = "")
+    val confirmedPassword: String by registerViewModel.repeatedPassword.observeAsState(initial = "")
 
-    val nombreAlertVisible: Boolean by registerViewModel.nombreAlertVisible.observeAsState(initial = false)
-    val userAlertVisible: Boolean by registerViewModel.userAlertVisible.observeAsState(initial = false)
+    val displayNameAlertVisible: Boolean by registerViewModel.nombreAlertVisible.observeAsState(initial = false)
+    val usernameAlertVisible: Boolean by registerViewModel.userAlertVisible.observeAsState(initial = false)
     val emailAlertVisible: Boolean by registerViewModel.emailAlertVisible.observeAsState(initial = false)
     val passwordAlertVisible: Boolean by registerViewModel.passwordAlertVisible.observeAsState(initial = false)
-    val repeatedPasswordAlertVisible: Boolean by registerViewModel.passwordConfirmAlertVisible.observeAsState(initial = false)
+    val confirmedPasswordAlertVisible: Boolean by registerViewModel.passwordConfirmAlertVisible.observeAsState(initial = false)
 
     Column(
         modifier= Modifier
@@ -70,9 +67,7 @@ fun Registro(
                     )
                 }
 
-                Row {
-                    Spacer(modifier= Modifier.size(10.dp))
-                }
+                PredefinedSpacer()
 
                 Row {
                     Text(
@@ -80,245 +75,108 @@ fun Registro(
                     )
                 }
 
-                Row(){
-                    Spacer(modifier= Modifier.size(10.dp))
-                }
+                PredefinedSpacer()
 
-                Row(){
-                    Nombre(nombre, nombreAlertVisible){
-                        registerViewModel.onRegisterChanged(email, password, user, it, repeatedPassword)
-                    }
-                }
-
-                Row(){
-                    Spacer(modifier= Modifier.size(10.dp))
-                }
-
-                Row(){
-                    User(user, userAlertVisible){
-                        registerViewModel.onRegisterChanged(email, password, it, nombre, repeatedPassword)
-                    }
-                }
-
-                Row(){
-                    Spacer(modifier= Modifier.size(10.dp))
-                }
-
-                Row(){
-                    Email(email, emailAlertVisible){
-                        registerViewModel.onRegisterChanged(it, password, user, nombre, repeatedPassword)
-                    }
-                }
-
-                Row(){
-                    Spacer(modifier= Modifier.size(10.dp))
-                }
-
-                Row(){
-                    Contrasena(password, passwordAlertVisible){
-                        registerViewModel.onRegisterChanged(email, it, user, nombre, repeatedPassword)
-                    }
-                }
-
-                Row(){
-                    Spacer(modifier= Modifier.size(10.dp))
-                }
-
-                Row(){
-                    RepiteContrasena(repeatedPassword, repeatedPasswordAlertVisible) {
-                        registerViewModel.onRegisterChanged(email, password, user, nombre, it)
-                    }
-                }
-
-                Row(){
-                    Spacer(modifier= Modifier.size(10.dp))
-                }
-
-                Row(modifier = Modifier.align(Alignment.CenterHorizontally)){
-                    BotonRegistro(registerViewModel, navController)
-                }
-
-                Row(){
-                    Spacer(modifier= Modifier.size(30 .dp))
-                }
-
-                Row(modifier= Modifier.align(Alignment.CenterHorizontally)){
-                    IniciaSesion(navController)
-                }
-
-                Row(){
-                    Spacer(modifier= Modifier.size(15.dp))
-                }
-
-            }
-        }
-    }
-}
-
-
-@Composable
-fun Nombre(value: String, errorVisible: Boolean, onTextChanged: (String) -> Unit) {
-    Column {
-        Row {
-            TextField(
-                onValueChange= { onTextChanged(it)},
-                value= value,
-                singleLine= true,
-                label= { Text(stringResource(id = R.string.register_field_name))},
-                keyboardOptions= KeyboardOptions(keyboardType= KeyboardType.Email),
-            )
-        }
-        if (errorVisible) {
-            Row (
-                modifier = Modifier.padding(0.dp)
+                // Display name
+                Row {
+                    ErrorSupporterTextField(
+                        label = stringResource(id = R.string.register_field_name),
+                        value = displayName,
+                        errorVisible = displayNameAlertVisible,
+                        errorMessage = stringResource(id = R.string.register_error_name),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                     ) {
-                Text(
-                    text = stringResource(id = R.string.register_error_name),
-                    color = MaterialTheme.colors.error,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(0.dp)
-                )
+                        registerViewModel.onRegisterChanged(email, password, username, it, confirmedPassword)
+                    }
+                }
+
+                PredefinedSpacer()
+
+                // Username
+                Row {
+                    ErrorSupporterTextField(
+                        label = stringResource(id = R.string.register_field_username),
+                        value = username,
+                        errorVisible = usernameAlertVisible,
+                        errorMessage = stringResource(id = R.string.register_error_username),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+                    ) {
+                        registerViewModel.onRegisterChanged(email, password, it, displayName, confirmedPassword)
+                    }
+                }
+
+                PredefinedSpacer()
+
+                // Email
+                Row {
+                    ErrorSupporterTextField(
+                        label = stringResource(id = R.string.register_field_email),
+                        value = email,
+                        errorVisible = emailAlertVisible,
+                        errorMessage = stringResource(id = R.string.register_error_email),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                    ) {
+                        registerViewModel.onRegisterChanged(it, password, username, displayName, confirmedPassword)
+                    }
+                }
+
+                PredefinedSpacer()
+
+                // Password
+                Row {
+                    ErrorSupporterTextField(
+                        label = stringResource(id = R.string.register_field_password),
+                        value = password,
+                        errorVisible = passwordAlertVisible,
+                        errorMessage = stringResource(id = R.string.register_error_password),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                        visualTransformation = PasswordVisualTransformation()
+                    ) {
+                        registerViewModel.onRegisterChanged(email, it, username, displayName, confirmedPassword)
+                    }
+                }
+
+                PredefinedSpacer()
+
+                // Confirm password
+                Row {
+                    ErrorSupporterTextField(
+                        label = stringResource(id = R.string.register_field_confirm_password),
+                        value = confirmedPassword,
+                        errorVisible = confirmedPasswordAlertVisible,
+                        errorMessage = stringResource(id = R.string.register_error_password_match),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                        visualTransformation = PasswordVisualTransformation()
+                    ) {
+                        registerViewModel.onRegisterChanged(email, password, username, displayName, it)
+                    }
+                }
+
+                PredefinedSpacer()
+
+                // Register submit button
+                Row(modifier = Modifier.align(Alignment.CenterHorizontally)){
+                    Button(
+                        onClick= { registerViewModel.onButtonRegisterPress(navController) }
+                    ){
+                        Text(text= stringResource(id = R.string.register_button_submit))
+                    }
+                }
+
+                PredefinedSpacer()
+
+                // Login if already registered
+                Row(modifier= Modifier.align(Alignment.CenterHorizontally)){
+                    ClickableText(
+                        text = stringResource(id = R.string.register_label_already_registered)
+                    ) {
+                        navController.navigate(Routes.LoginScreen.route)
+                    }
+                }
+
+                PredefinedSpacer()
+
             }
         }
-    }
-
-}
-
-@Composable
-fun User(value: String, errorVisible: Boolean, onTextChanged: (String) -> Unit) {
-
-    Column {
-        Row {
-            TextField(
-                onValueChange= { onTextChanged(it)},
-                value = value,
-                singleLine= true,
-                label= { Text(stringResource(id = R.string.register_field_username))},
-                keyboardOptions= KeyboardOptions(keyboardType= KeyboardType.Email),
-            )
-        }
-        if (errorVisible) {
-            Row (
-                modifier = Modifier.padding(0.dp)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.register_error_username),
-                    color = MaterialTheme.colors.error,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(10.dp)
-                )
-            }
-        }
-    }
-}
-
-
-@Composable
-fun Email(value: String, errorVisible: Boolean, onTextChanged: (String) -> Unit){
-
-    Column {
-        Row {
-            TextField(
-                onValueChange= { onTextChanged(it)},
-                value= value,
-                singleLine= true,
-                label= { Text(stringResource(id = R.string.register_field_email))},
-                keyboardOptions= KeyboardOptions(keyboardType= KeyboardType.Email),
-            )
-        }
-        if (errorVisible) {
-            Row (
-                modifier = Modifier.padding(0.dp)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.register_error_email),
-                    color = MaterialTheme.colors.error,
-                    fontSize = 12.sp
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun Contrasena(value: String, errorVisible: Boolean, onTextChanged: (String) -> Unit){
-
-    Column {
-        Row {
-            TextField(
-                onValueChange = { onTextChanged(it)},
-
-                value= value,
-                label= {Text(stringResource(id = R.string.register_field_password))},
-                singleLine= true,
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType= KeyboardType.Password),
-            )
-        }
-        if (errorVisible) {
-            Row (
-                modifier = Modifier.padding(0.dp)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.register_error_password),
-                    color = MaterialTheme.colors.error,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(10.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun RepiteContrasena(value: String, errorVisible: Boolean, onTextChanged: (String) -> Unit) {
-
-    Column {
-        Row {
-            TextField(
-                onValueChange = { onTextChanged(it)},
-
-                value= value,
-                label= {Text(stringResource(id = R.string.register_field_confirm_password))},
-                singleLine= true,
-                visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType= KeyboardType.Password),
-            )
-        }
-        if (errorVisible) {
-            Row {
-                Text(
-                    text = stringResource(id = R.string.register_error_password_match),
-                    color = MaterialTheme.colors.error,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(10.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun IniciaSesion(navController: NavHostController){
-
-    Text(
-        text= stringResource(id = R.string.register_label_already_registered),
-        fontSize = 12.sp,
-        fontWeight= FontWeight.Bold,
-        modifier= Modifier.clickable(
-            onClick= {
-                navController.navigate(Routes.LoginScreen.route)
-            }),
-        style= TextStyle(textDecoration= TextDecoration.Underline)
-    )
-
-}
-
-@Composable
-fun BotonRegistro(registerViewModel: RegisterViewModel, navController: NavHostController){
-    Button(
-        onClick= { registerViewModel.onButtonRegisterPress(navController) }
-    ){
-        Text(text= stringResource(id = R.string.register_button_submit))
     }
 }

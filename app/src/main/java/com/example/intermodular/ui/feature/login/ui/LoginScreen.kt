@@ -1,7 +1,7 @@
 package com.example.intermodular.ui.feature.login.ui
 
+import android.util.Patterns
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,30 +14,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
 import com.example.intermodular.R
 import com.example.intermodular.model.Routes
+import com.example.intermodular.ui.component.ClickableText
+import com.example.intermodular.ui.component.InputPopup
+import com.example.intermodular.ui.component.PredefinedSpacer
+import com.example.intermodular.ui.component.SimplePopup
 
 
 @Composable
 fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
-    val email: String by loginViewModel.email.observeAsState(initial = "")
+    val username: String by loginViewModel.username.observeAsState(initial = "")
     val password: String by loginViewModel.password.observeAsState(initial = "")
     val isLoginEnabled: Boolean by loginViewModel.isButtonLoginEnable.observeAsState(initial = false)
 
+    val isLoading: Boolean by loginViewModel.isLoading.observeAsState(initial = false)
 
     Column(
         modifier= Modifier
@@ -49,7 +50,7 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
                 modifier= Modifier
                     .padding(20.dp)
             ){
-                Column(){
+                Column {
                     Row(modifier = Modifier.align(Alignment.CenterHorizontally)){
                         Image(
                             painter = painterResource(id = R.drawable.black),
@@ -60,54 +61,65 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
                                 .size(100.dp)
                         )
                     }
-                    
-                    Row(){
-                        Spacer(modifier= Modifier.size(15.dp))
-                    }
+
+                    PredefinedSpacer()
 
                     Row(){
-                        Username(email){
-                            loginViewModel.onLoginChanged(email= it, password= password)
-                        }
+                        TextField(
+                            onValueChange = { loginViewModel.onLoginChanged(username = it, password = password)},
+                            value= username,
+                            singleLine= true,
+                            label= { Text(stringResource(id = R.string.login_input_description_username))},
+                            keyboardOptions= KeyboardOptions(keyboardType= KeyboardType.Text),
+                        )
                     }
 
-                    Row(){
-                        Spacer(modifier= Modifier.size(15.dp))
-                    }
+                    PredefinedSpacer()
 
                     Row(){
-                        Contrasena(password){
-                            loginViewModel.onLoginChanged(email= email, password= it)
-                        }
+                        TextField(
+                            onValueChange = { loginViewModel.onLoginChanged(username = username, password = it)},
+                            value= password,
+                            label= {Text(stringResource(id = R.string.login_input_description_password))},
+                            singleLine= true,
+                            visualTransformation = PasswordVisualTransformation(),
+                            keyboardOptions = KeyboardOptions(keyboardType= KeyboardType.Password),
+                        )
                     }
 
-                    Row(){
-                        Spacer(modifier= Modifier.size(15.dp))
-                    }
+                    PredefinedSpacer()
 
                     Row(){
-                        RecuperarContra(Modifier.align(Alignment.Bottom))
+                        PasswordRecovery()
                     }
 
-                    Row(){
-                        Spacer(modifier= Modifier.size(15.dp))
-                    }
+                    PredefinedSpacer()
 
                     Row(modifier = Modifier.align(Alignment.CenterHorizontally)){
-                        BotonLogin(isLoginEnabled, loginViewModel, navController)
+                        Button(
+                            onClick= { loginViewModel.onButtonLoginPress(navController) },
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = MaterialTheme.colors.primary,
+                                contentColor = MaterialTheme.colors.onPrimary,
+                                disabledBackgroundColor = MaterialTheme.colors.primaryVariant,
+                                disabledContentColor = MaterialTheme.colors.onPrimary
+                            ),
+                            enabled = isLoginEnabled,
+                        ){
+                            Text(text= stringResource(id = R.string.login_button_submit))
+
+                        }
                     }
 
-                    Row(){
-                        Spacer(modifier= Modifier.size(30 .dp))
-                    }
+                    PredefinedSpacer()
 
                     Row(modifier= Modifier.align(Alignment.CenterHorizontally)){
-                        Registrate(navController)
+                        ClickableText(text = stringResource(id = R.string.login_button_noaccount)) {
+                            navController.navigate(Routes.RegisterScreen.route)
+                        }
                     }
 
-                    Row(){
-                        Spacer(modifier= Modifier.size(15.dp))
-                    }
+                    PredefinedSpacer()
 
                 }
             }
@@ -115,128 +127,42 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
 }
 
 @Composable
-fun Username(email: String, onTextChanged: (String) -> Unit){
+fun PasswordRecovery(){
+    var dialogState by remember { mutableStateOf(false) }
+    var confirmationState by remember { mutableStateOf(false)}
 
-    TextField(
-        onValueChange= { onTextChanged(it)},
-        value= email,
-        singleLine= true,
-        label= { Text(stringResource(id = R.string.login_input_description_username))},
-        keyboardOptions= KeyboardOptions(keyboardType= KeyboardType.Email),
-    )
-}
-
-@Composable
-fun Contrasena(password: String, onTextChanged: (String) -> Unit){
-
-    TextField(
-        onValueChange = { onTextChanged(it)},
-
-        value= password,
-        label= {Text(stringResource(id = R.string.login_input_description_password))},
-        singleLine= true,
-        visualTransformation = PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType= KeyboardType.Password),
-    )
-}
-
-@Composable
-fun Registrate(navigationController: NavHostController){
-
-    Text(
-        text= stringResource(id = R.string.login_button_noaccount),
-        fontSize = 12.sp,
-        fontWeight= FontWeight.Bold,
-        modifier= Modifier.clickable(
-            onClick= {
-                navigationController.navigate(Routes.RegisterScreen.route)
-            }),
-        style= TextStyle(textDecoration= TextDecoration.Underline)
-    )
-
-}
-
-@Composable
-fun RecuperarContra(modifier: Modifier){
-    var dialogState by remember{ mutableStateOf(false) }
     Text(
         text= stringResource(id = R.string.login_button_forgotpassword),
         fontSize = 12.sp,
         fontWeight= FontWeight.Bold,
         modifier= Modifier.clickable(
             onClick= {
-                dialogState= !dialogState
+                dialogState = true
             }),
         style= TextStyle(textDecoration= TextDecoration.Underline)
     )
 
     if(dialogState){
-        dialogContra(dialogState= true, onDismiss= {dialogState= false})
-    }
-
-}
-
-@Composable
-fun dialogContra(dialogState: Boolean, onDismiss:() -> Unit){
-    var email by remember { mutableStateOf("") }
-
-    if(dialogState){
-        Dialog(
-            onDismissRequest = { onDismiss() },
-            properties = DialogProperties(
-                dismissOnClickOutside = true,
-                dismissOnBackPress = true
-            )
-        ) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .background(MaterialTheme.colors.surface)
-            ) {
-                Column(
-                    modifier = Modifier.padding(12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-                    Row(modifier = Modifier.padding(8.dp)) {
-                        Text(text = stringResource(id = R.string.login_popup_changepassword_title), textAlign = TextAlign.Center)
-                    }
-
-                    Row(modifier = Modifier.padding(8.dp)) {
-                        var text by remember { mutableStateOf("") }
-                        TextField(
-                            value = text,
-                            onValueChange = { text = it },
-                            label = { Text(text = stringResource(id = R.string.login_popup_changepassword_field_email)) },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-                        )
-                    }
-
-                    Row(modifier = Modifier.padding(8.dp)) {
-                        val context = LocalContext.current
-                        Button(
-                            onClick = {onDismiss()},
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(60.dp),
-                        ) {
-
-                            Text(
-                                text = stringResource(id = R.string.login_popup_changepassword_button_send)
-                            )
-                        }
-                    }
-                }
+        InputPopup(
+            message = "Introduce tu email y te enviaremos un correo para recuperar tu contraseña",
+            label = "Email",
+            submitButtonLabel = "Recuperar contraseña",
+            canSubmit = {
+                Patterns.EMAIL_ADDRESS.matcher(it).matches()
+            },
+            onDismiss = {
+                dialogState = false
             }
+        ) {
+            confirmationState = true
+            dialogState = false
         }
     }
-}
 
-@Composable
-fun BotonLogin(loginEnable:Boolean, loginViewModel: LoginViewModel, navController: NavHostController){
-    Button(
-        onClick= { loginViewModel.onButtonLoginPress(navController) }
-    ){
-        Text(text= stringResource(id = R.string.login_button_submit))
-
+    if (confirmationState){
+        SimplePopup(message = "Si el correo es correcto, te hemos enviado un correo para recuperar tu contraseña") {
+            confirmationState = false
+        }
     }
+
 }
