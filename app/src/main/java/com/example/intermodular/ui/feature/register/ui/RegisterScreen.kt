@@ -1,6 +1,7 @@
 package com.example.intermodular.ui.feature.register.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -12,7 +13,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -46,136 +49,175 @@ fun Registro(
 
     Column(
         modifier= Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .paint(
+                painterResource(id = R.drawable.app_background),
+                contentScale = ContentScale.FillHeight
+            ),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         Box(
-            modifier= Modifier
-                .padding(20.dp)
+            modifier = Modifier
+                .background(MaterialTheme.colors.background.copy(alpha = 0.8f))
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(20.dp)
 
-        ){
-            Column {
-                Row(modifier = Modifier.align(Alignment.CenterHorizontally)){
-                    Image(
-                        painter = painterResource(id = R.drawable.black),
-                        contentDescription = "imagen 1",
-                        modifier= Modifier
-                            .clip(CircleShape)
-                            .border(0.dp, Color.Transparent, CircleShape)
-                            .size(100.dp)
-                    )
-                }
-
-                PredefinedSpacer()
-
-                Row {
-                    Text(
-                        text = stringResource(id = R.string.register_form_title)
-                    )
-                }
-
-                PredefinedSpacer()
-
-                // Display name
-                Row {
-                    ErrorSupporterTextField(
-                        label = stringResource(id = R.string.register_field_name),
-                        value = displayName,
-                        errorVisible = displayNameAlertVisible,
-                        errorMessage = stringResource(id = R.string.register_error_name),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
-                    ) {
-                        registerViewModel.onRegisterChanged(email, password, username, it, confirmedPassword)
+            ) {
+                Column {
+                    Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                        Image(
+                            painter = painterResource(id = R.drawable.black),
+                            contentDescription = "imagen 1",
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .border(0.dp, Color.Transparent, CircleShape)
+                                .size(100.dp)
+                        )
                     }
-                }
 
-                PredefinedSpacer()
+                    PredefinedSpacer()
 
-                // Username
-                Row {
-                    ErrorSupporterTextField(
-                        label = stringResource(id = R.string.register_field_username),
-                        value = username,
-                        errorVisible = usernameAlertVisible,
-                        errorMessage = stringResource(id = R.string.register_error_username),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
-                    ) {
-                        registerViewModel.onRegisterChanged(email, password, it, displayName, confirmedPassword)
+                    Row {
+                        Text(
+                            text = stringResource(id = R.string.register_form_title)
+                        )
                     }
-                }
 
-                PredefinedSpacer()
+                    PredefinedSpacer()
 
-                // Email
-                Row {
-                    ErrorSupporterTextField(
-                        label = stringResource(id = R.string.register_field_email),
-                        value = email,
-                        errorVisible = emailAlertVisible,
-                        errorMessage = stringResource(id = R.string.register_error_email),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-                    ) {
-                        registerViewModel.onRegisterChanged(it, password, username, displayName, confirmedPassword)
+                    // Display name
+                    Row {
+                        ErrorSupporterTextField(
+                            label = stringResource(id = R.string.register_field_name),
+                            value = displayName,
+                            errorVisible = displayNameAlertVisible,
+                            errorMessage = stringResource(id = R.string.register_error_name),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+                        ) {
+                            registerViewModel.onRegisterChanged(
+                                email,
+                                password,
+                                username,
+                                it,
+                                confirmedPassword
+                            )
+                        }
                     }
-                }
 
-                PredefinedSpacer()
+                    PredefinedSpacer()
 
-                // Password
-                Row {
-                    ErrorSupporterTextField(
-                        label = stringResource(id = R.string.register_field_password),
-                        value = password,
-                        errorVisible = passwordAlertVisible,
-                        errorMessage = stringResource(id = R.string.register_error_password),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        visualTransformation = PasswordVisualTransformation()
-                    ) {
-                        registerViewModel.onRegisterChanged(email, it, username, displayName, confirmedPassword)
+                    // Username
+                    Row {
+                        ErrorSupporterTextField(
+                            label = stringResource(id = R.string.register_field_username),
+                            value = username,
+                            errorVisible = usernameAlertVisible,
+                            errorMessage = stringResource(id = R.string.register_error_username),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+                        ) {
+                            registerViewModel.onRegisterChanged(
+                                email,
+                                password,
+                                it,
+                                displayName,
+                                confirmedPassword
+                            )
+                        }
                     }
-                }
 
-                PredefinedSpacer()
+                    PredefinedSpacer()
 
-                // Confirm password
-                Row {
-                    ErrorSupporterTextField(
-                        label = stringResource(id = R.string.register_field_confirm_password),
-                        value = confirmedPassword,
-                        errorVisible = confirmedPasswordAlertVisible,
-                        errorMessage = stringResource(id = R.string.register_error_password_match),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        visualTransformation = PasswordVisualTransformation()
-                    ) {
-                        registerViewModel.onRegisterChanged(email, password, username, displayName, it)
+                    // Email
+                    Row {
+                        ErrorSupporterTextField(
+                            label = stringResource(id = R.string.register_field_email),
+                            value = email,
+                            errorVisible = emailAlertVisible,
+                            errorMessage = stringResource(id = R.string.register_error_email),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                        ) {
+                            registerViewModel.onRegisterChanged(
+                                it,
+                                password,
+                                username,
+                                displayName,
+                                confirmedPassword
+                            )
+                        }
                     }
-                }
 
-                PredefinedSpacer()
+                    PredefinedSpacer()
 
-                // Register submit button
-                Row(modifier = Modifier.align(Alignment.CenterHorizontally)){
-                    Button(
-                        onClick= { registerViewModel.onButtonRegisterPress(navController) }
-                    ){
-                        Text(text= stringResource(id = R.string.register_button_submit))
+                    // Password
+                    Row {
+                        ErrorSupporterTextField(
+                            label = stringResource(id = R.string.register_field_password),
+                            value = password,
+                            errorVisible = passwordAlertVisible,
+                            errorMessage = stringResource(id = R.string.register_error_password),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                            visualTransformation = PasswordVisualTransformation()
+                        ) {
+                            registerViewModel.onRegisterChanged(
+                                email,
+                                it,
+                                username,
+                                displayName,
+                                confirmedPassword
+                            )
+                        }
                     }
-                }
 
-                PredefinedSpacer()
+                    PredefinedSpacer()
 
-                // Login if already registered
-                Row(modifier= Modifier.align(Alignment.CenterHorizontally)){
-                    ClickableText(
-                        text = stringResource(id = R.string.register_label_already_registered)
-                    ) {
-                        navController.navigate(Routes.LoginScreen.route)
+                    // Confirm password
+                    Row {
+                        ErrorSupporterTextField(
+                            label = stringResource(id = R.string.register_field_confirm_password),
+                            value = confirmedPassword,
+                            errorVisible = confirmedPasswordAlertVisible,
+                            errorMessage = stringResource(id = R.string.register_error_password_match),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                            visualTransformation = PasswordVisualTransformation()
+                        ) {
+                            registerViewModel.onRegisterChanged(
+                                email,
+                                password,
+                                username,
+                                displayName,
+                                it
+                            )
+                        }
                     }
+
+                    PredefinedSpacer()
+
+                    // Register submit button
+                    Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                        Button(
+                            onClick = { registerViewModel.onButtonRegisterPress(navController) }
+                        ) {
+                            Text(text = stringResource(id = R.string.register_button_submit))
+                        }
+                    }
+
+                    PredefinedSpacer()
+
+                    // Login if already registered
+                    Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                        ClickableText(
+                            text = stringResource(id = R.string.register_label_already_registered)
+                        ) {
+                            navController.navigate(Routes.LoginScreen.route)
+                        }
+                    }
+
+                    PredefinedSpacer()
+
                 }
-
-                PredefinedSpacer()
-
             }
         }
     }

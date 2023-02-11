@@ -2,6 +2,7 @@ package com.example.intermodular.ui.feature.login.ui
 
 import android.util.Patterns
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,7 +14,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -42,20 +45,28 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
 
     Column(
         modifier= Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .paint(
+                painterResource(id = R.drawable.app_background),
+                contentScale = ContentScale.FillHeight
+            ),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
+        Box(
+            modifier = Modifier
+                .background(MaterialTheme.colors.background.copy(alpha = 0.8f))
+        ) {
             Box(
-                modifier= Modifier
+                modifier = Modifier
                     .padding(20.dp)
-            ){
+            ) {
                 Column {
-                    Row(modifier = Modifier.align(Alignment.CenterHorizontally)){
+                    Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                         Image(
                             painter = painterResource(id = R.drawable.black),
                             contentDescription = "imagen 1",
-                            modifier= Modifier
+                            modifier = Modifier
                                 .clip(CircleShape)
                                 .border(0.dp, Color.Transparent, CircleShape)
                                 .size(100.dp)
@@ -64,40 +75,50 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
 
                     PredefinedSpacer()
 
-                    Row(){
+                    Row() {
                         TextField(
-                            onValueChange = { loginViewModel.onLoginChanged(username = it, password = password)},
-                            value= username,
-                            singleLine= true,
-                            label= { Text(stringResource(id = R.string.login_input_description_username))},
-                            keyboardOptions= KeyboardOptions(keyboardType= KeyboardType.Text),
+                            onValueChange = {
+                                loginViewModel.onLoginChanged(
+                                    username = it,
+                                    password = password
+                                )
+                            },
+                            value = username,
+                            singleLine = true,
+                            label = { Text(stringResource(id = R.string.login_input_description_username)) },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         )
                     }
 
                     PredefinedSpacer()
 
-                    Row(){
+                    Row() {
                         TextField(
-                            onValueChange = { loginViewModel.onLoginChanged(username = username, password = it)},
-                            value= password,
-                            label= {Text(stringResource(id = R.string.login_input_description_password))},
-                            singleLine= true,
+                            onValueChange = {
+                                loginViewModel.onLoginChanged(
+                                    username = username,
+                                    password = it
+                                )
+                            },
+                            value = password,
+                            label = { Text(stringResource(id = R.string.login_input_description_password)) },
+                            singleLine = true,
                             visualTransformation = PasswordVisualTransformation(),
-                            keyboardOptions = KeyboardOptions(keyboardType= KeyboardType.Password),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         )
                     }
 
                     PredefinedSpacer()
 
-                    Row(){
+                    Row() {
                         PasswordRecovery()
                     }
 
                     PredefinedSpacer()
 
-                    Row(modifier = Modifier.align(Alignment.CenterHorizontally)){
+                    Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                         Button(
-                            onClick= { loginViewModel.onButtonLoginPress(navController) },
+                            onClick = { loginViewModel.onButtonLoginPress(navController) },
                             colors = ButtonDefaults.buttonColors(
                                 backgroundColor = MaterialTheme.colors.primary,
                                 contentColor = MaterialTheme.colors.onPrimary,
@@ -105,15 +126,15 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
                                 disabledContentColor = MaterialTheme.colors.onPrimary
                             ),
                             enabled = isLoginEnabled,
-                        ){
-                            Text(text= stringResource(id = R.string.login_button_submit))
+                        ) {
+                            Text(text = stringResource(id = R.string.login_button_submit))
 
                         }
                     }
 
                     PredefinedSpacer()
 
-                    Row(modifier= Modifier.align(Alignment.CenterHorizontally)){
+                    Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                         ClickableText(text = stringResource(id = R.string.login_button_noaccount)) {
                             navController.navigate(Routes.RegisterScreen.route)
                         }
@@ -124,6 +145,7 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
                 }
             }
         }
+    }
 }
 
 @Composable
