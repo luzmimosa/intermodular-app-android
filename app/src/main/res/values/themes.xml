@@ -2,6 +2,9 @@
 <resources>
 
     <style name="Theme.Intermodular" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+
+        <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 </resources>
