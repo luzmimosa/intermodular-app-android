@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.intermodular.R
 import com.example.intermodular.model.Routes
-import com.example.intermodular.ui.component.*
+import com.example.intermodular.ui.component.global.*
 
 
 @Composable

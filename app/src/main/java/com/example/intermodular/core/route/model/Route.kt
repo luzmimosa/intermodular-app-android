@@ -15,9 +15,9 @@ data class Route(
     val difficulty: RouteDifficulty,
 
     val creator: String,
-    val creationDatetime: LocalDateTime
+    val creationDatetime: LocalDateTime,
 
-
+    val likes: Int = 0,
 
 ) {
     override fun toString(): String {
@@ -44,11 +44,11 @@ enum class RouteDifficulty {
 data class GpsMeasure(
     val latitude: Double,
     val longitude: Double,
-    val waypoints: Waypoint?
+    val waypoints: Waypoint? = null
 )
 
 data class Waypoint(
     val name: String,
     val description: String,
-    val imageID: String?
+    val imageID: String? = null
 )

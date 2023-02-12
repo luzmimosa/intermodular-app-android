@@ -13,7 +13,8 @@ data class RouteResponse (
     @SerializedName("length")           val length: Double,
     @SerializedName("difficulty")       val difficulty: String,
     @SerializedName("creator")          val creator: String,
-    @SerializedName("creationDatetime") val creationDatetime: Long
+    @SerializedName("creationDatetime") val creationDatetime: Long,
+    @SerializedName("likes")            val likes: Int
 )
 
 data class Location (

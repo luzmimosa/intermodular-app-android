@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.intermodular.R
-import com.example.intermodular.ui.component.WikihonkBottomBar
-import com.example.intermodular.ui.component.WikihonkTopBar
+import com.example.intermodular.ui.component.global.WikihonkBottomBar
+import com.example.intermodular.ui.component.global.WikihonkTopBar
 
 @Preview
 @Composable

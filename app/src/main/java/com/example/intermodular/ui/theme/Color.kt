@@ -38,3 +38,31 @@ val darkOnSecondary = Color(0xFF9BE799)
 val darkOnBackground = Color(0xFF9BE799)
 val darkOnSurface = Color(0xFF9BE799)
 val darkOnError = Color(0xFF1B251B)
+
+
+interface RouteDifficultyColors {
+    val trivial: Color
+    val easy: Color
+    val medium: Color
+    val hard: Color
+    val expert: Color
+}
+
+// Light route difficulty colors
+object RouteDifficultyLightColors : RouteDifficultyColors {
+    override val trivial = Color(0xFFCDFFB8)
+    override val easy = Color(0xFFB2FF59)
+    override val medium = Color(0xFFEEFF41)
+    override val hard = Color(0xFFFF0059)
+    override val expert = Color(0xFF420000)
+
+}
+
+// Dark route difficulty colors
+object RouteDifficultyDarkColors : RouteDifficultyColors {
+    override val trivial = Color(0xFF196F5B)
+    override val easy = Color(0xFF357E1A)
+    override val medium = Color(0xFF796500)
+    override val hard = Color(0xFF660012)
+    override val expert = Color(0xFF000000)
+}

@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.intermodular.ui.component.WikihonkBottomBar
-import com.example.intermodular.ui.component.WikihonkTopBar
+import com.example.intermodular.ui.component.global.WikihonkBottomBar
+import com.example.intermodular.ui.component.global.WikihonkTopBar
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState

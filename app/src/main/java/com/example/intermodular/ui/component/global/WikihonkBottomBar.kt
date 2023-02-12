@@ -1,4 +1,4 @@
-package com.example.intermodular.ui.component
+package com.example.intermodular.ui.component.global
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation

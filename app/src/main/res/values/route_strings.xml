@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="route_mainpicture_description">Imagen de la ruta "%s"</string>
+    <string name="route_likes_description">La ruta tiene %s likes</string>
+
+    <string name="route_type_walk">Ruta para pasear</string>
+    <string name="route_type_trekking">Ruta para hacer senderismo</string>
+    <string name="route_type_running">Ruta para correr</string>
+    <string name="route_type_bike">Ruta para bicicleta</string>
+    <string name="route_type_photography">Ruta para hacer fotografía</string>
+    <string name="route_type_other">Ruta para hacer cosas que se hacen en una ruta</string>
+</resources>
