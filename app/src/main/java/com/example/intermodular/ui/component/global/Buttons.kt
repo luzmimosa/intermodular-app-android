@@ -1,4 +1,4 @@
-package com.example.intermodular.ui.component
+package com.example.intermodular.ui.component.global
 
 import androidx.compose.foundation.clickable
 import androidx.compose.material.Text

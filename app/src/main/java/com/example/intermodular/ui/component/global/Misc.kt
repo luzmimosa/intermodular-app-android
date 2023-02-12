@@ -1,4 +1,4 @@
-package com.example.intermodular.ui.component
+package com.example.intermodular.ui.component.global
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
