@@ -1,4 +1,4 @@
-package com.example.intermodular.ui.component
+package com.example.intermodular.ui.component.global
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -27,8 +27,20 @@ fun ProfilePicture(username: String?) {
 }
 
 @Composable
+fun SmallProfilePicture(username: String?) {
+    Image(
+        painter = profilePictureOf(username = username),
+        contentDescription = stringResource(id = R.string.global_no_profile_picture),
+        modifier = Modifier
+            .clip(CircleShape)
+            .border(0.dp, Color.Transparent, CircleShape)
+            .size(25.dp)
+    )
+}
+
+@Composable
 private fun profilePictureOf(username: String?): Painter {
     if (username == null) return painterResource(id = R.drawable.default_proofile_pic)
 
-    return painterResource(id = R.drawable.black)
+    return painterResource(id = R.drawable.default_proofile_pic)
 }
