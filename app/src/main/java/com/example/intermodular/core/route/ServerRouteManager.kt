@@ -49,7 +49,8 @@ object ServerRouteManager {
                 types = types,
                 difficulty = difficulty,
                 creator = routeResponse.creator,
-                creationDatetime = LocalDateTime.ofEpochSecond(routeResponse.creationDatetime / 1000, 0, ZoneOffset.UTC)
+                creationDatetime = LocalDateTime.ofEpochSecond(routeResponse.creationDatetime / 1000, 0, ZoneOffset.UTC),
+                likes = routeResponse.likes
             )
         }
     }
