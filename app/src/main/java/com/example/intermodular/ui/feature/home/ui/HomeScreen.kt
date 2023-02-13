@@ -29,7 +29,9 @@ fun Home(homeviewmodel : HomeViewModel, navigationController: NavHostController)
         },
     ){
 
-        Column(modifier= Modifier.background(color= Color.Gray).fillMaxSize()) {
+        Column(modifier= Modifier
+            .background(color = Color.Gray)
+            .fillMaxSize()) {
             Row(){
                 RouteCard(
                     route = Route(
