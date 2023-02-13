@@ -1,5 +1,6 @@
 package com.example.intermodular.ui.feature.login.ui
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +11,8 @@ import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.feature.login.data.network.LoginResult
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel(){
-    private val loginUseCase= LoginUseCase()
+class LoginViewModel(context: Context) : ViewModel(){
+    private val loginUseCase= LoginUseCase(context)
 
     private val _username = MutableLiveData<String>()
     val username: LiveData<String> = _username
