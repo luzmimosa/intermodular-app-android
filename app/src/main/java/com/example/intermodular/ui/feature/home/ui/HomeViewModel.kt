@@ -1,5 +1,7 @@
 package com.example.intermodular.ui.feature.home.ui
 
-class HomeViewModel {
+import androidx.lifecycle.ViewModel
+
+class HomeViewModel: ViewModel() {
 
 }
