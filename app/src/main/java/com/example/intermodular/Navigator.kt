@@ -1,9 +1,11 @@
 package com.example.intermodular
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.intermodular.core.authentication.AuthenticationTokenManager
 import com.example.intermodular.ui.feature.favoritos.ui.Fav
 import com.example.intermodular.ui.feature.favoritos.ui.FavViewModel
 import com.example.intermodular.ui.feature.home.ui.Home
@@ -23,8 +25,8 @@ import com.example.intermodular.ui.feature.userinfo.ui.UserInfo
 import com.example.intermodular.ui.feature.userinfo.ui.UserInfoViewModel
 
 @Composable
-fun CustomNavigator(){
-    val loginviewmodel= LoginViewModel()
+fun CustomNavigator(context: Context){
+    val loginviewmodel= LoginViewModel(context)
     val homeviewmodel= HomeViewModel()
     val registerviewmodel= RegisterViewModel()
     val userinfoviewmodel= UserInfoViewModel()
@@ -36,9 +38,12 @@ fun CustomNavigator(){
 
     NavHost(navController= navigationController, startDestination= Routes.LoginScreen.route){
         composable(route = Routes.LoginScreen.route){
-            Login(loginviewmodel, navigationController)
+            if (AuthenticationTokenManager.verifyToken(context)) {
+                navigationController.navigate(Routes.HomeScreen.route)
+            } else {
+                Login(loginviewmodel, navigationController)
+            }
         }
-
         composable(route= Routes.HomeScreen.route){
             Home(homeviewmodel, navigationController)
         }
