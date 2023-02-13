@@ -13,6 +13,7 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
+import com.example.intermodular.core.authentication.AuthenticationTokenManager
 import com.example.intermodular.ui.component.global.ErrorPopup
 import com.example.intermodular.ui.theme.IntermodularTheme
 
@@ -59,7 +60,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        synchronizeToken()
         showApplication()
+    }
+
+    private fun synchronizeToken() {
+        AuthenticationTokenManager.syncToken(this)
     }
 
     private fun checkPermissions() {
@@ -86,7 +92,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colors.background
                     ) {
-                        CustomNavigator()
+                        CustomNavigator(this)
                     }
                 }
             }
