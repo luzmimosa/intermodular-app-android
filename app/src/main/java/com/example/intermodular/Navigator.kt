@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.intermodular.core.authentication.AuthenticationTokenManager
+import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.feature.favoritos.ui.Fav
 import com.example.intermodular.ui.feature.favoritos.ui.FavViewModel
 import com.example.intermodular.ui.feature.home.ui.Home
@@ -16,7 +17,6 @@ import com.example.intermodular.ui.feature.login.ui.Login
 import com.example.intermodular.ui.feature.login.ui.LoginViewModel
 import com.example.intermodular.ui.feature.map.ui.MapScreen
 import com.example.intermodular.ui.feature.map.ui.MapViewModel
-import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.feature.register.ui.RegisterViewModel
 import com.example.intermodular.ui.feature.register.ui.Registro
 import com.example.intermodular.ui.feature.rutanueva.ui.RutaNueva
@@ -69,7 +69,7 @@ fun CustomNavigator(context: Context){
         }
 
         composable(route= Routes.InfoRuta.route){
-            InfoRuta(inforutaviewmodel, navigationController)
+            InfoRuta(inforutaviewmodel, navigationController )
         }
     }
 
