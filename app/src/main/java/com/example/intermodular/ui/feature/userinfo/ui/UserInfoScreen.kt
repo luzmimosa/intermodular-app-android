@@ -13,20 +13,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.intermodular.R
 import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.component.global.ClickableText
 import com.example.intermodular.ui.component.global.WikihonkBottomBar
 import com.example.intermodular.ui.component.global.WikihonkTopBar
 
-@Preview
+
 @Composable
-fun UserInfo(/*userInfoViewModel: UserInfoViewModel= UserInfoViewModel()*/ navigationController: NavHostController = rememberNavController()){
+fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHostController){
     Scaffold(
         topBar= {
             WikihonkTopBar(navigationController)
