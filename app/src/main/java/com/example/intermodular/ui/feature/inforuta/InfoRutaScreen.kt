@@ -91,7 +91,7 @@ fun InfoRuta(infoRutaViewModel: InfoRutaViewModel= InfoRutaViewModel(), navigati
                     }
                 }
 
-                Box(modifier= Modifier.padding(5.dp, 75.dp, 10.dp, 5.dp)){
+                Box(modifier= Modifier.padding(5.dp, 95.dp, 10.dp, 5.dp)){
                     IconButton(
                         onClick = { /*marcar en favoritos*/ },
                     ) {
@@ -118,6 +118,8 @@ fun InfoRuta(infoRutaViewModel: InfoRutaViewModel= InfoRutaViewModel(), navigati
             Row(modifier= Modifier.fillMaxWidth().padding(5.dp).background(color = Color.White)){
                 //redondear bordes
                 //poner imagen mas grande
+                //añadir lazy column para la tarjeta de comentarios
+
                 Box(){
                     SmallProfilePicture(username = "wpf")
                 }
