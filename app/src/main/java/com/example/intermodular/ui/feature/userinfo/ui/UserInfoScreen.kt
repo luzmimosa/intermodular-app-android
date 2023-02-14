@@ -82,9 +82,7 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
                     }
 
                     Row(
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .fillMaxWidth(), horizontalArrangement = Arrangement.Center
+                        modifier = Modifier.padding(5.dp).fillMaxWidth(), horizontalArrangement = Arrangement.Center
                     ) {
                         Box(modifier = Modifier.padding(10.dp, 0.dp, 40.dp, 10.dp)) {
                             Text(
