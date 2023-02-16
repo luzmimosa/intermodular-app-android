@@ -1,5 +1,6 @@
 package com.example.intermodular.ui.component.global
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.Icon
@@ -17,9 +18,14 @@ import androidx.navigation.NavHostController
 import com.example.intermodular.R
 import com.example.intermodular.model.Routes
 
+val bottomAppBarHeight = 60.dp
+
 @Composable
-fun WikihonkBottomBar(navigationController : NavHostController){
-    BottomNavigation() {
+fun WikihonkBottomBar(navigationController : NavHostController) {
+
+    BottomNavigation(
+        modifier = Modifier.height(bottomAppBarHeight)
+    ) {
         IconButton(onClick= { navigationController.navigate(Routes.MapScreen.route)}){
             Icon(
                 imageVector = Icons.Default.MyLocation,
