@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import com.example.intermodular.core.authentication.AuthenticationTokenManager
+import com.example.intermodular.core.location.WikihonkLocationManager
 import com.example.intermodular.ui.component.global.ErrorPopup
 import com.example.intermodular.ui.theme.IntermodularTheme
 
@@ -21,6 +22,8 @@ class MainActivity : ComponentActivity() {
 
     private var fineLocationPermissionGranted = false
     private var backgroundLocationPermissionGranted = false
+
+    private val locationManager = WikihonkLocationManager()
 
     private val fineLocationPermissionRequester = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -59,6 +62,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        locationManager.startListening(this)
 
         synchronizeToken()
         showApplication()
