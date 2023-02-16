@@ -53,7 +53,7 @@ fun CustomNavigator(context: Context){
         }
 
         composable(route= Routes.UserInfoScreen.route){
-            UserInfo(/*userinfoviewmodel,*/ navigationController)
+            UserInfo(userinfoviewmodel, navigationController)
         }
 
         composable(route= Routes.MapScreen.route){
