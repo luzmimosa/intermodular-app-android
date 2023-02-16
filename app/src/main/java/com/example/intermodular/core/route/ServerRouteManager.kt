@@ -1,6 +1,8 @@
 package com.example.intermodular.core.route
 
 import com.example.intermodular.core.network.RetrofitHelper
+import com.example.intermodular.core.route.client.NearRoutesClient
+import com.example.intermodular.core.route.client.RandomRoutesClient
 import com.example.intermodular.core.route.client.RouteClient
 import com.example.intermodular.core.route.model.*
 import kotlinx.coroutines.Dispatchers
@@ -52,6 +54,55 @@ object ServerRouteManager {
                 creationDatetime = LocalDateTime.ofEpochSecond(routeResponse.creationDatetime / 1000, 0, ZoneOffset.UTC),
                 likes = routeResponse.likes
             )
+        }
+    }
+
+    suspend fun getRoutesByLocation(latitude: Float, longitude: Float, radius: Int = 30, limit: Int = 20): Array<Route> {
+        try {
+            return withContext(Dispatchers.IO) {
+
+                val response = retrofit.create(NearRoutesClient::class.java).getNearRoutes(latitude, longitude, radius)
+                if (!response.isSuccessful) return@withContext arrayOf()
+
+                val routeIdsResponse = response.body() ?: return@withContext arrayOf()
+
+                val routes = mutableListOf<Route>()
+
+                for (routeID in routeIdsResponse) {
+                    val route = getRouteByID(routeID)
+                    if (route != null && routes.size < limit) {
+                        routes.add(route)
+                    }
+                }
+
+                return@withContext routes.toTypedArray()
+            }
+        } catch (exception: Exception) {
+            return arrayOf()
+        }
+    }
+
+    suspend fun getRandomRoutes(max: Int = 10): Array<Route> {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response = retrofit.create(RandomRoutesClient::class.java).getRandomRoutes()
+                if (!response.isSuccessful) return@withContext arrayOf()
+
+                val routeIdsResponse = response.body() ?: return@withContext arrayOf()
+
+                val routes = mutableListOf<Route>()
+
+                for (routeID in routeIdsResponse) {
+                    val route = getRouteByID(routeID)
+                    if (route != null && routes.size < max) {
+                        routes.add(route)
+                    }
+                }
+
+                return@withContext routes.toTypedArray()
+            }
+        } catch (exception: Exception) {
+            return arrayOf()
         }
     }
 }
