@@ -1,6 +1,5 @@
 package com.example.intermodular
 
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -25,7 +24,7 @@ import com.example.intermodular.ui.feature.userinfo.ui.UserInfo
 import com.example.intermodular.ui.feature.userinfo.ui.UserInfoViewModel
 
 @Composable
-fun CustomNavigator(context: Context){
+fun CustomNavigator(context: MainActivity){
     val loginviewmodel= LoginViewModel(context)
     val homeviewmodel= HomeViewModel()
     val registerviewmodel= RegisterViewModel()

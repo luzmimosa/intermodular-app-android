@@ -3,10 +3,23 @@
     <string name="route_mainpicture_description">Imagen de la ruta "%s"</string>
     <string name="route_likes_description">La ruta tiene %s likes</string>
 
-    <string name="route_type_walk">Ruta para pasear</string>
-    <string name="route_type_trekking">Ruta para hacer senderismo</string>
-    <string name="route_type_running">Ruta para correr</string>
-    <string name="route_type_bike">Ruta para bicicleta</string>
-    <string name="route_type_photography">Ruta para hacer fotografía</string>
-    <string name="route_type_other">Ruta para hacer cosas que se hacen en una ruta</string>
+    <string name="route_type_walk_description">Ruta para pasear</string>
+    <string name="route_type_trekking_description">Ruta para hacer senderismo</string>
+    <string name="route_type_running_description">Ruta para correr</string>
+    <string name="route_type_bike_description">Ruta para bicicleta</string>
+    <string name="route_type_photography_description">Ruta para hacer fotografía</string>
+    <string name="route_type_other_description">Ruta para hacer cosas que se hacen en una ruta</string>
+
+    <string name="route_difficulty_trivial">Trivial</string>
+    <string name="route_difficulty_easy">Fácil</string>
+    <string name="route_difficulty_medium">Media</string>
+    <string name="route_difficulty_hard">Difícil</string>
+    <string name="route_difficulty_expert">Experta</string>
+    <string name="route_difficulty_undefined">Sin especificar</string>
+
+    <string name="route_type_walk">Paseo</string>
+    <string name="route_type_trekking">Senderismo</string>
+    <string name="route_type_running">Carrera</string>
+    <string name="route_type_bike">Bicicleta</string>
+    <string name="route_type_photography">Fotografía</string>
 </resources>

@@ -1,106 +1,76 @@
 package com.example.intermodular.ui.feature.rutanueva.ui
 
-import android.util.Log
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavHostController
-import com.example.intermodular.model.Routes
-import com.example.intermodular.ui.feature.rutanueva.domain.usecase.RutaNuevaUseCase
-import kotlinx.coroutines.launch
+import com.example.intermodular.core.route.model.RouteDifficulty
+import com.example.intermodular.core.route.model.RouteType
 
 class RutaNuevaViewModel: ViewModel() {
 
-    private val rutaNuevaUseCase= RutaNuevaUseCase()
+    // Fields
+    private val _routeName = MutableLiveData<String>()
+    val routeName: LiveData<String> = _routeName
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
+    private val _routeDescription = MutableLiveData<String>()
+    val routeDescription: LiveData<String> = _routeDescription
 
-    private val _nombre= MutableLiveData<String>()
-    val nombre: LiveData<String> = _nombre
+    private val _routeDifficulty = MutableLiveData<RouteDifficulty>()
+    val routeDifficulty: LiveData<RouteDifficulty> = _routeDifficulty
 
-    private val _descripcion= MutableLiveData<String>()
-    val descripcion: LiveData<String> = _descripcion
+    private val _routeTypes = MutableLiveData<List<RouteType>>()
+    val routeTypes: LiveData<List<RouteType>> = _routeTypes
 
-    private val _dificultad= MutableLiveData<String>()
-    val dificultad: LiveData<String> = _dificultad
+    // Popup visibilities
 
-    private val _nombreAlertVisible= MutableLiveData<Boolean>()
-    val nombreAlertVisible: LiveData<Boolean> = _nombreAlertVisible
+    private val _routeNamePopupVisible = MutableLiveData<Boolean>()
+    val routeNamePopupVisible: LiveData<Boolean> = _routeNamePopupVisible
 
-    private val _descripcionAlertVisible= MutableLiveData<Boolean>()
-    val descripcionAlertVisible: LiveData<Boolean> = _descripcionAlertVisible
+    private val _routeDifficultyPopupVisible = MutableLiveData<Boolean>()
+    val routeDifficultyPopupVisible: LiveData<Boolean> = _routeDifficultyPopupVisible
 
-    private val _dificultadAlertVisible= MutableLiveData<Boolean>()
-    val dificultadAlertVisible: LiveData<Boolean> = _dificultadAlertVisible
+    // Error messages
+    private val _routeDescriptionErrorMessage = MutableLiveData<Int>()
+    val routeDescriptionErrorMessage: LiveData<Int> = _routeDescriptionErrorMessage
 
-    /*private val _tipoAlertVisible= MutableLiveData<Boolean>()
-    val tipoAlertVisible: LiveData<Boolean> = _tipoAlertVisible*/
+    // Error visibilities
+    private val _routeDescriptionErrorVisible = MutableLiveData<Boolean>()
+    val routeDescriptionErrorVisible: LiveData<Boolean> = _routeDescriptionErrorVisible
 
-    fun onRegisterChanged(nombre: String, descripcion: String, dificultad: String) {
-        _nombre.value = nombre
-        _descripcion.value = descripcion
-        _dificultad.value = dificultad
+    // Other
+    private val _mainImageBitmap = MutableLiveData<ImageBitmap?>()
+    val mainImageBitmap: LiveData<ImageBitmap?> = _mainImageBitmap
+
+    fun setName(name: String) {
+        _routeName.value = name
     }
 
-    private fun updateAlerts() {
-        _nombreAlertVisible.value =              !isValidNombre(nombre.value ?: "")
-        _descripcionAlertVisible.value =           !isValidDescripcion(descripcion.value ?: "")
-        _dificultadAlertVisible.value =               !isValidDificultad(dificultad.value ?: "")
+    fun setDescription(description: String) {
+        _routeDescription.value = description
     }
 
-    private fun isValidNombre(nombre: String): Boolean {
-        return nombre.isNotEmpty()
+    fun setDifficulty(difficulty: RouteDifficulty) {
+        _routeDifficulty.value = difficulty
     }
 
-    private fun isValidDescripcion(descripcion: String): Boolean {
-        return descripcion.isNotEmpty()
+    fun setMainImage(imageBitmap: ImageBitmap?) {
+        _mainImageBitmap.value = imageBitmap
     }
 
-    private fun isValidDificultad(dificultad: String): Boolean {
-        return dificultad.isNotEmpty()
+    fun setRouteNamePopupVisible(visible: Boolean) {
+        _routeNamePopupVisible.value = visible
     }
 
-    private fun isValidRuta(): Boolean {
-        return try {
-            (
-                    isValidNombre(nombre.value!!)
-                            && isValidDescripcion(descripcion.value!!)
-                            && isValidDificultad(dificultad.value!!)
-                    )
-        } catch (e: Exception) {
-            false
-        }
+    fun addRouteType(type: RouteType) {
+        _routeTypes.value = _routeTypes.value?.plus(type) ?: listOf(type)
     }
 
-    fun onButtonCrearRutaPress(navigationController: NavHostController) {
-
-        if (!isValidRuta()) {
-            updateAlerts()
-            return
-        }
-
-        viewModelScope.launch {
-            _isLoading.value = true
-            val result = rutaNuevaUseCase(nombre.value!!, descripcion.value!!, dificultad.value!!)
-
-            if(result) {
-                onCrearRutaOk(navigationController)
-            } else {
-                onCrearRutaError()
-            }
-            _isLoading.value = false
-        }
+    fun removeRouteType(type: RouteType) {
+        _routeTypes.value = _routeTypes.value?.minus(type) ?: listOf()
     }
 
-    fun onCrearRutaOk(navigationController: NavHostController) {
-        Log.i("WikiHonk", "Ruta creada")
-
-        navigationController.navigate(Routes.HomeScreen.route)
-    }
-
-    fun onCrearRutaError() {
-        Log.i("WikiHonk", "Ruta error")
+    fun setRouteDifficultyPopupVisible(visible: Boolean) {
+        _routeDifficultyPopupVisible.value = visible
     }
 }

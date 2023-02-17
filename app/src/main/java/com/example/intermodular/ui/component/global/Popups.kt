@@ -18,6 +18,7 @@ fun InputPopup(
     message: String,
     label: String,
     submitButtonLabel: String,
+    initialText: String = "",
     keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
     dismissOnBackPress: Boolean = true,
     dismissOnClickOutside: Boolean = true,
@@ -26,7 +27,7 @@ fun InputPopup(
     onSubmit: (String) -> Unit
 ) {
 
-    var input by remember { mutableStateOf("") }
+    var input by remember { mutableStateOf(initialText) }
 
     Dialog(
         onDismissRequest = {onDismiss()},
