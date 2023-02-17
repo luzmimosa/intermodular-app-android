@@ -3,7 +3,7 @@ package com.example.intermodular.ui.theme
 import androidx.compose.ui.graphics.Color
 
 // Light palette colors
-val lightPrimary = Color(0xFFCDFFB8)
+val lightPrimary = Color(0xFF59C22D)
 val lightPrimaryVariant = Color(0x5BFFFFFF)
 
 val lightSecondary = Color(0xFF00B0FF)
