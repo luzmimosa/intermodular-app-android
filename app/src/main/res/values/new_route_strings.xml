@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <string name="new_route_name"> Nombre de la ruta </string>
-    <string name="new_route_description"> Descripción </string>
-    <string name="new_route_difficulty"> Dificultad </string>
-    <string name="new_route_type"> Selecciona el tipo de ruta. Puedes seleccionar varios </string>
+    <string name="newroute_default_name">Nombre de la ruta</string>
+    <string name="newroute_default_description">Descripción</string>
 
-    <string name="new_route_button_record"> Empezar a grabar ruta </string>
+    <string name="newroute_name_popup_message">Escribe el nombre de la ruta</string>
+    <string name="newroute_field_name">Nombre de la ruta</string>
 
-    <string name="new_route_error_name"> El nombre no puede estar vacio </string>
-    <string name="new_route_error_description"> Tienes que introducir una descripción </string>
-    <string name="new_route_error_difficulty"> Introduce la dificultad de la ruta </string>
-    <string name="new_route_error_type"> Selecciona el tipo de ruta </string>
+    <string name="newroute_description_label">Descripción</string>
+
+
+    <string name="newroute_add_image">Añade una imagen a la ruta</string>
+
 </resources>
