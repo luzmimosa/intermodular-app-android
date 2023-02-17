@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import com.example.intermodular.core.authentication.AuthenticationTokenManager
+import com.example.intermodular.core.camera.CameraManager
 import com.example.intermodular.core.location.WikihonkLocationManager
 import com.example.intermodular.ui.component.global.ErrorPopup
 import com.example.intermodular.ui.theme.IntermodularTheme
@@ -89,6 +90,7 @@ class MainActivity : ComponentActivity() {
         if (fineLocationPermissionGranted && backgroundLocationPermissionGranted) {
 
             startLocationService()
+            startCameraService()
 
             setContent {
                 IntermodularTheme {
@@ -120,6 +122,10 @@ class MainActivity : ComponentActivity() {
 
     private fun startLocationService() {
         WikihonkLocationManager.startListening(this)
+    }
+
+    private fun startCameraService() {
+        CameraManager.registerRequester(this)
     }
 
 }
