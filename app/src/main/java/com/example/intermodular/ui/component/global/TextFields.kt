@@ -2,6 +2,7 @@ package com.example.intermodular.ui.component.global
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
@@ -21,18 +22,22 @@ fun ErrorSupporterTextField(
     errorMessage: String,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     singleLine: Boolean = true,
+    maxLines: Int = 1,
     visualTransformation: VisualTransformation = VisualTransformation.None,
+    modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit
 ) {
-    Column {
-        Row {
+    Column(modifier = modifier) {
+        Row(modifier = modifier.fillMaxWidth()) {
             TextField(
                 value = value,
                 onValueChange = { onValueChange(it) },
                 singleLine = singleLine,
+                maxLines = maxLines,
                 label = { Text(text = label) },
                 keyboardOptions = keyboardOptions,
                 visualTransformation = visualTransformation,
+                modifier = modifier.fillMaxWidth()
             )
         }
 
