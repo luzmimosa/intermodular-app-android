@@ -387,11 +387,11 @@ fun routeTypeIcon(type: RouteType): ImageVector {
 
 fun routeTypeCaption(type: RouteType): Int {
     return when (type) {
-        RouteType.BYCICLE -> R.string.route_type_bike
-        RouteType.RUNNING -> R.string.route_type_running
-        RouteType.PHOTOGRAPHY -> R.string.route_type_photography
-        RouteType.TREKKING -> R.string.route_type_trekking
-        RouteType.WALK -> R.string.route_type_walk
-        else -> R.string.route_type_other
+        RouteType.BYCICLE -> R.string.route_type_bike_description
+        RouteType.RUNNING -> R.string.route_type_running_description
+        RouteType.PHOTOGRAPHY -> R.string.route_type_photography_description
+        RouteType.TREKKING -> R.string.route_type_trekking_description
+        RouteType.WALK -> R.string.route_type_walk_description
+        else -> R.string.route_type_other_description
     }
 }
