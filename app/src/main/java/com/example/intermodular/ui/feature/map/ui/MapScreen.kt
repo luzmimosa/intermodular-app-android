@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.intermodular.R
+import com.example.intermodular.core.location.WikihonkLocationManager
 import com.example.intermodular.ui.component.global.WikihonkBottomBar
 import com.example.intermodular.ui.component.global.WikihonkTopBar
 import com.google.android.gms.maps.model.CameraPosition
@@ -40,8 +41,8 @@ fun MapScreen(mapViewModel: MapViewModel, navigationController: NavHostControlle
             .padding(8.dp)
         ) {
             GoogleMap(
-                modifier= Modifier.fillMaxSize(),
-                cameraPositionState= CameraPositionState(),
+                modifier = Modifier.fillMaxSize(),
+                cameraPositionState = cameraPositionState,
                 properties = MapProperties(
                     mapStyleOptions = MapStyleOptions.loadRawResourceStyle(
                         LocalContext.current,
