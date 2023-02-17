@@ -6,6 +6,7 @@ class RutaNuevaUseCase {
     private val repository= RutaNuevaRepository()
 
     suspend operator fun invoke(nombre: String, descripcion: String, dificultad: String): Boolean{
-        return repository.doCreate(nombre, descripcion, dificultad)
+        //return repository.doCreate(nombre, descripcion, dificultad)
+        return false
     }
 }

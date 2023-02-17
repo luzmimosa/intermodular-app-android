@@ -7,6 +7,7 @@ class RutaNuevaRepository {
     private val api= RutaNuevaService()
 
     suspend fun doCrear(nombre: String, descripcion: String, dificultad: String): Boolean {
-        return api.doCrear(nombre, descripcion, dificultad)
+        //return api.doCrear(nombre, descripcion, dificultad)
+        return false
     }
 }
