@@ -23,8 +23,6 @@ class MainActivity : ComponentActivity() {
     private var fineLocationPermissionGranted = false
     private var backgroundLocationPermissionGranted = false
 
-    private val locationManager = WikihonkLocationManager()
-
     private val fineLocationPermissionRequester = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -63,8 +61,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        locationManager.startListening(this)
-
         synchronizeToken()
         showApplication()
     }
@@ -91,6 +87,9 @@ class MainActivity : ComponentActivity() {
         checkPermissions()
 
         if (fineLocationPermissionGranted && backgroundLocationPermissionGranted) {
+
+            startLocationService()
+
             setContent {
                 IntermodularTheme {
                     Surface(
@@ -117,6 +116,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun startLocationService() {
+        WikihonkLocationManager.startListening(this)
     }
 
 }
