@@ -17,22 +17,26 @@ import java.io.ByteArrayOutputStream
 object ServerImageManager {
 
     suspend fun uploadImage(image: ImageBitmap): String {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        image.asAndroidBitmap().compress(Bitmap.CompressFormat.PNG, 90, byteArrayOutputStream)
+        val stream = ByteArrayOutputStream()
+        image.asAndroidBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream)
+        val byteArray = stream.toByteArray()
 
-        val requestBody = RequestBody.create(
-            MediaType.parse("image/png"),
-            byteArrayOutputStream.toByteArray()
-        )
+        val requestFile = RequestBody.create(MediaType.parse("image/png"), byteArray)
+        val imagePart = MultipartBody.Part.createFormData("image", "image.png", requestFile)
 
-        val response = RetrofitHelper.getRetrofit().create(ImageUploadClient::class.java).uploadImage(MultipartBody.Part.create(requestBody))
+        val response = RetrofitHelper.getRetrofit().create(ImageUploadClient::class.java).uploadImage(imagePart)
 
-        if (response.isSuccessful) {
-            return response.body()!!.id
+        val imageID = if (response.isSuccessful) {
+            response.body()!!.id
         } else {
-            //throw Exception("Error uploading image")
-            return "I_DONT_WANNA_BE_A_LINK"
+            Log.i("ServerImageManager (uploadImage)", "Image upload failed, response: ${response.code()}")
+            "I_DONT_WANNA_BE_A_LINK"
         }
+
+        Log.i("ServerImageManager (uploadImage)", "Image uploaded, ID: $imageID")
+
+        return imageID
+
     }
 
     suspend fun getImage(imageId: String): ImageBitmap? {
