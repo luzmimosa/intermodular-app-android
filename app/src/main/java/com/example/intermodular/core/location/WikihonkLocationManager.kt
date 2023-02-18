@@ -18,6 +18,8 @@ object WikihonkLocationManager {
     private var locationListener: LocationListener? = null
     private val locationHandlerThread = HandlerThread("Location listener thread")
 
+    private val subscribers = mutableListOf<LocationSubscriber>()
+
     fun startListening(context: Context) {
         if (locationListener != null) {
             return
@@ -48,12 +50,25 @@ object WikihonkLocationManager {
         }
     }
 
+    private fun notifySubscribers(locationMark: LocationMark) {
+        subscribers.forEach { it.onLocationUpdate(locationMark) }
+    }
+
+    fun subscribe(subscriber: LocationSubscriber) {
+        subscribers.add(subscriber)
+    }
+
+    fun unsubscribe(subscriber: LocationSubscriber) {
+        subscribers.remove(subscriber)
+    }
+
     private fun locationListener(): LocationListener =
         LocationListener { newLocation ->
             _userLocation.value = LocationMark(
                 latitude = newLocation.latitude,
                 longitude = newLocation.longitude
             )
+            notifySubscribers(_userLocation.value!!)
         }
 }
 
