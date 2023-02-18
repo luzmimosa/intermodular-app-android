@@ -4,6 +4,7 @@ import com.example.intermodular.core.network.RetrofitHelper
 import com.example.intermodular.core.route.client.NearRoutesClient
 import com.example.intermodular.core.route.client.RandomRoutesClient
 import com.example.intermodular.core.route.client.RouteClient
+import com.example.intermodular.core.route.client.RouteUploadClient
 import com.example.intermodular.core.route.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -22,9 +23,9 @@ object ServerRouteManager {
 
             val routeResponse = response.body() ?: return@withContext null
 
-            val locations: Array<GpsMeasure> = routeResponse.measures.map { measure ->
-                val waypoint: Waypoint? = if (measure.waypoint == null) null else Waypoint(measure.waypoint.name, measure.waypoint.description, measure.waypoint.imagePath)
-                return@map GpsMeasure(measure.latitude, measure.longitude, waypoint)
+            val locations: Array<ServerGpsMeasure> = routeResponse.measures.map { measure ->
+                val waypoint: ServerWaypoint? = if (measure.waypoint == null) null else ServerWaypoint(measure.waypoint.name, measure.waypoint.description, measure.waypoint.imagePath)
+                return@map ServerGpsMeasure(measure.latitude, measure.longitude, waypoint)
             }.toTypedArray()
             val types: Array<RouteType> = if (routeResponse.types == null) arrayOf() else routeResponse.types.map { type ->
                 try {
@@ -41,7 +42,7 @@ object ServerRouteManager {
             }
 
 
-            return@withContext Route(
+            return@withContext ServerRoute(
                 uid = routeResponse.uid,
                 name = routeResponse.name,
                 description = routeResponse.description,
@@ -53,11 +54,11 @@ object ServerRouteManager {
                 creator = routeResponse.creator,
                 creationDatetime = LocalDateTime.ofEpochSecond(routeResponse.creationDatetime / 1000, 0, ZoneOffset.UTC),
                 likes = routeResponse.likes
-            )
+            ).asRoute()
         }
     }
 
-    suspend fun getRoutesByLocation(latitude: Float, longitude: Float, radius: Int = 30, limit: Int = 20): Array<Route> {
+    suspend fun getRoutesByLocation(latitude: Double, longitude: Double, radius: Int = 30, limit: Int = 20): Array<Route> {
         try {
             return withContext(Dispatchers.IO) {
 
@@ -103,6 +104,17 @@ object ServerRouteManager {
             }
         } catch (exception: Exception) {
             return arrayOf()
+        }
+    }
+
+    suspend fun uploadRoute(route: UploadableRoute): Boolean {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response = retrofit.create(RouteUploadClient::class.java).uploadRoute(route)
+                return@withContext response.isSuccessful
+            }
+        } catch (exception: Exception) {
+            return false
         }
     }
 }
