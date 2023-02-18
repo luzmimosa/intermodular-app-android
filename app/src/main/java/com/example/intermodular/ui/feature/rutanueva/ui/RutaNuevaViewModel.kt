@@ -198,7 +198,10 @@ class RutaNuevaViewModel(val navigationController: NavHostController) : ViewMode
         )
 
         viewModelScope.launch {
-            val result = ServerRouteManager.uploadRoute(route.asUploadableRoute())
+            val uploadableRoute = route.asUploadableRoute()
+
+            val result = ServerRouteManager.uploadRoute(uploadableRoute)
+
             if (result) {
                 Log.i("RouteUpload", "Route uploaded successfully")
                 navigationController.navigate(Routes.HomeScreen.route)
