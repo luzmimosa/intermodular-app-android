@@ -30,7 +30,6 @@ fun CustomNavigator(context: MainActivity){
     val registerviewmodel= RegisterViewModel()
     val userinfoviewmodel= UserInfoViewModel()
     val favviewmodel= FavViewModel()
-    val rutanuevaviewmodel= RutaNuevaViewModel()
     val inforutaviewmodel= InfoRutaViewModel()
 
     val navigationController = rememberNavController()
@@ -64,7 +63,7 @@ fun CustomNavigator(context: MainActivity){
         }
 
         composable(route= Routes.RutaNuevaScreen.route){
-            RutaNueva(rutanuevaviewmodel, navigationController)
+            RutaNueva(RutaNuevaViewModel(navigationController), navigationController)
         }
 
         composable(route= Routes.InfoRuta.route){
