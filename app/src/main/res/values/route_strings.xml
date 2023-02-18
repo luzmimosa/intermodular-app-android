@@ -15,7 +15,7 @@
     <string name="route_difficulty_medium">Media</string>
     <string name="route_difficulty_hard">Difícil</string>
     <string name="route_difficulty_expert">Experta</string>
-    <string name="route_difficulty_undefined">Sin especificar</string>
+    <string name="route_difficulty_undefined">Elegir dificultad</string>
 
     <string name="route_type_walk">Paseo</string>
     <string name="route_type_trekking">Senderismo</string>
