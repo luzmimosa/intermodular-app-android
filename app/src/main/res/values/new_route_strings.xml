@@ -8,8 +8,26 @@
     <string name="newroute_field_name">Nombre de la ruta</string>
 
     <string name="newroute_description_label">Descripción</string>
+    <string name="newroute_description_error_message">Debes incluir una descripción de la ruta</string>
 
+    <string name="newroute_difficulty_error">Especifica una dificultad</string>
 
-    <string name="newroute_add_image">Añade una imagen a la ruta</string>
+    <string name="newroute_types_unselected_error">Marca al menos un tipo acorde a esta ruta</string>
+
+    <string name="newroute_image_error">Debes añadir una imagen a la ruta</string>
+
+    <string name="newroute_button_start_recording">Grabar ruta</string>
+    <string name="newroute_button_recording">Grabando ruta</string>
+    <string name="newroute_button_upload">Subir ruta</string>
+
+    <string name="newroute_add_image">Añade una imagen</string>
+
+    <string name="newroute_add_waypoint_button">Punto de control</string>
+    <string name="newroute_cannot_add_waypoint">Muévete antes de crear un punto de control</string>
+    <string name="newroute_waypoint_added">Punto de control añadido</string>
+
+    <string name="newroute_waypoint_name">Nombre</string>
+    <string name="newroute_waypoint_description">Descripción</string>
+    <string name="newroute_waypoint_submit_button">Crear</string>
 
 </resources>
