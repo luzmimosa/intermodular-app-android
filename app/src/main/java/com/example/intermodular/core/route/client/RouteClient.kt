@@ -1,6 +1,6 @@
 package com.example.intermodular.core.route.client
 
-import com.example.intermodular.core.route.client.single.RouteResponse
+import com.example.intermodular.core.route.client.response.RouteResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

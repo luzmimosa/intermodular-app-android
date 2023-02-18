@@ -20,11 +20,11 @@ fun ErrorSupporterTextField(
     value: String,
     errorVisible: Boolean,
     errorMessage: String,
+    modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     singleLine: Boolean = true,
     maxLines: Int = 1,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit
 ) {
     Column(modifier = modifier) {
@@ -45,12 +45,19 @@ fun ErrorSupporterTextField(
             Row (
                 modifier = Modifier.padding(0.dp)
             ) {
-                Text(
-                    text = errorMessage,
-                    color = MaterialTheme.colors.error,
-                    fontSize = 12.sp
-                )
+                ErrorText(text = errorMessage)
             }
         }
     }
+}
+
+@Composable
+fun ErrorText(
+    text: String,
+){
+    Text(
+        text = text,
+        color = MaterialTheme.colors.error,
+        fontSize = 12.sp
+    )
 }

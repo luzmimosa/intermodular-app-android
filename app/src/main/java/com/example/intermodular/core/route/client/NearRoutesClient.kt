@@ -8,8 +8,8 @@ interface NearRoutesClient {
 
     @GET("/api/v1/nearlyroutes/{latitude}/{longitude}/{radius}/{radius}")
     suspend fun getNearRoutes(
-        @Path("latitude") latitude: Float,
-        @Path("longitude") longitude: Float,
+        @Path("latitude") latitude: Double,
+        @Path("longitude") longitude: Double,
         @Path("radius") radius: Int
     ): Response<Array<String>>
 

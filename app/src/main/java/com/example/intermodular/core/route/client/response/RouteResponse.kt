@@ -1,4 +1,4 @@
-package com.example.intermodular.core.route.client.single
+package com.example.intermodular.core.route.client.response
 
 import com.google.gson.annotations.SerializedName
 

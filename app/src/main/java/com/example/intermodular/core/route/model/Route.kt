@@ -1,12 +1,13 @@
 package com.example.intermodular.core.route.model
 
+import androidx.compose.ui.graphics.ImageBitmap
 import java.time.LocalDateTime
 
 data class Route(
     val uid: String,
     val name: String,
     val description: String,
-    val imageID: String,
+    val image: ImageBitmap,
     val lengthInKm: Double,
 
     val locations: Array<GpsMeasure>,
@@ -18,28 +19,7 @@ data class Route(
     val creationDatetime: LocalDateTime,
 
     val likes: Int = 0,
-
-) {
-    override fun toString(): String {
-        return "Route(uid='$uid', name='$name', description='$description', imageID='$imageID', lengthInKm=$lengthInKm, locations=${locations.contentToString()}, types=${types.contentToString()}, difficulty=$difficulty, creator='$creator', creationDatetime=$creationDatetime)"
-    }
-}
-
-enum class RouteType {
-    WALK,
-    TREKKING,
-    RUNNING,
-    BYCICLE,
-    PHOTOGRAPHY
-}
-
-enum class RouteDifficulty {
-    TRIVIAL,
-    EASY,
-    MEDIUM,
-    HARD,
-    EXPERT
-}
+)
 
 data class GpsMeasure(
     val latitude: Double,
@@ -50,5 +30,7 @@ data class GpsMeasure(
 data class Waypoint(
     val name: String,
     val description: String,
-    val imageID: String? = null
+    val image: ImageBitmap
 )
+
+
