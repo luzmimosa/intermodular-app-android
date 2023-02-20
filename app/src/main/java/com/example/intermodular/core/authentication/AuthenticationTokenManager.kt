@@ -24,6 +24,8 @@ object AuthenticationTokenManager {
 
         editor.putString(TOKEN_KEY, token)
         editor.apply()
+
+        syncToken(context)
     }
 
     fun verifyToken(context: Context): Boolean {
