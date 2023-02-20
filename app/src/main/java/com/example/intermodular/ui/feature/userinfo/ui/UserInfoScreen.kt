@@ -76,7 +76,8 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
                     ) {
                         Box() {
                             ClickableText(text = "Cerrar sesión", fontSize = 18.sp , fontWeight = FontWeight.Normal, underlined = true) {
-                                //cerrar sesión
+                                userInfoViewModel.logOut()
+                                navigationController.navigate(Routes.LoginScreen.route)
                             }
                         }
                     }
