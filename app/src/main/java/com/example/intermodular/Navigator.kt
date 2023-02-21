@@ -2,9 +2,11 @@ package com.example.intermodular
 
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.intermodular.core.authentication.AuthenticationTokenManager
 import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.feature.favoritos.ui.Fav
@@ -31,7 +33,6 @@ fun CustomNavigator(context: MainActivity){
     val registerviewmodel= RegisterViewModel()
     val userinfoviewmodel= UserInfoViewModel(context)
     val favviewmodel= FavViewModel()
-    val inforutaviewmodel= InfoRutaViewModel()
 
     val navigationController = rememberNavController()
 
@@ -71,8 +72,20 @@ fun CustomNavigator(context: MainActivity){
             RutaNueva(RutaNuevaViewModel(navigationController), navigationController)
         }
 
-        composable(route= Routes.InfoRuta.route){
-            InfoRuta(inforutaviewmodel, navigationController )
+        composable(
+            route = Routes.InfoRuta.route,
+            arguments = listOf(
+                navArgument("routeID") {
+                    type = NavType.StringType
+                    defaultValue = "undefined"
+                }
+            )
+        ){
+
+            val routeID = it.arguments?.getString("routeID") ?: "undefined"
+            Log.i("WikiHonk debug", "Navigating to route $routeID")
+
+            InfoRuta(InfoRutaViewModel(routeID), navigationController)
         }
     }
 

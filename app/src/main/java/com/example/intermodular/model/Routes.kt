@@ -8,5 +8,9 @@ sealed class Routes (val route: String){
     object FavScreen: Routes("favoritos")
     object MapScreen: Routes("mapa")
     object RutaNuevaScreen: Routes("rutanueva")
-    object InfoRuta: Routes("inforuta")
+    object InfoRuta: Routes("inforuta/{routeID}") {
+        fun route(routeID: String): String {
+            return "inforuta/$routeID"
+        }
+    }
 }
