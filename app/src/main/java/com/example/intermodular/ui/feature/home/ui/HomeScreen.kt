@@ -38,6 +38,7 @@ fun Home(homeviewmodel : HomeViewModel, navigationController: NavHostController)
     WikihonkBaseScreen(navigationController = navigationController) {
         RoutesContainer(
             routes = routes.toList(),
+            navigationController = navigationController,
         ) {
             homeviewmodel.requestMoreRoutes()
         }
@@ -47,6 +48,7 @@ fun Home(homeviewmodel : HomeViewModel, navigationController: NavHostController)
 @Composable
 fun RoutesContainer(
     routes: List<Route>,
+    navigationController: NavHostController,
     onLoadMore: () -> Unit
 ) {
     val lazyListState = rememberLazyListState()
@@ -60,7 +62,10 @@ fun RoutesContainer(
     ) {
         items(items = routes) { route ->
             Row {
-                RouteCard(route = route)
+                RouteCard(
+                    route = route,
+                    navController = navigationController
+                )
             }
         }
 
