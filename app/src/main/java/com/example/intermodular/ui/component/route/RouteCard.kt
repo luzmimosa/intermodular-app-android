@@ -2,6 +2,7 @@ package com.example.intermodular.ui.component.route
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
@@ -17,26 +18,32 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.intermodular.preview.RoutePreviewProvider
 import com.example.intermodular.R
 import com.example.intermodular.core.route.model.Route
 import com.example.intermodular.core.route.model.RouteDifficulty
 import com.example.intermodular.core.route.model.RouteType
+import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.component.global.SmallProfilePicture
 import com.example.intermodular.ui.theme.RouteDifficultyDarkColors
 import com.example.intermodular.ui.theme.RouteDifficultyLightColors
 
-@Preview
 @Composable
-fun RouteCard(@PreviewParameter(RoutePreviewProvider::class) route: Route) {
+fun RouteCard(
+    @PreviewParameter(RoutePreviewProvider::class) route: Route,
+    navController: NavHostController
+) {
     Card(modifier = Modifier
         .padding(5.dp, 5.dp, 5.dp, 5.dp)
         .height(220.dp)
         .fillMaxWidth()
+        .clickable {
+            navController.navigate(Routes.InfoRuta.route(route.uid))
+        }
     ) {
         Row(modifier = Modifier.fillMaxSize()) {
             val difficultyColorScheme = if (isSystemInDarkTheme()) RouteDifficultyDarkColors else RouteDifficultyLightColors
