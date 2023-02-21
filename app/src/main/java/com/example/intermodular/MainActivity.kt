@@ -23,6 +23,7 @@ class MainActivity : ComponentActivity() {
 
     private var fineLocationPermissionGranted = false
     private var backgroundLocationPermissionGranted = false
+    private var cameraPermissionGranted = false
 
     private val fineLocationPermissionRequester = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -30,21 +31,12 @@ class MainActivity : ComponentActivity() {
         if (isGranted) {
             fineLocationPermissionGranted = true
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                setContent {
-                    ErrorPopup(
-                        message = stringResource(id = R.string.request_background_location_permission_message),
-                        buttonLabel = stringResource(id = R.string.global_popup_accept)
-                    ) {
-                        backgroundLocationPermissionRequester.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-                    }
-                }
-            } else {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                 backgroundLocationPermissionGranted = true
-                showApplication()
             }
+            showApplication()
         } else {
-            showErrorAndClose(R.string.app_name)
+            showErrorAndClose(R.string.permission_location_denied)
         }
     }
 
@@ -55,13 +47,25 @@ class MainActivity : ComponentActivity() {
             backgroundLocationPermissionGranted = true
             showApplication()
         } else {
-            showErrorAndClose(R.string.unknown_error_message)
+            showErrorAndClose(R.string.permission_backgroundlocation_denied)
+        }
+    }
+
+    private val cameraPermissionRequester = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            cameraPermissionGranted = true
+            showApplication()
+        } else {
+            showErrorAndClose(R.string.permission_camera_denied)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        startCameraService()
         synchronizeToken()
         showApplication()
     }
@@ -77,33 +81,53 @@ class MainActivity : ComponentActivity() {
         } else {
             this.backgroundLocationPermissionGranted = this.fineLocationPermissionGranted
         }
+        this.cameraPermissionGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun requestLocationPermission() {
         fineLocationPermissionRequester.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
+    private fun requestCameraPermission() {
+        cameraPermissionRequester.launch(Manifest.permission.CAMERA)
+    }
+
     private fun showApplication() {
 
         checkPermissions()
 
-        if (fineLocationPermissionGranted && backgroundLocationPermissionGranted) {
+        if (!cameraPermissionGranted) {
+            requestCameraPermission()
+        } else {
+            if (!fineLocationPermissionGranted) {
+                requestLocationPermission()
+            } else {
+                if (!backgroundLocationPermissionGranted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    setContent {
+                        ErrorPopup(
+                            message = stringResource(id = R.string.permission_backgroundlocation_request),
+                            buttonLabel = stringResource(id = R.string.global_popup_accept)
+                        ) {
+                            backgroundLocationPermissionRequester.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                        }
+                    }
+                } else {
 
-            startLocationService()
-            startCameraService()
+//                    startCameraService()
+                    startLocationService()
 
-            setContent {
-                IntermodularTheme {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colors.background
-                    ) {
-                        CustomNavigator(this)
+                    setContent {
+                        IntermodularTheme {
+                            Surface(
+                                modifier = Modifier.fillMaxSize(),
+                                color = MaterialTheme.colors.background
+                            ) {
+                                CustomNavigator(this)
+                            }
+                        }
                     }
                 }
             }
-        } else {
-            requestLocationPermission()
         }
     }
 
