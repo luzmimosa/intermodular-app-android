@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="permission_location_denied">El permiso de ubicación precisa es necesario para el funcionamiento de la aplicación.</string>
+
+    <string name="permission_backgroundlocation_request">En la configuración, activa la opción "Permitir siempre" para poder grabar tus propias rutas.</string>
+    <string name="permission_backgroundlocation_denied">El permiso de ubicación en segundo plano es necesario para el funcionamiento de la aplicación.</string>
+
+    <string name="permission_camera_denied">El permiso de cámara es necesario para el funcionamiento de la aplicación.</string>
+
+</resources>
