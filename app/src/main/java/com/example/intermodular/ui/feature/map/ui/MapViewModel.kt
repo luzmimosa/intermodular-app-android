@@ -1,30 +1,79 @@
 package com.example.intermodular.ui.feature.map.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.intermodular.core.location.WikihonkLocationManager
 import com.example.intermodular.core.route.ServerRouteManager
 import com.example.intermodular.core.route.model.Route
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-
-@HiltViewModel
-class MapViewModel @Inject constructor(): ViewModel() {
-
-    private val _route = MutableLiveData<Route?>()
-    val route: LiveData<Route?> = _route
 
 
-    init {
+class MapViewModel(
+    val routeID: String?
+): ViewModel() {
+
+    private val _mapLocation = MutableLiveData<LatLng>()
+    val mapLocation: LiveData<LatLng> = _mapLocation
+
+    private val _routes = MutableLiveData<List<Route>>()
+    val routes: LiveData<List<Route>> = _routes
+
+    private val routeQueue = mutableListOf<Route>()
+
+    fun setupMap() {
+        _mapLocation.value = LatLng(
+            WikihonkLocationManager.userLocation.value?.latitude ?: 0.0,
+            WikihonkLocationManager.userLocation.value?.longitude ?: 0.0
+        )
+
         viewModelScope.launch {
-
-            Log.i("WikiHonk", "Fetching route")
-            val fetchedRoute = ServerRouteManager.getRouteByID("fdbc284c99cbfb59b5e66531689f362b76cf8db325271b7cd183e0a9c2c0c135")
-            Log.i("WikiHonk", "Route fetched: ${fetchedRoute.toString()}")
-            _route.value = fetchedRoute
+            loadRoutes()
         }
+    }
+
+    private suspend fun loadRoutes() {
+        if (routeID != null) {
+            loadSpecificRoute()
+        } else {
+            loadNearbyRoutes()
+            loadRandomRoutes()
+        }
+    }
+
+    private suspend fun loadSpecificRoute() {
+        if (routeID != null) {
+            val route = ServerRouteManager.getRouteByID(routeID) ?: return
+
+            _routes.value = listOf(route)
+            _mapLocation.value = LatLng(
+                route.locations.first().latitude,
+                route.locations.first().longitude
+            )
+
+        }
+    }
+
+    private suspend fun loadNearbyRoutes() {
+        ServerRouteManager.provideRoutesByLocation(
+            WikihonkLocationManager.userLocation.value?.latitude ?: 0.0,
+            WikihonkLocationManager.userLocation.value?.longitude ?: 0.0,
+        ) {
+            routeQueue.add(it)
+            loadRoutesFromQueue()
+        }
+    }
+
+    private suspend fun loadRandomRoutes() {
+        ServerRouteManager.provideRandomRoutes {
+            routeQueue.add(it)
+            loadRoutesFromQueue()
+        }
+    }
+
+    private fun loadRoutesFromQueue() {
+        _routes.value = _routes.value?.plus(routeQueue) ?: routeQueue
     }
 }
