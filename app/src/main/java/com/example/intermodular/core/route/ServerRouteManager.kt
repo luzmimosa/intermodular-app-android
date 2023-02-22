@@ -2,10 +2,7 @@ package com.example.intermodular.core.route
 
 import android.util.Log
 import com.example.intermodular.core.network.RetrofitHelper
-import com.example.intermodular.core.route.client.NearRoutesClient
-import com.example.intermodular.core.route.client.RandomRoutesClient
-import com.example.intermodular.core.route.client.RouteClient
-import com.example.intermodular.core.route.client.RouteUploadClient
+import com.example.intermodular.core.route.client.*
 import com.example.intermodular.core.route.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -159,6 +156,61 @@ object ServerRouteManager {
         try {
             return withContext(Dispatchers.IO) {
                 val response = retrofit.create(RouteUploadClient::class.java).uploadRoute(route)
+                return@withContext response.isSuccessful
+            }
+        } catch (exception: Exception) {
+            return false
+        }
+    }
+
+    suspend fun commentRoute(routeID: String, comment: String): Boolean {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response = retrofit.create(CommentRouteClient::class.java).commentRoute(routeID, UploadableComment(comment))
+                return@withContext response.isSuccessful
+            }
+        } catch (exception: Exception) {
+            return false
+        }
+    }
+
+    suspend fun likeRoute(routeID: String): Boolean {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response = retrofit.create(LikeClient::class.java).likeRoute(routeID)
+                return@withContext response.isSuccessful
+            }
+        } catch (exception: Exception) {
+            return false
+        }
+    }
+
+    suspend fun unlikeRoute(routeID: String): Boolean {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response = retrofit.create(LikeClient::class.java).unlikeRoute(routeID)
+                return@withContext response.isSuccessful
+            }
+        } catch (exception: Exception) {
+            return false
+        }
+    }
+
+    suspend fun addToToDoList(routeID: String): Boolean {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response = retrofit.create(ToDoClient::class.java).add(routeID)
+                return@withContext response.isSuccessful
+            }
+        } catch (exception: Exception) {
+            return false
+        }
+    }
+
+    suspend fun removeFromToDoList(routeID: String): Boolean {
+        try {
+            return withContext(Dispatchers.IO) {
+                val response = retrofit.create(ToDoClient::class.java).remove(routeID)
                 return@withContext response.isSuccessful
             }
         } catch (exception: Exception) {
