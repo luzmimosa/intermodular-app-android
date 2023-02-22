@@ -50,6 +50,14 @@ object ServerRouteManager {
                     RouteDifficulty.MEDIUM
                 }
 
+                val comments: Array<ServerComment> = routeResponse.comments.map { comment ->
+                    return@map ServerComment(comment.username, comment.comment, LocalDateTime.ofEpochSecond(
+                        comment.datetime / 1000,
+                        0,
+                        ZoneOffset.UTC
+                    ))
+                }.toTypedArray()
+
                 try {
                     return@withContext ServerRoute(
                         uid = routeResponse.uid,
@@ -66,7 +74,8 @@ object ServerRouteManager {
                             0,
                             ZoneOffset.UTC
                         ),
-                        likes = routeResponse.likes
+                        likes = routeResponse.likes,
+                        comments = comments
                     ).asRoute()
                 } catch (exception: Exception) {
                     Log.e("ServerRouteManager", "Error while resolving route by ID", exception)
