@@ -60,8 +60,26 @@ fun CustomNavigator(context: MainActivity){
             UserInfo(userinfoviewmodel, navigationController)
         }
 
-        composable(route= Routes.MapScreen.route){
-            MapScreen(MapViewModel(), navigationController)
+        composable(
+            route = Routes.MapScreen.route,
+            arguments = listOf(
+                navArgument("focusedRouteID") {
+                    type = NavType.StringType
+                    this.nullable = true
+                    defaultValue = null
+                }
+            )
+        ){
+
+            val routeID = it.arguments?.getString("focusedRouteID")
+
+            val viewModel = MapViewModel(routeID)
+
+            MapScreen(
+                viewModel,
+                navigationController
+
+            )
         }
 
         composable(route= Routes.FavScreen.route){
@@ -83,9 +101,10 @@ fun CustomNavigator(context: MainActivity){
         ){
 
             val routeID = it.arguments?.getString("routeID") ?: "undefined"
-            Log.i("WikiHonk debug", "Navigating to route $routeID")
-
-            InfoRuta(InfoRutaViewModel(routeID), navigationController)
+            InfoRuta(
+                infoRutaViewModel = InfoRutaViewModel(routeID),
+                navigationController = navigationController,
+            )
         }
     }
 
