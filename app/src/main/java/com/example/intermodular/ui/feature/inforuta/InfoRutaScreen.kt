@@ -3,19 +3,19 @@ package com.example.intermodular.ui.feature.inforuta
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,14 +23,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.intermodular.R
+import com.example.intermodular.core.route.model.Comment
 import com.example.intermodular.core.route.model.Route
 import com.example.intermodular.core.route.model.RouteDifficulty
-import com.example.intermodular.core.route.model.RouteType
+import com.example.intermodular.core.route.model.Waypoint
 import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.component.global.*
 import com.example.intermodular.ui.component.route.routeTypeIcon
-import kotlinx.coroutines.delay
-import java.time.LocalDateTime
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.maps.android.compose.*
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun InfoRuta(
@@ -38,77 +43,71 @@ fun InfoRuta(
     navigationController: NavHostController
 ){
 
-    val route: Route by infoRutaViewModel.route.observeAsState(initial = Route(
-        uid = "0",
-        name = "...",
-        description = "...",
-        image = ImageBitmap(1, 1),
-        lengthInKm = 0.0,
-        locations = arrayOf(),
-        types = arrayOf(RouteType.BYCICLE, RouteType.WALK, RouteType.RUNNING),
-        difficulty = RouteDifficulty.MEDIUM,
-        creator = "...",
-        creationDatetime = LocalDateTime.now(),
-        likes = 0
-    ))
+    val route: Route? by infoRutaViewModel.route.observeAsState(null)
+    val uploadCommentErrorPopupVisible: Boolean by infoRutaViewModel.uploadCommentErrorPopupVisible.observeAsState(false)
 
-    val isResolved by infoRutaViewModel.isRouteResolved.observeAsState(initial = false)
+    val isFavouriteRoute: Boolean by infoRutaViewModel.isFavouriteRoute.observeAsState(false)
+    val isToDoRoute: Boolean by infoRutaViewModel.isToDoRoute.observeAsState(false)
 
-    LaunchedEffect(true) {
-        infoRutaViewModel.fetchRoute()
-        while (!isResolved) {
-            infoRutaViewModel.resolveRoute()
-            delay(1000)
-        }
-    }
+    infoRutaViewModel.fetchRoute()
 
     WikihonkBaseScreen(
         navigationController = navigationController
     ) {
-        Column(modifier= Modifier
-            .fillMaxSize()
-            .background(color = Color.Gray)
-        ){
 
-            RouteHeader(route, navigationController)
-
-            Row(modifier= Modifier
-                .fillMaxWidth()
-                .padding(5.dp)
-                .background(color = Color.White)){
-                //redondear bordes
-                Text(
-                    text = "COMENTARIOS",
-                    fontSize = 27.sp,
-                    modifier= Modifier.padding(90.dp, 10.dp),
-                    fontWeight = FontWeight.Bold
+        if (route == null) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.Center)
                 )
             }
+        } else {
 
-            Row(modifier= Modifier
-                .fillMaxWidth()
-                .padding(5.dp)
-                .background(color = Color.White)){
-                //redondear bordes
-                //poner imagen mas grande
-                //añadir lazy column para la tarjeta de comentarios
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.Gray)
+            ) {
 
-                Box {
-                    SmallProfilePicture(username = "wpf")
+                item {
+                    RouteHeader(
+                        route = route!!,
+                        navigationController = navigationController,
+                        isFavorite = isFavouriteRoute,
+                        isToDo = isToDoRoute,
+                        onFavPress = { infoRutaViewModel.handleLikePress() },
+                        onToDoPress = { infoRutaViewModel.handleToDoPress() }
+                    )
                 }
 
-                Box(modifier= Modifier.padding(10.dp)) {
-                    Text(
-                        text = "Nombre de usuario",
-                        fontSize = 20.sp,
-                        modifier = Modifier.padding(10.dp, 5.dp, 0.dp, 0.dp)
+                item {
+                    RouteMap(
+                        route = route!!,
+                        onWaypointPress = { waypoint -> infoRutaViewModel.handleWaypointPress(waypoint) },
+                        onMapPress = { infoRutaViewModel.handleMapPress() }
                     )
+                }
 
-                    Text(
-                        text = "Cuerpo del comentario",
-                        fontSize = 15.sp,
-                        modifier = Modifier.padding(10.dp, 35.dp, 0.dp, 0.dp)
+                item {
+                    RouteCommentSection(
+                        route = route!!,
+                        onCommentSubmit = { comment -> infoRutaViewModel.submitComment(comment) }
                     )
+                }
+
+                if (uploadCommentErrorPopupVisible) {
+                    item {
+                        ErrorPopup(
+                            message = stringResource(id = R.string.routeinfo_comment_error),
+                            buttonLabel = stringResource(id = R.string.global_popup_accept),
+                        ) {
+                            infoRutaViewModel.closeUploadCommentErrorPopup()
+                        }
+                    }
                 }
             }
         }
@@ -119,24 +118,27 @@ fun InfoRuta(
 fun RouteHeader(
     route: Route,
     navigationController: NavHostController = rememberNavController(),
-    isFavorite: Boolean = false,
-    isToDo: Boolean = false,
-    onFavPress: () -> Unit = {},
-    onToDoPress: () -> Unit = {}
+    isFavorite: Boolean,
+    isToDo: Boolean,
+    onFavPress: () -> Unit,
+    onToDoPress: () -> Unit
 ) {
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .background(color = MaterialTheme.colors.surface)
+            .padding(10.dp)
     ) {
         Column {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp)
+                    .height(250.dp)
             ) {
                 Image(
+                    modifier = Modifier
+                        .fillMaxSize(),
                     bitmap = route.image,
                     contentDescription = stringResource(id = R.string.home_alt_route_image).format(
                         route.name
@@ -286,4 +288,211 @@ fun ToDoButton(
             .padding(10.dp),
         tint = if (active) Color.Green else Color.Gray
     )
+}
+
+@Composable
+fun RouteMap(
+    route: Route,
+    onWaypointPress: (Waypoint) -> Unit,
+    onMapPress: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp)
+            .padding(10.dp)
+    ) {
+        GoogleMap(
+            onMapClick = {
+                onMapPress()
+            },
+            cameraPositionState = CameraPositionState(
+                position = CameraPosition(
+                    LatLng(
+                        route.locations.first().latitude,
+                        route.locations.first().longitude
+                    ),
+                    15f,
+                    0f,
+                    0f
+                )
+            ),
+            uiSettings = MapUiSettings(
+                compassEnabled = false,
+                indoorLevelPickerEnabled = false,
+                mapToolbarEnabled = false,
+                myLocationButtonEnabled = false,
+                rotationGesturesEnabled = false,
+                scrollGesturesEnabled = false,
+                scrollGesturesEnabledDuringRotateOrZoom = false,
+                tiltGesturesEnabled = false,
+                zoomControlsEnabled = false,
+                zoomGesturesEnabled = false
+            ),
+            properties = MapProperties(
+                mapStyleOptions = MapStyleOptions.loadRawResourceStyle(
+                    LocalContext.current,
+                    if (isSystemInDarkTheme()) R.raw.dark_map_style else R.raw.light_map_style
+                ),
+                isMyLocationEnabled = false
+            )
+        ) {
+            Polyline(
+                points = route.locations.map {
+                    LatLng(it.latitude, it.longitude)
+                }
+            )
+
+            route.locations.forEach { location ->
+                val waypoint = location.waypoints
+                if (waypoint != null) {
+                    Marker(
+                         state = MarkerState(
+                             position = LatLng(location.latitude, location.longitude)
+                         ),
+                        icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW),
+                        onClick = {
+                            onWaypointPress(waypoint)
+                            return@Marker false
+                        }
+                    )
+                }
+            }
+        }
+        
+    }
+}
+
+@Composable
+fun RouteCommentSection(
+    route: Route,
+    onCommentSubmit: (String) -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+    ) {
+        Column {
+            CommentInput(
+                onSubmit = { onCommentSubmit(it) }
+            )
+            for (comment in route.comments) {
+                RouteComment(comment = comment)
+            }
+        }
+    }
+}
+
+@Composable
+fun CommentInput(
+    onSubmit: (String) -> Unit
+) {
+    val inputText = remember { mutableStateOf("") }
+    
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+        ) {
+            SmallProfilePicture(username = "username")
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            ) {
+                TextField(
+                    value = inputText.value,
+                    onValueChange = {
+                        inputText.value = it
+                    },
+                    label = {
+                        Text(text = stringResource(id = R.string.routeinfo_comment_placeholder))
+                    },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+                Button(
+                    onClick = {
+                        onSubmit(inputText.value)
+                        inputText.value = ""
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    enabled = inputText.value.isNotEmpty()
+                ) {
+                    Text(text = stringResource(id = R.string.routeinfo_comment_submit))
+                }
+            }
+        }
+    }
+    
+}
+
+@Composable
+fun RouteComment(
+    comment: Comment
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+    ) {
+        Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(0.dp)
+                ) {
+                    SmallProfilePicture(username = comment.username)
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(3.dp),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        Text(
+                            text = comment.username,
+                            fontSize = 10.sp,
+                        )
+                    }
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            ) {
+                Text(text = comment.comment)
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+            ) {
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
+                    Text(
+                        text = comment.datetime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
+                        fontSize = 10.sp,
+                        color = MaterialTheme.colors.onSecondary
+                    )
+                }
+            }
+        }
+    }
 }
