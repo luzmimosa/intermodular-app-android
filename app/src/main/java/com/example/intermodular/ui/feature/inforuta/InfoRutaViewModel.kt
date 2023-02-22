@@ -1,39 +1,85 @@
 package com.example.intermodular.ui.feature.inforuta
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.intermodular.core.route.ServerRouteManager
 import com.example.intermodular.core.route.model.Route
+import com.example.intermodular.core.route.model.Waypoint
+import com.example.intermodular.core.user.ServerUserManager
+import kotlinx.coroutines.launch
 
-class InfoRutaViewModel(val routeID: String): ViewModel() {
+class InfoRutaViewModel(private val routeID: String): ViewModel() {
 
     private val _route = MutableLiveData<Route>()
     val route: LiveData<Route> = _route
 
-    private val _isRouteResolved = MutableLiveData<Boolean>()
-    val isRouteResolved: LiveData<Boolean> = _isRouteResolved
+    private val _uploadCommentErrorPopupVisible = MutableLiveData<Boolean>()
+    val uploadCommentErrorPopupVisible: LiveData<Boolean> = _uploadCommentErrorPopupVisible
 
-    private var resolvedRoute: Route? = null
+    private val _isFavouriteRoute = MutableLiveData<Boolean>()
+    val isFavouriteRoute: LiveData<Boolean> = _isFavouriteRoute
 
-    suspend fun fetchRoute() {
-        val fetchedRoute = ServerRouteManager.getRouteByID(routeID)
+    private val _isToDoRoute = MutableLiveData<Boolean>()
+    val isToDoRoute: LiveData<Boolean> = _isToDoRoute
 
-        if (fetchedRoute != null) {
-            resolvedRoute = fetchedRoute
-        } else {
-            Log.i("InfoRutaViewModel", "Error fetching route")
+    fun fetchRoute(force: Boolean = false) {
+
+        if (_route.value != null && !force) return
+
+        viewModelScope.launch {
+            val route = ServerRouteManager.getRouteByID(routeID)
+            _route.value = route
+            _isFavouriteRoute.value = ServerUserManager.isFavouriteRoute(routeID)
+            _isToDoRoute.value = ServerUserManager.isToDoRoute(routeID)
         }
     }
 
-    fun resolveRoute() {
-        if (resolvedRoute != null) {
-            _route.value = resolvedRoute
-            _isRouteResolved.value = true
-        } else {
-            Log.i("InfoRutaViewModel", "Error resolving route")
+    fun handleMapPress() {
+
+    }
+
+    fun handleWaypointPress(waypoint: Waypoint) {
+
+    }
+
+    fun handleLikePress() {
+        viewModelScope.launch {
+            if (ServerUserManager.isFavouriteRoute(routeID)) {
+                ServerUserManager.removeFavouriteRoute(routeID)
+                _isFavouriteRoute.value = false
+            } else {
+                ServerUserManager.addFavouriteRoute(routeID)
+                _isFavouriteRoute.value = true
+            }
         }
+    }
+
+    fun handleToDoPress() {
+        viewModelScope.launch {
+            if (ServerUserManager.isToDoRoute(routeID)) {
+                ServerUserManager.removeToDoRoute(routeID)
+                _isToDoRoute.value = false
+            } else {
+                ServerUserManager.addToDoRoute(routeID)
+                _isToDoRoute.value = true
+            }
+        }
+    }
+
+    fun submitComment(comment: String) {
+        viewModelScope.launch {
+            if (ServerRouteManager.commentRoute(routeID, comment)) {
+                fetchRoute(true)
+            } else {
+                _uploadCommentErrorPopupVisible.value = true
+            }
+        }
+    }
+
+    fun closeUploadCommentErrorPopup() {
+        _uploadCommentErrorPopupVisible.value = false
     }
 
 }
