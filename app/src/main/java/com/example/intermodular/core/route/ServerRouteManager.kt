@@ -14,7 +14,14 @@ object ServerRouteManager {
 
     private val retrofit = RetrofitHelper.getRetrofit()
 
+    private val routeCache: MutableMap<String, Route> = mutableMapOf()
+
     suspend fun getRouteByID(routeID: String): Route? {
+
+        if (routeCache.containsKey(routeID)) {
+            return routeCache[routeID]
+        }
+
         return withContext(Dispatchers.IO) {
             try {
                 val response = retrofit.create(RouteClient::class.java).getRoute(routeID)
@@ -56,7 +63,7 @@ object ServerRouteManager {
                 }.toTypedArray()
 
                 try {
-                    return@withContext ServerRoute(
+                    val route = ServerRoute(
                         uid = routeResponse.uid,
                         name = routeResponse.name,
                         description = routeResponse.description,
@@ -74,6 +81,10 @@ object ServerRouteManager {
                         likes = routeResponse.likes,
                         comments = comments
                     ).asRoute()
+
+                    routeCache[routeID] = route
+
+                    return@withContext route
                 } catch (exception: Exception) {
                     Log.e("ServerRouteManager", "Error while resolving route by ID", exception)
                     return@withContext null
@@ -216,5 +227,9 @@ object ServerRouteManager {
         } catch (exception: Exception) {
             return false
         }
+    }
+
+    fun getRouteCache(): List<Route> {
+        return routeCache.values.toList()
     }
 }
