@@ -122,8 +122,6 @@ class RegisterViewModel: ViewModel() {
     }
 
     fun onRegisterOk(navigationController: NavHostController) {
-        Log.i("WikiHonk", "Register OK")
-
         navigationController.navigate(Routes.HomeScreen.route)
     }
 

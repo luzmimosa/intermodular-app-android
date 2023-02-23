@@ -1,30 +1,67 @@
 package com.example.intermodular.ui.feature.map.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.intermodular.core.route.ServerRouteManager
 import com.example.intermodular.core.route.model.Route
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.example.intermodular.core.route.model.Waypoint
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.CameraPositionState
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-
-@HiltViewModel
-class MapViewModel @Inject constructor(): ViewModel() {
-
-    private val _route = MutableLiveData<Route?>()
-    val route: LiveData<Route?> = _route
 
 
-    init {
-        viewModelScope.launch {
+class MapViewModel(
+    val routeID: String?
+): ViewModel() {
 
-            Log.i("WikiHonk", "Fetching route")
-            val fetchedRoute = ServerRouteManager.getRouteByID("fdbc284c99cbfb59b5e66531689f362b76cf8db325271b7cd183e0a9c2c0c135")
-            Log.i("WikiHonk", "Route fetched: ${fetchedRoute.toString()}")
-            _route.value = fetchedRoute
+    val singleMode: Boolean = routeID != null && routeID != "null"
+
+    private val _cameraPosition = MutableLiveData<CameraPositionState>()
+    val cameraPosition: LiveData<CameraPositionState> = _cameraPosition
+
+    private val _routes = MutableLiveData<Array<Route>>(arrayOf())
+    val routes: LiveData<Array<Route>> = _routes
+
+    private val _focusedWaypoint = MutableLiveData<Waypoint>()
+    val focusedWaypoint: LiveData<Waypoint> = _focusedWaypoint
+
+    fun setupMap() {
+        if (singleMode) {
+            loadSingleRoute()
+        } else {
+            loadAllRoutes()
         }
     }
+
+    private fun loadSingleRoute() {
+        viewModelScope.launch {
+            val route = ServerRouteManager.getRouteByID(routeID!!) ?: return@launch
+            _routes.value = arrayOf(route)
+            _cameraPosition.value = CameraPositionState(
+                CameraPosition.fromLatLngZoom(
+                    LatLng(
+                        route.locations.first().latitude,
+                        route.locations.first().longitude
+                    ),
+                    15f
+                )
+            )
+        }
+    }
+
+    private fun loadAllRoutes() {
+        _routes.value = ServerRouteManager.getRouteCache().toTypedArray()
+    }
+
+    fun handleWaypointClick(waypoint: Waypoint) {
+        _focusedWaypoint.value = waypoint
+    }
+
+    fun closeWaypoint() {
+        _focusedWaypoint.value = null
+    }
+
 }

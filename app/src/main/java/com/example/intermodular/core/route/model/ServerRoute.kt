@@ -21,14 +21,14 @@ data class ServerRoute(
 
     val likes: Int = 0,
 
+    val comments: Array<ServerComment> = arrayOf()
+
     ) {
     override fun toString(): String {
         return "Route(uid='$uid', name='$name', description='$description', imageID='$imageID', lengthInKm=$lengthInKm, locations=${locations.contentToString()}, types=${types.contentToString()}, difficulty=$difficulty, creator='$creator', creationDatetime=$creationDatetime)"
     }
 
     suspend fun asRoute(): Route {
-        Log.i("ServerRoute", "asRoute: $this")
-
         val image = ServerImageManager.getImage(this.imageID)
         if (image == null) {
             Log.e("ServerRoute", "asRoute: image is null")
@@ -51,11 +51,11 @@ data class ServerRoute(
             difficulty = this.difficulty,
             creator = this.creator,
             creationDatetime = this.creationDatetime,
-            likes = this.likes
+            likes = this.likes,
+            comments = this.comments.map { comment ->
+                return@map Comment(comment.username, comment.comment, comment.datetime)
+            }.toTypedArray()
         )
-
-
-        Log.i("ServerRoute", "asRoute done!")
 
         return route
     }
@@ -87,4 +87,10 @@ data class ServerWaypoint(
     val name: String,
     val description: String,
     val imageID: String? = null
+)
+
+data class ServerComment(
+    val username: String,
+    val comment: String,
+    val datetime: LocalDateTime
 )

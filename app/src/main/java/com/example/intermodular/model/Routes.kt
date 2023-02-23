@@ -6,7 +6,16 @@ sealed class Routes (val route: String){
     object RegisterScreen: Routes("registro")
     object UserInfoScreen: Routes("userinfo")
     object FavScreen: Routes("favoritos")
-    object MapScreen: Routes("mapa")
     object RutaNuevaScreen: Routes("rutanueva")
-    object InfoRuta: Routes("inforuta")
+
+    object MapScreen: Routes("mapa/{focusedRouteID}") {
+        fun route(focusedRouteID: String? = null): String {
+            return "mapa/${focusedRouteID ?: "null"}"
+        }
+    }
+    object InfoRuta: Routes("inforuta/{routeID}") {
+        fun route(routeID: String): String {
+            return "inforuta/$routeID"
+        }
+    }
 }

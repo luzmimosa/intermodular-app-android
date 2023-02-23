@@ -19,12 +19,14 @@ data class Route(
     val creationDatetime: LocalDateTime,
 
     val likes: Int = 0,
+
+    val comments: Array<Comment> = arrayOf()
 )
 
 data class GpsMeasure(
     val latitude: Double,
     val longitude: Double,
-    val waypoints: Waypoint? = null
+    val waypoint: Waypoint? = null
 )
 
 data class Waypoint(
@@ -33,4 +35,9 @@ data class Waypoint(
     val image: ImageBitmap
 )
 
+data class Comment(
+    val username: String,
+    val comment: String,
+    val datetime: LocalDateTime
+)
 

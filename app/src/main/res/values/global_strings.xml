@@ -6,8 +6,4 @@
     <string name="global_popup_accept">Aceptar</string>
     <string name="global_popup_cancel">Cancelar</string>
     <string name="global_popup_close">Cerrar</string>
-
-    <string name="denied_location_permission_message">El permiso de ubicación precisa es necesario para el funcionamiento de la aplicación.</string>
-    <string name="request_background_location_permission_message">En la configuración, activa la opción "Permitir siempre" para poder grabar tus propias rutas</string>
-    <string name="denied_background_location_permission_message">El permiso de ubicación en segundo plano es necesario para el funcionamiento de la aplicación.</string>
 </resources>

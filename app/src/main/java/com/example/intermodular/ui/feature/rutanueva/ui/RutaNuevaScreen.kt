@@ -221,7 +221,7 @@ fun RutaNueva(
         }
 
         if (waypointBuilderVisible && rutaNuevaViewModel.canAddWaypoint()) {
-            WaypointPopup(
+            AddWaypointPopup(
                 name = waypointName,
                 description = waypointDescription,
                 image = waypointImage,
@@ -656,7 +656,7 @@ fun UploadButton(
 }
 
 @Composable
-fun WaypointPopup(
+fun AddWaypointPopup(
     name: String,
     description: String,
     image: ImageBitmap?,

@@ -2,7 +2,6 @@ package com.example.intermodular.core.image
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -29,28 +28,24 @@ object ServerImageManager {
         val imageID = if (response.isSuccessful) {
             response.body()!!.id
         } else {
-            Log.i("ServerImageManager (uploadImage)", "Image upload failed, response: ${response.code()}")
             "I_DONT_WANNA_BE_A_LINK"
         }
-
-        Log.i("ServerImageManager (uploadImage)", "Image uploaded, ID: $imageID")
 
         return imageID
 
     }
 
     suspend fun getImage(imageId: String): ImageBitmap? {
-        try {
+        return try {
             val response = RetrofitHelper.getRetrofit().create(ImageDownloadClient::class.java).downloadImage(imageId)
 
-            return if (response.isSuccessful) {
+            if (response.isSuccessful) {
                 BitmapFactory.decodeStream(response.body()?.byteStream()).asImageBitmap()
             } else {
                 null
             }
         } catch (e: Exception) {
-            Log.i("ServerImageManager", "getImage ERROR: $e")
-            return null
+            null
         }
     }
 
