@@ -1,6 +1,5 @@
 package com.example.intermodular.ui.feature.home.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,7 +20,6 @@ class HomeViewModel : ViewModel() {
 
     suspend fun fetchRoutes() {
 
-        Log.i("HomeViewModel", "Adding nearby routes")
         ServerRouteManager.provideRoutesByLocation(
             WikihonkLocationManager.userLocation.value?.latitude ?: 0.0,
             WikihonkLocationManager.userLocation.value?.longitude ?: 0.0,
@@ -29,7 +27,6 @@ class HomeViewModel : ViewModel() {
             this.addRoute(it)
         }
 
-        Log.i("HomeViewModel", "Adding random routes")
         ServerRouteManager.provideRandomRoutes {
             this.addRoute(it)
         }

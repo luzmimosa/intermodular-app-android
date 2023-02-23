@@ -1,6 +1,5 @@
 package com.example.intermodular
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -39,7 +38,6 @@ fun CustomNavigator(context: MainActivity){
     NavHost(navController= navigationController, startDestination= Routes.LoginScreen.route){
         composable(route = Routes.LoginScreen.route){
             if (AuthenticationTokenManager.verifyToken(context)) {
-                Log.i("WikiHonk debug", "Navigating home")
                 navigationController.navigate(Routes.HomeScreen.route)
             } else {
                 Login(loginviewmodel, navigationController)
@@ -102,7 +100,7 @@ fun CustomNavigator(context: MainActivity){
 
             val routeID = it.arguments?.getString("routeID") ?: "undefined"
             InfoRuta(
-                infoRutaViewModel = InfoRutaViewModel(routeID),
+                infoRutaViewModel = InfoRutaViewModel(routeID, navigationController),
                 navigationController = navigationController,
             )
         }

@@ -29,8 +29,6 @@ data class ServerRoute(
     }
 
     suspend fun asRoute(): Route {
-        Log.i("ServerRoute", "asRoute: $this")
-
         val image = ServerImageManager.getImage(this.imageID)
         if (image == null) {
             Log.e("ServerRoute", "asRoute: image is null")
@@ -58,9 +56,6 @@ data class ServerRoute(
                 return@map Comment(comment.username, comment.comment, comment.datetime)
             }.toTypedArray()
         )
-
-
-        Log.i("ServerRoute", "asRoute done!")
 
         return route
     }

@@ -27,8 +27,6 @@ class LoginService {
                 "PARSING_ERROR"
             }
 
-            Log.i("LoginService", "Login response: $loginResponseMessage")
-
             return@withContext loginResponseMessage.let {
                 when (it) {
                     "OK" -> LoginResult.SUCCESS

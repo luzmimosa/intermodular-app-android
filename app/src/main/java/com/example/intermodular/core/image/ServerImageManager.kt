@@ -29,11 +29,8 @@ object ServerImageManager {
         val imageID = if (response.isSuccessful) {
             response.body()!!.id
         } else {
-            Log.i("ServerImageManager (uploadImage)", "Image upload failed, response: ${response.code()}")
             "I_DONT_WANNA_BE_A_LINK"
         }
-
-        Log.i("ServerImageManager (uploadImage)", "Image uploaded, ID: $imageID")
 
         return imageID
 

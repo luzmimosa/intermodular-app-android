@@ -1,6 +1,5 @@
 package com.example.intermodular.core.user
 
-import android.util.Log
 import com.example.intermodular.core.network.RetrofitHelper
 import com.example.intermodular.core.route.ServerRouteManager
 import com.example.intermodular.core.user.client.UserClient
@@ -32,8 +31,6 @@ object ServerUserManager {
 
     suspend fun getSelfUser(forceSync: Boolean = false): User? {
         if (_selfUser != null && !forceSync) return _selfUser
-
-        Log.i("ServerUserManager-------------", "Syncing self user")
 
         _selfUser = syncSelfUser()
         return _selfUser

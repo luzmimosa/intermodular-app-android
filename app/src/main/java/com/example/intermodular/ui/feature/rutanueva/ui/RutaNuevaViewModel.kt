@@ -1,6 +1,5 @@
 package com.example.intermodular.ui.feature.rutanueva.ui
 
-import android.util.Log
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -203,10 +202,8 @@ class RutaNuevaViewModel(val navigationController: NavHostController) : ViewMode
             val result = ServerRouteManager.uploadRoute(uploadableRoute)
 
             if (result) {
-                Log.i("RouteUpload", "Route uploaded successfully")
                 navigationController.navigate(Routes.HomeScreen.route)
             } else {
-                Log.i("RouteUpload", "Route upload failed")
                 navigationController.navigate(Routes.UserInfoScreen.route)
             }
         }
