@@ -4,13 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavHostController
 import com.example.intermodular.core.route.ServerRouteManager
 import com.example.intermodular.core.route.model.Route
 import com.example.intermodular.core.route.model.Waypoint
 import com.example.intermodular.core.user.ServerUserManager
+import com.example.intermodular.model.Routes
 import kotlinx.coroutines.launch
 
-class InfoRutaViewModel(private val routeID: String): ViewModel() {
+class InfoRutaViewModel(
+    private val routeID: String,
+    private val navigationController: NavHostController
+    ): ViewModel() {
 
     private val _route = MutableLiveData<Route>()
     val route: LiveData<Route> = _route
@@ -37,7 +42,7 @@ class InfoRutaViewModel(private val routeID: String): ViewModel() {
     }
 
     fun handleMapPress() {
-
+        navigationController.navigate(Routes.MapScreen.route(routeID))
     }
 
     fun handleWaypointPress(waypoint: Waypoint) {
