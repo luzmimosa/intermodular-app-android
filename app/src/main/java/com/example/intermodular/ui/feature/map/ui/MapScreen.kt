@@ -4,7 +4,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -15,8 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.intermodular.R
 import com.example.intermodular.model.Routes
-import com.example.intermodular.ui.component.global.WikihonkBottomBar
-import com.example.intermodular.ui.component.global.WikihonkTopBar
+import com.example.intermodular.ui.component.global.WikihonkBaseScreen
+import com.example.intermodular.ui.component.route.WaypointPopup
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -30,18 +29,11 @@ fun MapScreen(
 ){
     val cameraPositionState: CameraPositionState by mapViewModel.cameraPosition.observeAsState(CameraPositionState(CameraPosition.fromLatLngZoom(LatLng(0.0, 0.0), 0f)))
     val routes by mapViewModel.routes.observeAsState(emptyArray())
+    val focusedWaypoint by mapViewModel.focusedWaypoint.observeAsState(null)
 
     mapViewModel.setupMap()
 
-    Scaffold(
-        topBar= {
-            WikihonkTopBar(navigationController)
-        },
-
-        bottomBar= {
-            WikihonkBottomBar(navigationController)
-        }
-    ) {
+    WikihonkBaseScreen(navigationController = navigationController) {
         Box(modifier= Modifier
             .fillMaxSize()
             .padding(8.dp)
@@ -81,6 +73,39 @@ fun MapScreen(
                         navigationController.navigate(Routes.InfoRuta.route(route.uid))
                     }
                 }
+
+                // dibujar waypoints si solo hay una ruta
+                if (mapViewModel.singleMode) {
+                    val route = routes.firstOrNull() ?: return@GoogleMap
+
+                    for (location in route.locations) {
+                        val waypoint = location.waypoint ?: continue
+
+                        Marker(
+                            state = MarkerState(
+                                position = LatLng(location.latitude, location.longitude),
+                            ),
+                            title = waypoint.name,
+                            snippet = waypoint.description,
+                            icon = BitmapDescriptorFactory.defaultMarker(
+                                waypointMarkColor()
+                            ),
+                            onClick = {
+                                mapViewModel.handleWaypointClick(waypoint)
+                                false
+                            }
+                        )
+                    }
+                }
+
+            }
+        }
+
+        if (focusedWaypoint != null) {
+            WaypointPopup(
+                waypoint = focusedWaypoint!!
+            ) {
+                mapViewModel.closeWaypoint()
             }
         }
     }
@@ -110,4 +135,8 @@ fun rgbToHue(color: Color): Float {
     }
 
     return Math.abs((hue * 60) % 360)
+}
+
+fun waypointMarkColor(): Float {
+    return rgbToHue(Color(90, 90, 199, 255))
 }
