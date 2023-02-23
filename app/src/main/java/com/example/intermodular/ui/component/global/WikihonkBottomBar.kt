@@ -26,7 +26,7 @@ fun WikihonkBottomBar(navigationController : NavHostController) {
     BottomNavigation(
         modifier = Modifier.height(bottomAppBarHeight)
     ) {
-        IconButton(onClick= { navigationController.navigate(Routes.MapScreen.route)}){
+        IconButton(onClick= { navigationController.navigate(Routes.MapScreen.route(null))}){
             Icon(
                 imageVector = Icons.Default.MyLocation,
                 contentDescription= stringResource(id = R.string.navigation_bottombar_map),
