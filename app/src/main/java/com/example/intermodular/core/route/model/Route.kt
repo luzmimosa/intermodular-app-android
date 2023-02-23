@@ -26,7 +26,7 @@ data class Route(
 data class GpsMeasure(
     val latitude: Double,
     val longitude: Double,
-    val waypoints: Waypoint? = null
+    val waypoint: Waypoint? = null
 )
 
 data class Waypoint(

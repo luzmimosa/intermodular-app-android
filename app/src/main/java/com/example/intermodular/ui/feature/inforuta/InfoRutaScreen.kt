@@ -344,7 +344,7 @@ fun RouteMap(
             )
 
             route.locations.forEach { location ->
-                val waypoint = location.waypoints
+                val waypoint = location.waypoint
                 if (waypoint != null) {
                     Marker(
                          state = MarkerState(
