@@ -145,7 +145,7 @@ object ServerRouteManager {
     suspend fun commentRoute(routeID: String, comment: String): Boolean {
         try {
             return withContext(Dispatchers.IO) {
-                val response = retrofit.create(CommentRouteClient::class.java).commentRoute(routeID, UploadableComment(comment))
+                val response = retrofit.create(RouteApiClient::class.java).commentRoute(routeID, UploadableComment(comment))
                 return@withContext response.isSuccessful
             }
         } catch (exception: Exception) {
@@ -156,7 +156,7 @@ object ServerRouteManager {
     suspend fun likeRoute(routeID: String): Boolean {
         try {
             return withContext(Dispatchers.IO) {
-                val response = retrofit.create(LikeClient::class.java).likeRoute(routeID)
+                val response = retrofit.create(RouteApiClient::class.java).likeRoute(routeID)
                 return@withContext response.isSuccessful
             }
         } catch (exception: Exception) {
@@ -167,7 +167,7 @@ object ServerRouteManager {
     suspend fun unlikeRoute(routeID: String): Boolean {
         try {
             return withContext(Dispatchers.IO) {
-                val response = retrofit.create(LikeClient::class.java).unlikeRoute(routeID)
+                val response = retrofit.create(RouteApiClient::class.java).unlikeRoute(routeID)
                 return@withContext response.isSuccessful
             }
         } catch (exception: Exception) {
@@ -178,7 +178,7 @@ object ServerRouteManager {
     suspend fun addToToDoList(routeID: String): Boolean {
         try {
             return withContext(Dispatchers.IO) {
-                val response = retrofit.create(ToDoClient::class.java).add(routeID)
+                val response = retrofit.create(RouteApiClient::class.java).add(routeID)
                 return@withContext response.isSuccessful
             }
         } catch (exception: Exception) {
@@ -189,7 +189,7 @@ object ServerRouteManager {
     suspend fun removeFromToDoList(routeID: String): Boolean {
         try {
             return withContext(Dispatchers.IO) {
-                val response = retrofit.create(ToDoClient::class.java).remove(routeID)
+                val response = retrofit.create(RouteApiClient::class.java).remove(routeID)
                 return@withContext response.isSuccessful
             }
         } catch (exception: Exception) {
