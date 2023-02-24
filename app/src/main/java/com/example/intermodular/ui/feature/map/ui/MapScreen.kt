@@ -33,7 +33,10 @@ fun MapScreen(
 
     mapViewModel.setupMap()
 
-    WikihonkBaseScreen(navigationController = navigationController) {
+    WikihonkBaseScreen(
+        navigationController = navigationController,
+        showBottomBar = !mapViewModel.singleMode
+    ) {
         Box(modifier= Modifier
             .fillMaxSize()
             .padding(8.dp)

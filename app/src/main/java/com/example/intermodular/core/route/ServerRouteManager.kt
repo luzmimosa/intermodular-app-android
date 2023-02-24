@@ -5,7 +5,6 @@ import com.example.intermodular.core.network.RetrofitHelper
 import com.example.intermodular.core.route.client.*
 import com.example.intermodular.core.route.model.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -96,69 +95,38 @@ object ServerRouteManager {
         }
     }
 
-    suspend fun provideRoutesByLocation(
-        latitude: Double,
-        longitude: Double,
-        radius: Int = 30,
-        provide: (route: Route) -> Unit
-    ) {
-
-        withContext(Dispatchers.IO) {
-            this.launch {
-                try {
-                    val routeIdsResponse = retrofit.create(NearRoutesClient::class.java)
-                        .getNearRoutes(latitude, longitude, radius)
-                    if (!routeIdsResponse.isSuccessful) return@launch
-                    val routeIds = routeIdsResponse.body() ?: return@launch
-
-                    for (routeID in routeIds) {
-                        this.launch {
-                            try {
-                                val route = getRouteByID(routeID)
-                                if (route != null) {
-                                    provide(route)
-                                }
-                            } catch (exception: Exception) {
-                                Log.e("ServerRouteManager", "Error while resolving route by location", exception)
-                            }
-                        }
-                    }
-                } catch (exception: Exception) {
-                    Log.e("ServerRouteManager", "Error while getting routes by location", exception)
-                    return@launch
-                }
+    suspend fun getCreatedRoutesList(username: String): Array<String> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = retrofit.create(RouteListClient::class.java).getUserRoutes(username)
+                if (!response.isSuccessful) return@withContext emptyArray()
+                return@withContext response.body() ?: return@withContext emptyArray()
+            } catch (exception: Exception) {
+                return@withContext emptyArray()
             }
         }
     }
 
-    suspend fun provideRandomRoutes(
-        provide: (route: Route) -> Unit
-    ){
+    suspend fun getLocatedRoutesList(latitude: Double, longitude: Double): Array<String> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = retrofit.create(RouteListClient::class.java).getNearRoutes(latitude, longitude)
+                if (!response.isSuccessful) return@withContext emptyArray()
+                return@withContext response.body() ?: return@withContext emptyArray()
+            } catch (exception: Exception) {
+                return@withContext emptyArray()
+            }
+        }
+    }
 
-        withContext(Dispatchers.IO) {
-            this.launch {
-                try {
-                    val response = retrofit.create(RandomRoutesClient::class.java).getRandomRoutes()
-                    if (!response.isSuccessful) return@launch
-
-                    val routeIdsResponse = response.body() ?: return@launch
-
-                    for (routeID in routeIdsResponse) {
-                        this.launch {
-                            try {
-                                val route = getRouteByID(routeID)
-                                if (route != null) {
-                                    provide(route)
-                                }
-                            } catch (exception: Exception) {
-                                Log.e("ServerRouteManager", "Error while resolving random route", exception)
-                            }
-                        }
-                    }
-                } catch (exception: Exception) {
-                    Log.e("ServerRouteManager", "Error while getting random routes", exception)
-                    return@launch
-                }
+    suspend fun getRandomRoutesList(): Array<String> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = retrofit.create(RouteListClient::class.java).getRandomRoutes()
+                if (!response.isSuccessful) return@withContext emptyArray()
+                return@withContext response.body() ?: return@withContext emptyArray()
+            } catch (exception: Exception) {
+                return@withContext emptyArray()
             }
         }
     }
@@ -177,7 +145,7 @@ object ServerRouteManager {
     suspend fun commentRoute(routeID: String, comment: String): Boolean {
         try {
             return withContext(Dispatchers.IO) {
-                val response = retrofit.create(CommentRouteClient::class.java).commentRoute(routeID, UploadableComment(comment))
+                val response = retrofit.create(RouteApiClient::class.java).commentRoute(routeID, UploadableComment(comment))
                 return@withContext response.isSuccessful
             }
         } catch (exception: Exception) {
@@ -188,7 +156,7 @@ object ServerRouteManager {
     suspend fun likeRoute(routeID: String): Boolean {
         try {
             return withContext(Dispatchers.IO) {
-                val response = retrofit.create(LikeClient::class.java).likeRoute(routeID)
+                val response = retrofit.create(RouteApiClient::class.java).likeRoute(routeID)
                 return@withContext response.isSuccessful
             }
         } catch (exception: Exception) {
@@ -199,7 +167,7 @@ object ServerRouteManager {
     suspend fun unlikeRoute(routeID: String): Boolean {
         try {
             return withContext(Dispatchers.IO) {
-                val response = retrofit.create(LikeClient::class.java).unlikeRoute(routeID)
+                val response = retrofit.create(RouteApiClient::class.java).unlikeRoute(routeID)
                 return@withContext response.isSuccessful
             }
         } catch (exception: Exception) {
@@ -210,7 +178,7 @@ object ServerRouteManager {
     suspend fun addToToDoList(routeID: String): Boolean {
         try {
             return withContext(Dispatchers.IO) {
-                val response = retrofit.create(ToDoClient::class.java).add(routeID)
+                val response = retrofit.create(RouteApiClient::class.java).add(routeID)
                 return@withContext response.isSuccessful
             }
         } catch (exception: Exception) {
@@ -221,7 +189,7 @@ object ServerRouteManager {
     suspend fun removeFromToDoList(routeID: String): Boolean {
         try {
             return withContext(Dispatchers.IO) {
-                val response = retrofit.create(ToDoClient::class.java).remove(routeID)
+                val response = retrofit.create(RouteApiClient::class.java).remove(routeID)
                 return@withContext response.isSuccessful
             }
         } catch (exception: Exception) {

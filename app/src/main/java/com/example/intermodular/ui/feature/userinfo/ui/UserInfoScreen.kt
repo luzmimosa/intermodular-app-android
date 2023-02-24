@@ -5,34 +5,32 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.intermodular.R
+import com.example.intermodular.core.user.ServerUserManager
 import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.component.global.ClickableText
-import com.example.intermodular.ui.component.global.WikihonkBottomBar
-import com.example.intermodular.ui.component.global.WikihonkTopBar
+import com.example.intermodular.ui.component.global.WikihonkBaseScreen
 
 
 @Composable
 fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHostController){
-    Scaffold(
-        topBar= {
-            WikihonkTopBar(navigationController)
-        },
 
-        bottomBar= {
-            WikihonkBottomBar(navigationController)
-        }
+    val user = ServerUserManager.getSelfUserOrNull() ?: return
+
+    WikihonkBaseScreen(
+        navigationController = navigationController,
+        showBottomBar = true
     ) {
         Column(modifier = Modifier
             .fillMaxSize()
@@ -50,12 +48,13 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
                             .fillMaxWidth(), horizontalArrangement = Arrangement.Center
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.black),
-                            contentDescription = "imagen usuario",
+                            bitmap = user.profilePicture,
+                            contentDescription = user.username,
                             modifier = Modifier
                                 .clip(CircleShape)
                                 .border(0.dp, Color.Transparent, CircleShape)
-                                .size(100.dp)
+                                .size(100.dp),
+                            contentScale = ContentScale.Crop
                         )
                     }
 
@@ -65,7 +64,7 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
                             .fillMaxWidth(), horizontalArrangement = Arrangement.Center
                     ) {
                         Box() {
-                            Text(text = "Nombre de usuario", fontSize = 23.sp)
+                            Text(text = user.username, fontSize = 23.sp)
                         }
                     }
 
@@ -83,31 +82,19 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
                     }
 
                     Row(
-                        modifier = Modifier.padding(5.dp).fillMaxWidth(), horizontalArrangement = Arrangement.Center
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .fillMaxWidth(), horizontalArrangement = Arrangement.Center
                     ) {
-                        Box(modifier = Modifier.padding(10.dp, 0.dp, 40.dp, 10.dp)) {
+                        Box(
+                            modifier = Modifier.padding(10.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
                             Text(
-                                text = "0",
+                                text = user.bio.ifBlank { " " },
                                 fontSize = 15.sp,
-                                modifier = Modifier.padding(30.dp, 0.dp)
-                            )
-                            Text(
-                                text = "Siguiendo",
-                                fontSize = 15.sp,
-                                modifier = Modifier.padding(0.dp, 15.dp)
-                            )
-                        }
-
-                        Box(modifier = Modifier.padding(0.dp, 0.dp, 10.dp, 10.dp)) {
-                            Text(
-                                text = "0",
-                                fontSize = 15.sp,
-                                modifier = Modifier.padding(30.dp, 0.dp)
-                            )
-                            Text(
-                                text = "Seguidores",
-                                fontSize = 15.sp,
-                                modifier = Modifier.padding(0.dp, 15.dp)
+                                modifier = Modifier.padding(30.dp, 0.dp),
+                                textAlign = TextAlign.Center
                             )
                         }
                     }
@@ -130,7 +117,7 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
                         fontWeight = FontWeight.Bold,
                         underlined = false
                     ){
-                        navigationController.navigate(Routes.HomeScreen.route)
+                        navigationController.navigate(Routes.CreatedScreen.route)
                     }
                 }
             }
@@ -151,7 +138,7 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
                         fontWeight = FontWeight.Bold,
                         underlined = false
                     ) {
-                        navigationController.navigate(Routes.HomeScreen.route)
+                        navigationController.navigate(Routes.ToDoScreen.route)
                     }
                 }
             }

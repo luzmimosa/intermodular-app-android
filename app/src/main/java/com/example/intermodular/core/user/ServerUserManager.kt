@@ -36,8 +36,12 @@ object ServerUserManager {
         return _selfUser
     }
 
-    suspend fun isFavouriteRoute(routeID: String): Boolean {
-        val user = getSelfUser() ?: return false
+    fun getSelfUserOrNull(): User? {
+        return _selfUser
+    }
+
+    fun isFavouriteRoute(routeID: String): Boolean {
+        val user = getSelfUserOrNull() ?: return false
 
         user.featuredRoutes.forEach { route ->
             if (route == routeID) return true
@@ -46,8 +50,8 @@ object ServerUserManager {
         return false
     }
 
-    suspend fun isToDoRoute(routeID: String): Boolean {
-        val user = getSelfUser() ?: return false
+    fun isToDoRoute(routeID: String): Boolean {
+        val user = getSelfUserOrNull() ?: return false
 
         user.toDoRoutes.forEach { route ->
             if (route == routeID) return true

@@ -21,7 +21,17 @@ data class Route(
     val likes: Int = 0,
 
     val comments: Array<Comment> = arrayOf()
-)
+
+
+) {
+    override fun equals(other: Any?): Boolean {
+        return if (other is Route) {
+            uid == other.uid
+        } else {
+            false
+        }
+    }
+}
 
 data class GpsMeasure(
     val latitude: Double,
