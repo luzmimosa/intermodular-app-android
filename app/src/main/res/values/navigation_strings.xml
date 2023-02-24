@@ -5,7 +5,7 @@
 
     <string name="navigation_bottombar_map">Mapa</string>
     <string name="navigation_bottombar_home">Inicio</string>
-    <string name="navigation_bottombar_favourites">Rutas favoritas</string>
+    <string name="navigation_bottombar_profile">Mi perfil</string>
 
     <string name="info_ruta_favorite">Marcar ruta como favorita</string>
 </resources>
