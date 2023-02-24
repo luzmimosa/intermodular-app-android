@@ -2,10 +2,15 @@ package com.example.intermodular.model
 
 sealed class Routes (val route: String){
     object LoginScreen: Routes("login")
-    object HomeScreen: Routes("home")
     object RegisterScreen: Routes("registro")
-    object UserInfoScreen: Routes("userinfo")
+
+    object HomeScreen: Routes("home")
     object FavScreen: Routes("favoritos")
+    object ToDoScreen: Routes("todo")
+    object CreatedScreen: Routes("creadas")
+
+    object UserInfoScreen: Routes("userinfo")
+
     object RutaNuevaScreen: Routes("rutanueva")
 
     object MapScreen: Routes("mapa/{focusedRouteID}") {
