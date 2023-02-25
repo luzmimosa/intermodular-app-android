@@ -91,6 +91,7 @@ fun InfoRuta(
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(10.dp)
                     ) {
                         Box(
                             modifier = Modifier
