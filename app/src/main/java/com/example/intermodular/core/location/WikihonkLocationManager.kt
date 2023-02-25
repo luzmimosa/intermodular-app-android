@@ -3,12 +3,13 @@ package com.example.intermodular.core.location
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.HandlerThread
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.location.LocationListener
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
 
 object WikihonkLocationManager {
 
@@ -36,25 +37,31 @@ object WikihonkLocationManager {
             throw Exception("Location permission not granted")
         }
 
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
-        locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let {
-            _userLocation.value = LocationMark(
-                latitude = it.latitude,
-                longitude = it.longitude
-            )
-        }
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location ->
+                if (location != null) {
+                    _userLocation.value = LocationMark(
+                        latitude = location.latitude,
+                        longitude = location.longitude
+                    )
+                    notifySubscribers(_userLocation.value!!)
+                }
+            }
 
-        locationListener().let {
-            this.locationListener = it
-            locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                100L,
-                0.05f,
-                it,
-                locationHandlerThread.looper
+        fusedLocationClient.requestLocationUpdates(
+            LocationRequest.Builder(
+                100
             )
-        }
+                .setMinUpdateDistanceMeters(0.05f)
+                .setMaxUpdates(Int.MAX_VALUE)
+                .setIntervalMillis(100)
+                .build(),
+            locationListener(),
+            locationHandlerThread.looper
+        )
+
     }
 
     private fun notifySubscribers(locationMark: LocationMark) {
@@ -77,6 +84,8 @@ object WikihonkLocationManager {
             )
             notifySubscribers(_userLocation.value!!)
         }
+
+    fun currentLocation(): LocationMark? = _userLocation.value
 }
 
 
