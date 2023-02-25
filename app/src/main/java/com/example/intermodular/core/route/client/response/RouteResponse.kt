@@ -33,5 +33,5 @@ data class RouteResponseWaypoint(
 data class RouteResponseComment(
     @SerializedName("username")         val username: String,
     @SerializedName("comment")          val comment: String,
-    @SerializedName("datetime")         val datetime: Long,
+    @SerializedName("date")             val date: Long,
 )

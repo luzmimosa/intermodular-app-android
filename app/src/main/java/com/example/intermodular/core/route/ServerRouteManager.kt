@@ -6,6 +6,7 @@ import com.example.intermodular.core.route.client.*
 import com.example.intermodular.core.route.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -54,11 +55,11 @@ object ServerRouteManager {
                 }
 
                 val comments: Array<ServerComment> = routeResponse.comments.map { comment ->
-                    return@map ServerComment(comment.username, comment.comment, LocalDateTime.ofEpochSecond(
-                        comment.datetime / 1000,
-                        0,
-                        ZoneOffset.UTC
-                    ))
+                    return@map ServerComment(
+                        comment.username,
+                        comment.comment,
+                        LocalDateTime.ofInstant(Instant.ofEpochMilli(comment.date), ZoneOffset.UTC),
+                    )
                 }.toTypedArray()
 
                 try {
@@ -72,11 +73,7 @@ object ServerRouteManager {
                         types = types,
                         difficulty = difficulty,
                         creator = routeResponse.creator,
-                        creationDatetime = LocalDateTime.ofEpochSecond(
-                            routeResponse.creationDatetime / 1000,
-                            0,
-                            ZoneOffset.UTC
-                        ),
+                        creationDatetime = LocalDateTime.ofInstant(Instant.ofEpochMilli(routeResponse.creationDatetime), ZoneOffset.UTC),
                         likes = routeResponse.likes,
                         comments = comments
                     ).asRoute()

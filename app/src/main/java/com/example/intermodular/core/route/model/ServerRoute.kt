@@ -53,7 +53,7 @@ data class ServerRoute(
             creationDatetime = this.creationDatetime,
             likes = this.likes,
             comments = this.comments.map { comment ->
-                return@map Comment(comment.username, comment.comment, comment.datetime)
+                return@map Comment(comment.username, comment.comment, comment.date)
             }.toTypedArray()
         )
 
@@ -92,5 +92,5 @@ data class ServerWaypoint(
 data class ServerComment(
     val username: String,
     val comment: String,
-    val datetime: LocalDateTime
+    val date: LocalDateTime
 )
