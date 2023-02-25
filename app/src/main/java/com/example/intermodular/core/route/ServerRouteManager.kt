@@ -15,9 +15,9 @@ object ServerRouteManager {
 
     private val routeCache: MutableMap<String, Route> = mutableMapOf()
 
-    suspend fun getRouteByID(routeID: String): Route? {
+    suspend fun getRouteByID(routeID: String, updateCache: Boolean = false): Route? {
 
-        if (routeCache.containsKey(routeID)) {
+        if (routeCache.containsKey(routeID) && !updateCache) {
             return routeCache[routeID]
         }
 
