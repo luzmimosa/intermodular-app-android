@@ -24,7 +24,6 @@ import com.example.intermodular.R
 import com.example.intermodular.core.route.model.Comment
 import com.example.intermodular.core.route.model.Route
 import com.example.intermodular.core.route.model.RouteDifficulty
-import com.example.intermodular.core.route.model.Waypoint
 import com.example.intermodular.ui.component.global.*
 import com.example.intermodular.ui.component.route.routeTypeIcon
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -32,6 +31,7 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.*
+import kotlinx.coroutines.delay
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
@@ -48,6 +48,13 @@ fun InfoRuta(
     val isToDoRoute: Boolean by infoRutaViewModel.isToDoRoute.observeAsState(false)
 
     infoRutaViewModel.fetchRoute()
+
+    LaunchedEffect(true) {
+        while (true) {
+            infoRutaViewModel.updateRouteFromCache()
+            delay(1000)
+        }
+    }
 
     WikihonkBaseScreen(
         navigationController = navigationController
@@ -101,7 +108,6 @@ fun InfoRuta(
                 item {
                     RouteMap(
                         route = route!!,
-                        onWaypointPress = { waypoint -> infoRutaViewModel.handleWaypointPress(waypoint) },
                         onMapPress = { infoRutaViewModel.handleMapPress() }
                     )
                 }
@@ -305,7 +311,6 @@ fun ToDoButton(
 @Composable
 fun RouteMap(
     route: Route,
-    onWaypointPress: (Waypoint) -> Unit,
     onMapPress: () -> Unit
 ) {
     Card(
@@ -363,10 +368,6 @@ fun RouteMap(
                              position = LatLng(location.latitude, location.longitude)
                          ),
                         icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW),
-                        onClick = {
-                            onWaypointPress(waypoint)
-                            return@Marker false
-                        }
                     )
                 }
             }

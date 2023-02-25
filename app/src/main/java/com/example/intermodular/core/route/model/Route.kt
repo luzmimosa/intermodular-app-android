@@ -25,11 +25,20 @@ data class Route(
 
 ) {
     override fun equals(other: Any?): Boolean {
-        return if (other is Route) {
-            uid == other.uid
-        } else {
-            false
-        }
+        if (other !is Route) return false
+        if (other.uid != uid) return false
+        if (other.name != name) return false
+        if (other.description != description) return false
+        if (other.image != image) return false
+        if (other.lengthInKm != lengthInKm) return false
+        if (!other.locations.contentEquals(locations)) return false
+        if (!other.types.contentEquals(types)) return false
+        if (other.difficulty != difficulty) return false
+        if (other.creator != creator) return false
+        if (other.creationDatetime != creationDatetime) return false
+        if (other.likes != likes) return false
+        if (!other.comments.contentEquals(comments)) return false
+        return true
     }
 }
 
