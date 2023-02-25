@@ -1,9 +1,12 @@
 package com.example.intermodular.ui.feature.userinfo.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,6 +40,7 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
             Row(
                 modifier = Modifier
                     .padding(7.dp)
+                    .background(MaterialTheme.colors.secondary)
                     .fillMaxWidth()
             ) {
                 Column() {
@@ -101,61 +105,67 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
 
             Row(modifier = Modifier
                 .padding(7.dp)
-                .fillMaxWidth()) {
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.secondaryVariant)
+                .clickable {
+                    navigationController.navigate(Routes.CreatedScreen.route)
+                }
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    ClickableText(
+                    Text(
                         text = "Mis rutas",
                         fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                        underlined = false
-                    ){
-                        navigationController.navigate(Routes.CreatedScreen.route)
-                    }
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
 
             Row(modifier = Modifier
                 .padding(7.dp)
-                .fillMaxWidth()) {
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.secondaryVariant)
+                .clickable {
+                    navigationController.navigate(Routes.ToDoScreen.route)
+                }
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    ClickableText(
+                    Text(
                         text = "Rutas pendientes",
                         fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                        underlined = false
-                    ) {
-                        navigationController.navigate(Routes.ToDoScreen.route)
-                    }
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
 
             Row(modifier = Modifier
                 .padding(7.dp)
-                .fillMaxWidth()) {
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.secondaryVariant)
+                .clickable {
+                    navigationController.navigate(Routes.FavScreen.route)
+                }
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    ClickableText(
+                    Text(
                         text = "Rutas favoritas",
                         fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                        underlined = false
-                    ) {
-                        navigationController.navigate(Routes.FavScreen.route)
-                    }
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }
