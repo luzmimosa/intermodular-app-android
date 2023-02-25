@@ -3,14 +3,15 @@ package com.example.intermodular.ui.theme
 import androidx.compose.ui.graphics.Color
 
 // Light palette colors
-val lightPrimary = Color(0xFF005F73)
-val lightPrimaryVariant = Color(0x5B005F73)
+val lightPrimary = Color(0xFF168AAD)
+val lightPrimaryVariant = Color(0x5B168AAD)
 
 val lightSecondary = Color(0xFF0A9396)
 val lightSecondaryVariant = Color(0xFF10BCC0)
 
-val lightBackground = Color(0xFFCA6702)
-val lightSurface = Color(0xFFEE9B00)
+val lightBackground = Color(0xFF184E77)
+val lightSurface = Color(0xFF168AAD)
+
 
 val lightError = Color(0xFFB00020)
 
@@ -22,21 +23,21 @@ val lightOnError = Color(0xFFFFFFFF)
 
 
 // Dark palette colors
-val darkPrimary = Color(0xFF306F19)
-val darkPrimaryVariant = Color(0xAE306F19)
+val darkPrimary = Color(0xFF1D2C4D)
+val darkPrimaryVariant = Color(0x5B072D38)
 
-val darkSecondary = Color(0xFF174052)
-val darkSecondaryVariant = Color(0xFF002C3A)
+val darkSecondary = Color(0xFF033738)
+val darkSecondaryVariant = Color(0xFF074D4E)
 
-val darkBackground = Color(0xFF18462A)
-val darkSurface = Color(0xFF003300)
+val darkBackground = Color(0xFF0A2133)
+val darkSurface = Color(0xFF083542)
 
 val darkError = Color(0xFFCF6679)
 
-val darkOnPrimary = Color(0xFF9BE799)
-val darkOnSecondary = Color(0xFF9BE799)
-val darkOnBackground = Color(0xFF9BE799)
-val darkOnSurface = Color(0xFF9BE799)
+val darkOnPrimary = Color(0xFF5BB4D6)
+val darkOnSecondary = Color(0xFF5BB4D6)
+val darkOnBackground = Color(0xFF5BB4D6)
+val darkOnSurface = Color(0xFF5BB4D6)
 val darkOnError = Color(0xFF1B251B)
 
 
