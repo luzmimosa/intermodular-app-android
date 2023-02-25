@@ -3,13 +3,18 @@ package com.example.intermodular.ui.feature.userinfo.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -34,15 +39,17 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
     ) {
         Column(modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.Gray)) {
-            Row(
+        ) {
+            Card(
                 modifier = Modifier
-                    .padding(7.dp)
-                    .background(color = Color.White)
+                    .padding(17.dp)
+                    .border(0.dp, Color.Transparent, RoundedCornerShape(10.dp))
+                    .background(MaterialTheme.colors.secondary)
+                    .shadow(5.dp, shape = RoundedCornerShape(10.dp))
                     .fillMaxWidth()
             ) {
                 Column() {
-                    Row(
+                    Row (
                         modifier = Modifier
                             .padding(5.dp)
                             .fillMaxWidth(), horizontalArrangement = Arrangement.Center
@@ -101,66 +108,75 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
                 }
             }
 
-            Row(modifier = Modifier
-                .padding(7.dp)
-                .background(color = Color.White)
-                .fillMaxWidth()) {
+            Card(modifier = Modifier
+                .padding(17.dp)
+                .border(0.dp, Color.Transparent, RoundedCornerShape(10.dp))
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.secondaryVariant)
+                .shadow(5.dp, shape = RoundedCornerShape(10.dp))
+                .clickable {
+                    navigationController.navigate(Routes.CreatedScreen.route)
+                }
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    ClickableText(
+                    Text(
                         text = "Mis rutas",
                         fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                        underlined = false
-                    ){
-                        navigationController.navigate(Routes.CreatedScreen.route)
-                    }
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
 
-            Row(modifier = Modifier
-                .padding(7.dp)
-                .background(color = Color.White)
-                .fillMaxWidth()) {
+            Card(modifier = Modifier
+                .padding(17.dp)
+                .border(0.dp, Color.Transparent, RoundedCornerShape(10.dp))
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.secondaryVariant)
+                .shadow(5.dp, shape = RoundedCornerShape(10.dp))
+                .clickable {
+                    navigationController.navigate(Routes.ToDoScreen.route)
+                }
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    ClickableText(
+                    Text(
                         text = "Rutas pendientes",
                         fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                        underlined = false
-                    ) {
-                        navigationController.navigate(Routes.ToDoScreen.route)
-                    }
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
 
-            Row(modifier = Modifier
-                .padding(7.dp)
-                .background(color = Color.White)
-                .fillMaxWidth()) {
+            Card(modifier = Modifier
+                .padding(17.dp)
+                .border(0.dp, Color.Transparent, RoundedCornerShape(10.dp))
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.secondaryVariant)
+                .shadow(5.dp, shape = RoundedCornerShape(10.dp))
+                .clickable {
+                    navigationController.navigate(Routes.FavScreen.route)
+                }
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    ClickableText(
+                    Text(
                         text = "Rutas favoritas",
                         fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                        underlined = false
-                    ) {
-                        navigationController.navigate(Routes.FavScreen.route)
-                    }
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }

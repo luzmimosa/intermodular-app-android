@@ -102,7 +102,7 @@ fun MapScreen(
                             title = waypoint.name,
                             snippet = waypoint.description,
                             icon = BitmapDescriptorFactory.defaultMarker(
-                                waypointMarkColor()
+                                if (isSystemInDarkTheme()) 68f else 281f
                             ),
                             onClick = {
                                 mapViewModel.handleWaypointClick(waypoint)
@@ -149,8 +149,4 @@ fun rgbToHue(color: Color): Float {
     }
 
     return Math.abs((hue * 60) % 360)
-}
-
-fun waypointMarkColor(): Float {
-    return rgbToHue(Color(90, 90, 199, 255))
 }

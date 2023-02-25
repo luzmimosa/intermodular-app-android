@@ -75,7 +75,6 @@ fun InfoRuta(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = Color.Gray)
             ) {
 
                 item {
@@ -92,6 +91,7 @@ fun InfoRuta(
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(10.dp)
                     ) {
                         Box(
                             modifier = Modifier
@@ -363,7 +363,8 @@ fun RouteMap(
             Polyline(
                 points = route.locations.map {
                     LatLng(it.latitude, it.longitude)
-                }
+                },
+                color = if (isSystemInDarkTheme()) Color.Yellow else Color.Black,
             )
 
             route.locations.forEach { location ->
