@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.intermodular.core.route.ServerRouteManager
 import com.example.intermodular.core.route.model.Route
-import com.example.intermodular.core.route.model.Waypoint
 import com.example.intermodular.core.user.ServerUserManager
 import com.example.intermodular.model.Routes
 import kotlinx.coroutines.launch
@@ -34,7 +33,7 @@ class InfoRutaViewModel(
         if (_route.value != null && !force) return
 
         viewModelScope.launch {
-            val route = ServerRouteManager.getRouteByID(routeID)
+            val route = ServerRouteManager.getRouteByID(routeID, true)
             _route.value = route
             _isFavouriteRoute.value = ServerUserManager.isFavouriteRoute(routeID)
             _isToDoRoute.value = ServerUserManager.isToDoRoute(routeID)
@@ -43,10 +42,6 @@ class InfoRutaViewModel(
 
     fun handleMapPress() {
         navigationController.navigate(Routes.MapScreen.route(routeID))
-    }
-
-    fun handleWaypointPress(waypoint: Waypoint) {
-
     }
 
     fun handleLikePress() {
@@ -85,6 +80,12 @@ class InfoRutaViewModel(
 
     fun closeUploadCommentErrorPopup() {
         _uploadCommentErrorPopupVisible.value = false
+    }
+
+    fun updateRouteFromCache() {
+        val cachedRoute = ServerRouteManager.getRouteCache().firstOrNull { it.uid == routeID } ?: return
+
+        _route.value = cachedRoute
     }
 
 }
