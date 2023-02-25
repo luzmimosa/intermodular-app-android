@@ -11,9 +11,15 @@ object ServerUserManager {
 
     private val retrofit = RetrofitHelper.getRetrofit()
 
+    private val userCache: MutableMap<String, User> = mutableMapOf()
+
     private var _selfUser: User? = null
 
-    suspend fun getUserByUsername(username: String): User? {
+    private var selfUserImageId = ""
+
+    suspend fun getUserByUsername(username: String, forceSync: Boolean = false): User? {
+        if (userCache.containsKey(username) && !forceSync) return userCache[username]
+
         return try {
             withContext(Dispatchers.IO) {
 
@@ -22,11 +28,23 @@ object ServerUserManager {
                 if (!response.isSuccessful) return@withContext null
 
                 val userResponse = response.body() ?: return@withContext null
-                return@withContext userResponse.asUser()
+                val user = userResponse.asUser()
+
+                userCache[username] = user
+
+                return@withContext user
             }
         } catch (exception: Exception) {
             return null
         }
+    }
+
+    fun userFromCache(username: String): User? {
+        return userCache[username]
+    }
+
+    fun getCachedUsers(): List<User> {
+        return userCache.values.toList()
     }
 
     suspend fun getSelfUser(forceSync: Boolean = false): User? {
