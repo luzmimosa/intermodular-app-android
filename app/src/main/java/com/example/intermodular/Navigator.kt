@@ -39,11 +39,20 @@ fun CustomNavigator(context: MainActivity){
             destination.route == Routes.LoginScreen.route
             && alreadyEnteredApplication
         ) {
-            context.finish()
+            if (AuthenticationTokenManager.verifyToken(context)) {
+                context.finish()
+            }
         }
     }
 
-    NavHost(navController= navigationController, startDestination= Routes.LoginScreen.route){
+    NavHost(
+        navController = navigationController,
+        startDestination = if (AuthenticationTokenManager.verifyToken(context)) {
+            Routes.HomeScreen.route
+        } else {
+            Routes.LoginScreen.route
+        }
+    ){
         composable(route = Routes.LoginScreen.route){
             if (AuthenticationTokenManager.verifyToken(context)) {
                 alreadyEnteredApplication = true
