@@ -376,6 +376,10 @@ fun RouteMap(
                              position = LatLng(location.latitude, location.longitude)
                          ),
                         icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW),
+                        onClick = {
+                            onMapPress()
+                            false
+                        }
                     )
                 }
             }
