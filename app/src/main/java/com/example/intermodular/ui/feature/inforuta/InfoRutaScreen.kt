@@ -219,6 +219,12 @@ fun RouteHeader(
                             }
                         }
                     }
+                    Row {
+                        Text(
+                            text = route.creationDatetime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                            fontSize = 15.sp
+                        )
+                    }
 
                     Row(
                         modifier = Modifier
