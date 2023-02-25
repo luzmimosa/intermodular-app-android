@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.intermodular.core.network.RetrofitHelper
 import com.example.intermodular.core.route.client.*
 import com.example.intermodular.core.route.model.*
+import com.example.intermodular.core.user.ServerUserManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.Instant
@@ -79,6 +80,7 @@ object ServerRouteManager {
                     ).asRoute()
 
                     routeCache[routeID] = route
+                    ServerUserManager.getUserByUsername(route.creator)
 
                     return@withContext route
                 } catch (exception: Exception) {

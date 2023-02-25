@@ -15,6 +15,8 @@ import java.io.ByteArrayOutputStream
 
 object ServerImageManager {
 
+    private val imageCache = mutableMapOf<String, ImageBitmap>()
+
     suspend fun uploadImage(image: ImageBitmap): String {
         val stream = ByteArrayOutputStream()
         image.asAndroidBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream)
@@ -35,12 +37,17 @@ object ServerImageManager {
 
     }
 
-    suspend fun getImage(imageId: String): ImageBitmap? {
+    suspend fun getImage(imageId: String, force: Boolean = false): ImageBitmap? {
+
+        if (imageCache.containsKey(imageId) && !force) return imageCache[imageId]
+
         return try {
             val response = RetrofitHelper.getRetrofit().create(ImageDownloadClient::class.java).downloadImage(imageId)
 
             if (response.isSuccessful) {
-                BitmapFactory.decodeStream(response.body()?.byteStream()).asImageBitmap()
+                val bitmap = BitmapFactory.decodeStream(response.body()?.byteStream()).asImageBitmap()
+                imageCache[imageId] = bitmap
+                bitmap
             } else {
                 null
             }

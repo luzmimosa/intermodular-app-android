@@ -24,6 +24,7 @@ import com.example.intermodular.R
 import com.example.intermodular.core.route.model.Comment
 import com.example.intermodular.core.route.model.Route
 import com.example.intermodular.core.route.model.RouteDifficulty
+import com.example.intermodular.core.user.ServerUserManager
 import com.example.intermodular.ui.component.global.*
 import com.example.intermodular.ui.component.route.routeTypeIcon
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -192,7 +193,7 @@ fun RouteHeader(
 
                     Row {
                         Text(
-                            text = "@${route.creator}",
+                            text = "@${ServerUserManager.getCachedUsers().firstOrNull() { it.username == route.creator}?.displayName ?: route.creator}",
                             fontSize = 15.sp
                         )
                     }
@@ -420,7 +421,7 @@ fun CommentInput(
                 .fillMaxWidth()
                 .padding(10.dp)
         ) {
-            SmallProfilePicture(username = "username")
+            SmallProfilePicture(username = ServerUserManager.getSelfUserOrNull()?.username)
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
