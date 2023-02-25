@@ -363,7 +363,8 @@ fun RouteMap(
             Polyline(
                 points = route.locations.map {
                     LatLng(it.latitude, it.longitude)
-                }
+                },
+                color = if (isSystemInDarkTheme()) Color.Yellow else Color.Black,
             )
 
             route.locations.forEach { location ->
