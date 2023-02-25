@@ -1,5 +1,6 @@
 package com.example.intermodular.ui.feature.register.ui
 
+import android.content.Context
 import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
@@ -8,10 +9,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.intermodular.model.Routes
+import com.example.intermodular.ui.feature.login.domain.LoginUseCase
 import com.example.intermodular.ui.feature.register.domain.usecase.RegisterUseCase
 import kotlinx.coroutines.launch
 
-class RegisterViewModel: ViewModel() {
+class RegisterViewModel(context: Context): ViewModel() {
 
     private val MIN_PASSWORD_LENGTH = 6
 
@@ -49,6 +51,8 @@ class RegisterViewModel: ViewModel() {
 
     private val _nombreAlertVisible = MutableLiveData<Boolean>()
     val nombreAlertVisible: LiveData<Boolean> = _nombreAlertVisible
+
+    val loginUseCase = LoginUseCase(context)
 
     fun onRegisterChanged(email: String, password: String, user: String, nombre: String, repeatedPassword: String) {
         _email.value = email
@@ -121,7 +125,8 @@ class RegisterViewModel: ViewModel() {
         }
     }
 
-    fun onRegisterOk(navigationController: NavHostController) {
+    suspend fun onRegisterOk(navigationController: NavHostController) {
+        loginUseCase.invoke(user.value!!, password.value!!)
         navigationController.navigate(Routes.HomeScreen.route)
     }
 

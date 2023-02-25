@@ -37,7 +37,6 @@ fun Home(homeviewmodel : HomeViewModel, navigationController: NavHostController)
         while (true) {
             delay(500)
             homeviewmodel.filterRoutesFromCache()
-            homeviewmodel.updateLoading()
         }
     }
 

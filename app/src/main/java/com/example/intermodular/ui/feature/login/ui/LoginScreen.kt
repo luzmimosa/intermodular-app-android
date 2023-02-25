@@ -25,10 +25,16 @@ import androidx.navigation.NavHostController
 import com.example.intermodular.R
 import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.component.global.*
+import com.example.intermodular.ui.feature.login.data.network.LoginResult
+import kotlinx.coroutines.delay
 
 
 @Composable
-fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
+fun Login(
+    loginViewModel: LoginViewModel,
+    navController: NavHostController,
+    onLoginSuccess: () -> Unit
+){
     val username: String by loginViewModel.username.observeAsState(initial = "")
     val password: String by loginViewModel.password.observeAsState(initial = "")
     val isLoginEnabled: Boolean by loginViewModel.isButtonLoginEnable.observeAsState(initial = false)
@@ -37,6 +43,20 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
 
     val errorPopupVisible: Boolean by loginViewModel.errorPopupVisible.observeAsState(initial = false)
     val errorPopupMessageResourceID: Int by loginViewModel.errorPopupMessageResourceID.observeAsState(initial = R.string.unknown_error_message)
+
+    val loginResult: LoginResult by loginViewModel.loginResult.observeAsState(initial = LoginResult.UNKNOWN_ERROR)
+
+    val isHomeCalled = remember { mutableStateOf(false) }
+
+    LaunchedEffect(loginResult) {
+        if(loginResult == LoginResult.SUCCESS) {
+            delay(500)
+            if (!isHomeCalled.value) {
+                isHomeCalled.value = true
+                onLoginSuccess()
+            }
+        }
+    }
 
     Column(
         modifier= Modifier
@@ -106,7 +126,9 @@ fun Login(loginViewModel: LoginViewModel, navController: NavHostController){
 
                     Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
                         Button(
-                            onClick = { loginViewModel.onButtonLoginPress(navController) },
+                            onClick = {
+                                loginViewModel.onButtonLoginPress(navController)
+                              },
                             colors = ButtonDefaults.buttonColors(
                                 backgroundColor = MaterialTheme.colors.primary,
                                 contentColor = MaterialTheme.colors.onPrimary,
