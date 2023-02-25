@@ -75,7 +75,9 @@ fun MapScreen(
                             rgbToHue(routeIdToColor(route.uid))
                         ),
                         onClick = {
-                            navigationController.navigate(Routes.InfoRuta.route(route.uid))
+                            if (!mapViewModel.singleMode) {
+                                navigationController.navigate(Routes.InfoRuta.route(route.uid))
+                            }
                             false
                         }
                     )
