@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.intermodular.R
+import com.example.intermodular.core.location.WikihonkLocationManager
 import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.component.global.WikihonkBaseScreen
 import com.example.intermodular.ui.component.route.WaypointPopup
@@ -27,7 +28,17 @@ fun MapScreen(
     mapViewModel: MapViewModel,
     navigationController: NavHostController
 ){
-    val cameraPositionState: CameraPositionState by mapViewModel.cameraPosition.observeAsState(CameraPositionState(CameraPosition.fromLatLngZoom(LatLng(0.0, 0.0), 0f)))
+    val cameraPositionState: CameraPositionState by mapViewModel.cameraPosition.observeAsState(
+        CameraPositionState(
+            CameraPosition.fromLatLngZoom(
+                LatLng(
+                    WikihonkLocationManager.userLocation.value?.latitude ?: 0.0,
+                    WikihonkLocationManager.userLocation.value?.longitude ?: 0.0
+                ),
+                2f
+            )
+        )
+    )
     val routes by mapViewModel.routes.observeAsState(emptyArray())
     val focusedWaypoint by mapViewModel.focusedWaypoint.observeAsState(null)
 
