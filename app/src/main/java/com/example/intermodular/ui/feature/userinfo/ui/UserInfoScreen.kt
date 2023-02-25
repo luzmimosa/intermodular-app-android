@@ -1,7 +1,6 @@
 package com.example.intermodular.ui.feature.userinfo.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -34,11 +33,10 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
     ) {
         Column(modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.Gray)) {
+        ) {
             Row(
                 modifier = Modifier
                     .padding(7.dp)
-                    .background(color = Color.White)
                     .fillMaxWidth()
             ) {
                 Column() {
@@ -103,7 +101,6 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
 
             Row(modifier = Modifier
                 .padding(7.dp)
-                .background(color = Color.White)
                 .fillMaxWidth()) {
                 Row(
                     modifier = Modifier
@@ -124,7 +121,6 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
 
             Row(modifier = Modifier
                 .padding(7.dp)
-                .background(color = Color.White)
                 .fillMaxWidth()) {
                 Row(
                     modifier = Modifier
@@ -145,7 +141,6 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
 
             Row(modifier = Modifier
                 .padding(7.dp)
-                .background(color = Color.White)
                 .fillMaxWidth()) {
                 Row(
                     modifier = Modifier

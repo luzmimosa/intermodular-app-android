@@ -75,7 +75,6 @@ fun InfoRuta(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(color = Color.Gray)
             ) {
 
                 item {
