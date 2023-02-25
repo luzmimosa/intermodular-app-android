@@ -17,17 +17,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.intermodular.R
 import com.example.intermodular.core.route.model.Comment
 import com.example.intermodular.core.route.model.Route
 import com.example.intermodular.core.route.model.RouteDifficulty
 import com.example.intermodular.core.route.model.Waypoint
-import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.component.global.*
 import com.example.intermodular.ui.component.route.routeTypeIcon
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -36,6 +33,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.*
 import java.time.format.DateTimeFormatter
+import kotlin.math.roundToInt
 
 @Composable
 fun InfoRuta(
@@ -76,12 +74,28 @@ fun InfoRuta(
                 item {
                     RouteHeader(
                         route = route!!,
-                        navigationController = navigationController,
                         isFavorite = isFavouriteRoute,
                         isToDo = isToDoRoute,
                         onFavPress = { infoRutaViewModel.handleLikePress() },
                         onToDoPress = { infoRutaViewModel.handleToDoPress() }
                     )
+                }
+
+                item {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(10.dp)
+                        ) {
+                            Text(
+                                text = route!!.description
+                            )
+                        }
+                    }
                 }
 
                 item {
@@ -117,7 +131,6 @@ fun InfoRuta(
 @Composable
 fun RouteHeader(
     route: Route,
-    navigationController: NavHostController = rememberNavController(),
     isFavorite: Boolean,
     isToDo: Boolean,
     onFavPress: () -> Unit,
@@ -210,14 +223,13 @@ fun RouteHeader(
                                 .fillMaxHeight(0.9f),
                             contentAlignment = Alignment.BottomCenter
                         ) {
-                            ClickableText(
-                                text = "Ver ruta",
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                                underlined = true
-                            ) {
-                                navigationController.navigate(Routes.MapScreen.route)
-                            }
+
+                            val roundedLength = (route.lengthInKm * 100.0).roundToInt() / 100.0
+
+                            Text(
+                                text = "$roundedLength km",
+                                fontSize = 15.sp
+                            )
                         }
                     }
                 }
