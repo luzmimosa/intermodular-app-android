@@ -113,7 +113,6 @@ class MainActivity : ComponentActivity() {
                     }
                 } else {
 
-//                    startCameraService()
                     startLocationService()
 
                     setContent {
