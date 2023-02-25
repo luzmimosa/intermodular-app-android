@@ -1,6 +1,5 @@
 package com.example.intermodular.ui.feature.home.ui
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,9 +19,6 @@ class HomeViewModel(
         get() = _routeClassification
 
     val routes = MutableLiveData<Array<Route>>()
-
-    val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
 
     var loadingScore = 1
 
@@ -55,10 +51,6 @@ class HomeViewModel(
         loadToDoRoutes()
         loadNearbyRoutes()
         loadRandomRoutes()
-    }
-
-    fun updateLoading() {
-        _isLoading.postValue(loadingScore > 0)
     }
 
     private suspend fun loadCreatedRoutes() {
