@@ -6,12 +6,15 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -37,14 +40,16 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
         Column(modifier = Modifier
             .fillMaxSize()
         ) {
-            Row(
+            Card(
                 modifier = Modifier
-                    .padding(7.dp)
+                    .padding(17.dp)
+                    .border(0.dp, Color.Transparent, RoundedCornerShape(10.dp))
                     .background(MaterialTheme.colors.secondary)
+                    .shadow(5.dp, shape = RoundedCornerShape(10.dp))
                     .fillMaxWidth()
             ) {
                 Column() {
-                    Row(
+                    Row (
                         modifier = Modifier
                             .padding(5.dp)
                             .fillMaxWidth(), horizontalArrangement = Arrangement.Center
@@ -103,10 +108,12 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
                 }
             }
 
-            Row(modifier = Modifier
-                .padding(7.dp)
+            Card(modifier = Modifier
+                .padding(17.dp)
+                .border(0.dp, Color.Transparent, RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .background(MaterialTheme.colors.secondaryVariant)
+                .shadow(5.dp, shape = RoundedCornerShape(10.dp))
                 .clickable {
                     navigationController.navigate(Routes.CreatedScreen.route)
                 }
@@ -125,10 +132,12 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
                 }
             }
 
-            Row(modifier = Modifier
-                .padding(7.dp)
+            Card(modifier = Modifier
+                .padding(17.dp)
+                .border(0.dp, Color.Transparent, RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .background(MaterialTheme.colors.secondaryVariant)
+                .shadow(5.dp, shape = RoundedCornerShape(10.dp))
                 .clickable {
                     navigationController.navigate(Routes.ToDoScreen.route)
                 }
@@ -147,10 +156,12 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
                 }
             }
 
-            Row(modifier = Modifier
-                .padding(7.dp)
+            Card(modifier = Modifier
+                .padding(17.dp)
+                .border(0.dp, Color.Transparent, RoundedCornerShape(10.dp))
                 .fillMaxWidth()
                 .background(MaterialTheme.colors.secondaryVariant)
+                .shadow(5.dp, shape = RoundedCornerShape(10.dp))
                 .clickable {
                     navigationController.navigate(Routes.FavScreen.route)
                 }
