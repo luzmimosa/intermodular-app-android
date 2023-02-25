@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.intermodular.core.location.WikihonkLocationManager
 import com.example.intermodular.core.route.ServerRouteManager
 import com.example.intermodular.core.route.model.Route
 import com.example.intermodular.core.route.model.Waypoint
@@ -40,6 +41,7 @@ class MapViewModel(
         viewModelScope.launch {
             val route = ServerRouteManager.getRouteByID(routeID!!) ?: return@launch
             _routes.value = arrayOf(route)
+
             _cameraPosition.value = CameraPositionState(
                 CameraPosition.fromLatLngZoom(
                     LatLng(
@@ -54,6 +56,19 @@ class MapViewModel(
 
     private fun loadAllRoutes() {
         _routes.value = ServerRouteManager.getRouteCache().toTypedArray()
+
+        val currentLocation = WikihonkLocationManager.currentLocation()
+        val cameraLat = currentLocation?.latitude ?: 10.0
+        val cameraLong = currentLocation?.longitude ?: 10.0
+        _cameraPosition.value = CameraPositionState(
+            CameraPosition.fromLatLngZoom(
+                LatLng(
+                    cameraLat,
+                    cameraLong
+                ),
+                10f
+            )
+        )
     }
 
     fun handleWaypointClick(waypoint: Waypoint) {
