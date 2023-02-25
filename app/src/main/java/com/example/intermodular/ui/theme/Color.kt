@@ -3,21 +3,21 @@ package com.example.intermodular.ui.theme
 import androidx.compose.ui.graphics.Color
 
 // Light palette colors
-val lightPrimary = Color(0xFF59C22D)
-val lightPrimaryVariant = Color(0x5BFFFFFF)
+val lightPrimary = Color(0xFF005F73)
+val lightPrimaryVariant = Color(0x5B005F73)
 
-val lightSecondary = Color(0xFF00B0FF)
-val lightSecondaryVariant = Color(0xFF0091EA)
+val lightSecondary = Color(0xFF0A9396)
+val lightSecondaryVariant = Color(0xFF10BCC0)
 
-val lightBackground = Color(0xFF28A85B)
-val lightSurface = Color(0xFF049440)
+val lightBackground = Color(0xFFCA6702)
+val lightSurface = Color(0xFFEE9B00)
 
 val lightError = Color(0xFFB00020)
 
-val lightOnPrimary = Color(0xFF0D1A00)
-val lightOnSecondary = Color(0xFF0D1A00)
-val lightOnBackground = Color(0xFF0D1A00)
-val lightOnSurface = Color(0xFF0D1A00)
+val lightOnPrimary = Color(0xFF001219)
+val lightOnSecondary = Color(0xFF001219)
+val lightOnBackground = Color(0xFF001219)
+val lightOnSurface = Color(0xFF001219)
 val lightOnError = Color(0xFFFFFFFF)
 
 
@@ -60,9 +60,9 @@ object RouteDifficultyLightColors : RouteDifficultyColors {
 
 // Dark route difficulty colors
 object RouteDifficultyDarkColors : RouteDifficultyColors {
-    override val trivial = Color(0xFF196F5B)
+    override val trivial = Color(0xFF4C5C58)
     override val easy = Color(0xFF357E1A)
-    override val medium = Color(0xFF796500)
-    override val hard = Color(0xFF660012)
+    override val medium = Color(0xFF967F0D)
+    override val hard = Color(0xFF700619)
     override val expert = Color(0xFF000000)
 }
