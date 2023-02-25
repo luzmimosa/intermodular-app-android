@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.intermodular.ui.feature.login.domain.LoginUseCase
-import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.feature.login.data.network.LoginResult
 import kotlinx.coroutines.launch
 
@@ -32,6 +31,9 @@ class LoginViewModel(context: Context) : ViewModel(){
     private val _errorPopupVisible = MutableLiveData<Boolean>()
     val errorPopupVisible: LiveData<Boolean> = _errorPopupVisible
 
+    private val _loginResult = MutableLiveData<LoginResult>()
+    val loginResult: LiveData<LoginResult> = _loginResult
+
     fun onLoginChanged(username: String, password: String) {
         _username.value = username
         _password.value = password
@@ -46,7 +48,8 @@ class LoginViewModel(context: Context) : ViewModel(){
             val result = loginUseCase(username.value!!, password.value!!)
 
             if(result == LoginResult.SUCCESS) {
-                navigationController.navigate(Routes.HomeScreen.route)
+                _loginResult.value = result
+                //navigationController.navigate(Routes.HomeScreen.route)
             } else {
                 _errorPopupMessageResourceID.value = result.messageResourceID
                 _errorPopupVisible.value = true

@@ -1,5 +1,6 @@
 package com.example.intermodular
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -25,16 +26,20 @@ import com.example.intermodular.ui.feature.userinfo.ui.UserInfo
 import com.example.intermodular.ui.feature.userinfo.ui.UserInfoViewModel
 
 @Composable
-fun CustomNavigator(context: MainActivity){
+fun CustomNavigator(context: MainActivity) {
     var alreadyEnteredApplication = false
 
-    val loginviewmodel= LoginViewModel(context)
-    val registerviewmodel= RegisterViewModel()
-    val userinfoviewmodel= UserInfoViewModel(context)
+    val mainHomeViewModel = HomeViewModel(RouteClassification.ALL)
+    val loginviewmodel = LoginViewModel(context)
+    val registerviewmodel = RegisterViewModel(context)
+    val userinfoviewmodel = UserInfoViewModel(context)
 
     val navigationController = rememberNavController()
 
-    navigationController.addOnDestinationChangedListener { _, destination, _ ->
+    var loginSuccess = false
+
+    navigationController.addOnDestinationChangedListener { navController, destination, bundle ->
+        Log.i("---------------Navigator", "Navigating to ${destination.route}")
         if (
             destination.route == Routes.LoginScreen.route
             && alreadyEnteredApplication
@@ -54,17 +59,21 @@ fun CustomNavigator(context: MainActivity){
         }
     ){
         composable(route = Routes.LoginScreen.route){
-            if (AuthenticationTokenManager.verifyToken(context)) {
-                alreadyEnteredApplication = true
-                navigationController.navigate(Routes.HomeScreen.route)
-            } else {
-                Login(loginviewmodel, navigationController)
+            Login(
+                loginviewmodel,
+                navigationController,
+
+                ) {
+                if (!loginSuccess) {
+                    loginSuccess = true
+                    navigationController.navigate(Routes.HomeScreen.route)
+                }
             }
         }
 
 
         composable(route= Routes.HomeScreen.route){
-            Home(HomeViewModel(RouteClassification.ALL), navigationController)
+            Home(mainHomeViewModel, navigationController)
         }
 
         composable(route= Routes.FavScreen.route) {
