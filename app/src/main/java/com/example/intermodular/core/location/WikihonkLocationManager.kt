@@ -38,12 +38,19 @@ object WikihonkLocationManager {
 
         val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
+        locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let {
+            _userLocation.value = LocationMark(
+                latitude = it.latitude,
+                longitude = it.longitude
+            )
+        }
+
         locationListener().let {
             this.locationListener = it
             locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 100L,
-                1f,
+                0.05f,
                 it,
                 locationHandlerThread.looper
             )
