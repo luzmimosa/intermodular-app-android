@@ -1,8 +1,11 @@
 package com.example.intermodular.core.user
 
+import androidx.compose.ui.graphics.ImageBitmap
+import com.example.intermodular.core.image.ServerImageManager
 import com.example.intermodular.core.network.RetrofitHelper
 import com.example.intermodular.core.route.ServerRouteManager
 import com.example.intermodular.core.user.client.UserClient
+import com.example.intermodular.core.user.model.ServerModifiedUser
 import com.example.intermodular.core.user.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -114,11 +117,74 @@ object ServerUserManager {
                 if (!response.isSuccessful) throw Exception("Failed to sync self user: ${response.code()}")
 
                 val userResponse = response.body() ?: throw Exception("Failed to sync self user: null body")
+
+                selfUserImageId = userResponse.profilePicture
+
                 return@withContext userResponse.asUser()
             }
         } catch (exception: Exception) {
             exception.printStackTrace()
             return null
+        }
+    }
+
+    suspend fun setProfilePicture(image: ImageBitmap): Boolean {
+        val imageID = ServerImageManager.uploadImage(image).takeIf { it != "I_DONT_WANNA_BE_A_LINK" } ?: return false
+        val selfUser = getSelfUser() ?: return false
+
+        return modifyUser(
+            ServerModifiedUser(
+                selfUser.displayName,
+                selfUser.bio,
+                imageID
+            )
+        )
+    }
+
+    suspend fun setDisplayName(displayName: String): Boolean {
+        val selfUser = getSelfUser() ?: return false
+
+        return modifyUser(
+            ServerModifiedUser(
+                displayName,
+                selfUser.bio,
+                selfUserImageId
+            )
+        )
+    }
+
+    suspend fun setBio(bio: String): Boolean {
+        val selfUser = getSelfUser() ?: return false
+
+        return modifyUser(
+            ServerModifiedUser(
+                selfUser.displayName,
+                bio,
+                selfUserImageId
+            )
+        )
+    }
+
+    private suspend fun modifyUser(modifiedUser: ServerModifiedUser): Boolean {
+        return try {
+            withContext(Dispatchers.IO) {
+                val response = retrofit.create(UserClient::class.java).modifySelfUser(modifiedUser)
+
+                if (response.isSuccessful) {
+                    _selfUser = _selfUser?.copy(
+                        displayName = modifiedUser.displayName,
+                        bio = modifiedUser.biography,
+                        profilePicture = ServerImageManager.getImage(modifiedUser.profilePicture)!!
+                    )
+                } else {
+                    throw Exception("Failed to modify user: ${response.code()}")
+                }
+
+                return@withContext true
+            }
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+            return false
         }
     }
 
