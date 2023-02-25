@@ -218,6 +218,7 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
                 submitButtonLabel = "Cambiar nombre",
             ) {
                 userInfoViewModel.handleNameRequest(it)
+                userInfoViewModel.setDisplayNamePopupVisible(false)
             }
         }
 
@@ -231,6 +232,7 @@ fun UserInfo(userInfoViewModel: UserInfoViewModel, navigationController: NavHost
                 submitButtonLabel = "Cambiar biografía",
             ) {
                 userInfoViewModel.handleBioRequest(it)
+                userInfoViewModel.setBioPopupVisible(false)
             }
         }
 
