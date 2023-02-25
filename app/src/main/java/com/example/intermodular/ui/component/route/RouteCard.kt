@@ -26,6 +26,7 @@ import com.example.intermodular.R
 import com.example.intermodular.core.route.model.Route
 import com.example.intermodular.core.route.model.RouteDifficulty
 import com.example.intermodular.core.route.model.RouteType
+import com.example.intermodular.core.user.ServerUserManager
 import com.example.intermodular.model.Routes
 import com.example.intermodular.ui.component.global.SmallProfilePicture
 import com.example.intermodular.ui.theme.RouteDifficultyDarkColors
@@ -127,8 +128,8 @@ fun RouteCard(
 
                 Row(
                     modifier = Modifier
-                    .fillMaxSize()
-                    .padding(5.dp, 0.dp, 0.dp, 5.dp)
+                        .fillMaxSize()
+                        .padding(5.dp, 0.dp, 0.dp, 5.dp)
                 ) {
                     Box(
                         contentAlignment = Alignment.Center,
@@ -198,15 +199,32 @@ fun CardUser(username: String) {
 
 @Composable
 fun CardUsernameText(username: String) {
-    Text(
-        text = "@$username",
-        modifier = Modifier
-            .padding(0.dp),
-        fontSize = 12.sp,
-        overflow = TextOverflow.Ellipsis,
-        maxLines = 1,
-        textAlign = TextAlign.Center
-    )
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Row(Modifier.fillMaxHeight(0.6f)) {
+            Text(
+                text = ServerUserManager.getCachedUsers().firstOrNull() { it.username == username }?.displayName ?: "",
+                modifier = Modifier
+                    .padding(0.dp),
+                fontSize = 12.sp,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                textAlign = TextAlign.Center
+            )
+        }
+        Row() {
+            Text(
+                text = "@$username",
+                modifier = Modifier
+                    .padding(0.dp),
+                fontSize = 10.sp,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
 }
 
 @Composable
